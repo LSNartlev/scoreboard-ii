@@ -5,11 +5,11 @@ created by LSNartlev
 ### Features
 - Support for keyboard and mouse controls
 - Scoreboard customization:
--- Background and text colors corresponding to teams. Can save up to 32 preset teams.
--- Customizable period clock/shot clock length for basketball
--- Customizable set point requirement(s) for volleyball
+  - Background and text colors corresponding to teams. Can save up to 32 preset teams.
+  - Customizable period clock/shot clock length for basketball
+  - Customizable set point requirement(s) for volleyball
 - Supports custom sound effects**
-** With the exception of the horn buzzer, other sound effects not included. Subject to file formats supported by LÖVE framework.
+  - ** With the exception of the horn buzzer, other sound effects not included. Subject to file formats supported by LÖVE framework.
 
 ## Third Party Attributions
 Third-party assets and libraries are included under their respective licenses:
