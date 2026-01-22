@@ -1,15 +1,14 @@
 local HelpScreen = {}
 
 local headerImage, elements, tooltipText, elementOnFocus
-local locale, imageUtil, buttonUtil, color, headerFont, footerFont, subpanelsFont, optionFont
+local locale, scaleImage, buttonUtil, headerFont, footerFont, subpanelsFont, optionFont
 
 function HelpScreen:load()
-  color = require("data.ui.design.Colors")
-  imageUtil = require("data.ui.design.ImageUtil")
+  scaleImage = require("data.ui.design.ScaledImage")
   buttonUtil = require("data.ui.elements.Button")
   locale = require("data.locales.en")
   
-  headerImage = imageUtil:getScaledImage("ext/openmoji/help.png", 60, 60)
+  headerImage = scaleImage("ext/openmoji/help.png", 60, 60)
   headerFont = love.graphics.newFont("ext/fonts/Quantico/Quantico-Regular.ttf", 40)
   footerFont = love.graphics.newFont("ext/fonts/Quantico/Quantico-Regular.ttf", 14)
   -- For the subpanel buttons

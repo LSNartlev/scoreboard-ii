@@ -1,16 +1,14 @@
 local Button = {}
 
-local color = require("data.ui.design.Colors")
-
-function Button:createButton(label, x, y, width, height, buttonClass, image, buttonState, tooltip, onClick)
+function Button:createButton(label, x, y, width, height, buttonType, image, buttonState, tooltip, onClick)
     return {
       label = label,
       x = x,
       y = y,
       width = width,
       height = height,
-      bgColor = getBgColor(buttonClass, false),
-      bgColorFocus = getBgColor(buttonClass, true),
+      bgColor = getBgColor(buttonType, false),
+      bgColorFocus = getBgColor(buttonType, true),
       bgColorDisabled = color.optionDisabled,
       fgColor = color.fgBlack,
       fgColorDisabled = color.fgOptionDisabled,
@@ -21,20 +19,20 @@ function Button:createButton(label, x, y, width, height, buttonClass, image, but
     }
 end
 
-function getBgColor(buttonClass, isFocus)
+function getBgColor(buttonType, isFocus)
   local toReturn
   if isFocus then
-    if buttonClass == "menuBasketball" then
+    if buttonType == "menuBasketball" then
       toReturn = color.redFocus
-    elseif buttonClass == "menuVolleyball" then
+    elseif buttonType == "menuVolleyball" then
       toReturn = color.blueFocus
     else
       toReturn = color.optionFocus
     end
   else
-    if buttonClass == "menuBasketball" then
+    if buttonType == "menuBasketball" then
       toReturn = color.red
-    elseif buttonClass == "menuVolleyball" then
+    elseif buttonType == "menuVolleyball" then
       toReturn = color.blue
     else
       toReturn = color.option

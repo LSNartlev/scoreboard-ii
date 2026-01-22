@@ -1,4 +1,5 @@
 function love.load()
+  color = require("data.ui.design.Colors")
   changeScreen("MainMenu")
 end
 

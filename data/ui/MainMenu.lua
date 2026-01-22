@@ -1,18 +1,15 @@
 local MainMenu = {}
 
-local color, sysFont, menuButtonFont, locale, imageUtil, buttonUtil
+local sysFont, menuButtonFont, locale, scaleImage, buttonUtil
 local menuButtons
 local mainMenuTitle, tooltipText, elementOnFocus
 
 function MainMenu:load()
-  color = require("data.ui.design.Colors")
-  imageUtil = require("data.ui.design.ImageUtil")
+  scaleImage = require("data.ui.design.ScaledImage")
   buttonUtil = require("data.ui.elements.Button")
   locale = require("data.locales.en")
   
-  isTriggered = false
-  
-  mainMenuTitle = imageUtil:getScaledImage("assets/images/menutitle.png", 516, 152)
+  mainMenuTitle = scaleImage("assets/images/menutitle.png", 516, 152)
   sysFont = love.graphics.newFont("ext/fonts/Quantico/Quantico-Regular.ttf", 14)
   
   menuButtonFont = love.graphics.newFont("ext/fonts/Quantico/Quantico-Regular.ttf", 28)
@@ -22,7 +19,7 @@ function MainMenu:load()
       480, 280,
       320, 60,
       "menuBasketball",
-      imageUtil:getScaledImage("ext/openmoji/bball.png", 48, 48),
+      scaleImage("ext/openmoji/bball.png", 48, 48),
       "changeScreen",
       locale.basketball.tooltip,
       "BasketballSetup"
@@ -32,7 +29,7 @@ function MainMenu:load()
       480, 360,
       320, 60,
       "menuVolleyball",
-      imageUtil:getScaledImage("ext/openmoji/vball.png", 48, 48),
+      scaleImage("ext/openmoji/vball.png", 48, 48),
       "changeScreen",
       locale.volleyball.tooltip,
       "VolleyballSetup"
@@ -42,7 +39,7 @@ function MainMenu:load()
       480, 440,
       320, 60,
       "option",
-      imageUtil:getScaledImage("ext/openmoji/sound.png", 48, 48),
+      scaleImage("ext/openmoji/sound.png", 48, 48),
       "changeScreen",
       locale.soundboard.tooltip,
       "SoundboardSetup"
@@ -52,7 +49,7 @@ function MainMenu:load()
       480, 520,
       320, 60,
       "option",
-      imageUtil:getScaledImage("ext/openmoji/settings.png", 48, 48),
+      scaleImage("ext/openmoji/settings.png", 48, 48),
       "changeScreen",
       locale.settings.tooltip,
       "SettingsScreen"
@@ -62,7 +59,7 @@ function MainMenu:load()
       480, 600,
       320, 60,
       "option",
-      imageUtil:getScaledImage("ext/openmoji/help.png", 48, 48),
+      scaleImage("ext/openmoji/help.png", 48, 48),
       "changeScreen",
       locale.help.tooltip,
       "HelpScreen"
