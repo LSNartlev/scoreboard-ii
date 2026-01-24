@@ -10,6 +10,8 @@ function Button:createButton(label, x, y, width, height, buttonType, image, butt
       bgColor = getBgColor(buttonType, false),
       bgColorFocus = getBgColor(buttonType, true),
       bgColorDisabled = color.optionDisabled,
+      bgColorSelected = color.optionSelected,
+      bgColorSelectedFocus = color.optionSelectedFocus,
       fgColor = color.fgBlack,
       fgColorDisabled = color.fgOptionDisabled,
       image = image,
@@ -19,27 +21,26 @@ function Button:createButton(label, x, y, width, height, buttonType, image, butt
     }
 end
 
-function getBgColor(buttonType, isFocus)
-  local toReturn
+local function getBgColor(buttonType, isFocus)
+  local bgColor
   if isFocus then
     if buttonType == "menuBasketball" then
-      toReturn = color.redFocus
+      bgColor = color.redFocus
     elseif buttonType == "menuVolleyball" then
-      toReturn = color.blueFocus
+      bgColor = color.blueFocus
     else
-      toReturn = color.optionFocus
+      bgColor = color.optionFocus
     end
   else
     if buttonType == "menuBasketball" then
-      toReturn = color.red
+      bgColor = color.red
     elseif buttonType == "menuVolleyball" then
-      toReturn = color.blue
+      bgColor = color.blue
     else
-      toReturn = color.option
+      bgColor = color.option
     end
   end
-  
-  return toReturn
+  return bgColor
 end
 
 return Button

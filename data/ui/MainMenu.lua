@@ -72,7 +72,8 @@ function MainMenu:update(dt)
   elementOnFocus = ""
   tooltipText = locale.welcomeText
   for _, b in ipairs(menuButtons) do
-    if cursorX >= b.x and cursorX <= b.x+b.width and cursorY >= b.y and cursorY <= b.y+b.height then
+    if cursorX >= b.x and cursorX <= b.x+b.width and 
+      cursorY >= b.y and cursorY <= b.y+b.height then
       elementOnFocus = b.label
       tooltipText = b.tooltip
     end
@@ -98,7 +99,8 @@ function MainMenu:draw()
       b.width-b.height, "center"
     )
     love.graphics.setColor(1,1,1,1)
-    love.graphics.draw(b.image, b.x+(b.height*0.1), b.y+(b.height*0.1))
+    love.graphics.draw(b.image,
+      b.x+(b.height*0.1), b.y+(b.height*0.1))
   end
   
   -- Footer section
