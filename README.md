@@ -1,4 +1,5 @@
-# Scoreboard II - Made with LÖVE
+![Scoreboard II - Made with LÖVE](https://github.com/LSNartlev/scoreboard-ii/blob/main/assets/images/menutitle.png?raw=true)
+
 Lua/LÖVE-based Scoreboard for Basketball and Volleyball
 created by LSNartlev
 
