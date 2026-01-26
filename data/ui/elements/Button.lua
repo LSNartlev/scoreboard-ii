@@ -21,7 +21,7 @@ function Button:createButton(label, x, y, width, height, buttonType, image, butt
     }
 end
 
-local function getBgColor(buttonType, isFocus)
+function getBgColor(buttonType, isFocus)
   local bgColor
   if isFocus then
     if buttonType == "menuBasketball" then
