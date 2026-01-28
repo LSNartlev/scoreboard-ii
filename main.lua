@@ -1,5 +1,9 @@
 function love.load()
-  color = require("data.ui.design.Colors")
+  locale = require("data.locales.en")
+  sysFont = require("data.ui.design.FontsList")
+  color = require("data.ui.design.ColorsList")
+  scaleImage = require("data.ui.design.ScaledImage")
+  image = require("data.ui.design.ImageList")
   changeScreen("MainMenu")
 end
 
