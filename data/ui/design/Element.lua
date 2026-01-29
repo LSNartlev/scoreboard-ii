@@ -20,6 +20,13 @@ function Element:newElement(elementType, id, text,
     fgColorInvalid = color.fgInvalid, -- only used by text fields
     fgColorDisabled = getFgColor(elementType, false),
     image = image,
+    --[[
+      Accepted values in status:
+      standby  : Default status of the element. Must have an assigned action.
+      active   : If the element is selected (tab, checkbox, option button), or is in use (text field).
+      invalid  : (For text fields only) Temporary status whenever the input text is not acceptable.
+      disabled : Status if visible, but not interactable.
+    ]]
     status = status,
     tooltip = tooltip,
     action = action

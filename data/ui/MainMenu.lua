@@ -5,7 +5,7 @@ local menuButtons, mainMenuTitle, footerText, elementOnFocus
 
 function MainMenu:load()
   sysFont = require("data.ui.design.FontsList")
-  element = require("data.ui.Element")
+  element = require("data.ui.design.Element")
   
   mainMenuTitle = image.fullLogo
   menuButtons = {
@@ -81,9 +81,9 @@ function MainMenu:draw()
   -- Main section
   love.graphics.draw(mainMenuTitle, 382, 60)
   for _, mb in ipairs(menuButtons) do
-    love.graphics.setColor(mb.bgStandby)
+    love.graphics.setColor(mb.bgColorStandby)
     if elementOnFocus == mb.id then
-      love.graphics.setColor(mb.bgStandbyFocus)
+      love.graphics.setColor(mb.bgColorStandbyFocus)
     end
     love.graphics.rectangle("fill", mb.x, mb.y, mb.width, mb.height)
     love.graphics.setFont(sysFont.menuCommon)

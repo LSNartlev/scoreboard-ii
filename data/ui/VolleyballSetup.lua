@@ -1,29 +1,21 @@
 local VolleyballSetup = {}
 
-local headerImage, elements, tooltipText, elementOnFocus
-local locale, scaleImage, buttonUtil, headerFont, footerFont, subpanelsFont, optionFont
+local sysFont, element
+local elementList, headerImage, footerText, elementOnFocus, activeSubpanel
 
 function VolleyballSetup:load()
-  scaleImage = require("data.ui.design.ScaledImage")
-  buttonUtil = require("data.ui.elements.Button")
-  locale = require("data.locales.en")
+  sysFont = require("data.ui.design.FontsList")
+  element = require("data.ui.design.Element")
   
-  headerImage = scaleImage("ext/openmoji/vball.png", 60, 60)
-  headerFont = love.graphics.newFont("ext/fonts/Quantico/Quantico-Regular.ttf", 40)
-  footerFont = love.graphics.newFont("ext/fonts/Quantico/Quantico-Regular.ttf", 14)
-  -- For the subpanel buttons
-  subpanelsFont = love.graphics.newFont("ext/fonts/Quantico/Quantico-Regular.ttf", 22)
-  -- For the Back, Next, OK, and Cancel buttons
-  optionFont = love.graphics.newFont("ext/fonts/Quantico/Quantico-Regular.ttf", 26)
-  
-  elements = {
-    buttonUtil:createButton(
+  headerImage = image.header.volleyball
+  elementList = {
+    element:newElement(
+      "button","VB-Setup-BackToMain",
       locale.backToMain.label,
       20, 660,
       210, 40,
-      "option",
       nil,
-      "changeScreen",
+      "standby",
       locale.backToMain.tooltip,
       "MainMenu"
     )
@@ -33,11 +25,11 @@ end
 function VolleyballSetup:update(dt)
   local cursorX, cursorY = love.mouse.getPosition()
   elementOnFocus = ""
-  tooltipText = locale.volleyballSetup.default
-  for _, e in ipairs(elements) do
+  footerText = locale.volleyballSetup.default
+  for _, e in ipairs(elementList) do
     if cursorX >= e.x and cursorX <= e.x+e.width and cursorY >= e.y and cursorY <= e.y+e.height then
-      elementOnFocus = e.label
-      tooltipText = e.tooltip
+      elementOnFocus = e.id
+      footerText = e.tooltip
     end
   end
 end
@@ -47,45 +39,50 @@ function VolleyballSetup:draw()
   
   -- Main section
   love.graphics.draw(headerImage, 20, 20)
-  love.graphics.setFont(headerFont)
+  love.graphics.setFont(sysFont.header)
   love.graphics.print(locale.volleyball.label, 80, 20)
   
-  for _, e in ipairs(elements) do
-    love.graphics.setColor(e.bgColor)
-    if e.buttonState == "selected" then
-      love.graphics.setColor(color.optionSelected)
-    elseif elementOnFocus == e.label then
-      love.graphics.setColor(e.bgColorFocus)
+  for _, e in ipairs(elementList) do
+    if e.status == "disabled" then love.graphics.setColor(e.bgColorDisabled)
+    elseif elementOnFocus == e.id then
+      if e.status == "standby" then love.graphics.setColor(e.bgColorStandbyFocus) end
+      if e.status == "active" then love.graphics.setColor(e.bgColorActiveFocus) end
+    else
+      if e.status == "standby" then love.graphics.setColor(e.bgColorStandby) end
+      if e.status == "active" then love.graphics.setColor(e.bgColorActive) end
     end
     love.graphics.rectangle("fill", e.x, e.y, e.width, e.height)
     
-    love.graphics.setFont(subpanelsFont)
-    if e.buttonClass == "option" then
-      love.graphics.setFont(optionFont)
+    if e.id == "VB-Setup-BackToMain" then
+      love.graphics.setFont(sysFont.menuCommon)
+    else
+      love.graphics.setFont(sysFont.setupCommon)
     end
     love.graphics.setColor(e.fgColor)
     love.graphics.printf(
-      e.label,
+      e.text,
       e.x, e.y+(e.height-love.graphics.getFont():getHeight())/2,
       e.width, "center"
     )
     love.graphics.setColor(1,1,1,1)
   end
   
+  -- Subpanel
+  
   -- Footer section
-  love.graphics.setFont(footerFont)
+  love.graphics.setFont(sysFont.footer)
   love.graphics.setColor(color.bgFooter)
   love.graphics.rectangle("fill", 0, 720, 1280, 48)
   love.graphics.setColor(color.fgWhite)
-  love.graphics.printf(tooltipText, 0, 720, 1280, "center")
+  love.graphics.printf(footerText, 0, 720, 1280, "center")
   love.graphics.setColor(1,1,1,1)
 end
 
 function VolleyballSetup:mousepressed(x, y, button)
   if button == 1 then
-    for _, e in ipairs(elements) do
-      if elementOnFocus == e.label and e.buttonState == "changeScreen" then
-        changeScreen(e.onClick)
+    for _, e in ipairs(elementList) do
+      if elementOnFocus == e.id and e.action == "MainMenu" then
+        changeScreen(e.action)
       end
     end
   end
