@@ -2,6 +2,7 @@ return {
   -- Used across all screens
   bgFallback = {0.0510, 0.0510, 0.0510},
   bgFooter = {0.2510, 0.2510, 0.2510},
+  bgNull = {0,0,0,0},
   
   -- Main Menu Buttons
   menuBasketball = {0.9608, 0.4275, 0.4000},

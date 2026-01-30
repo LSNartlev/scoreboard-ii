@@ -1,10 +1,9 @@
 local MainMenu = {}
 
-local sysFont, element
+local element
 local menuButtons, mainMenuTitle, footerText, elementOnFocus
 
 function MainMenu:load()
-  sysFont = require("data.ui.design.FontsList")
   element = require("data.ui.design.Element")
   
   mainMenuTitle = image.fullLogo
@@ -15,6 +14,7 @@ function MainMenu:load()
       480, 280,
       320, 60,
       image.mainMenu.basketball,
+      sysFont.menuCommon, "center",
       "standby",
       locale.basketball.tooltip,
       "BasketballSetup"
@@ -25,6 +25,7 @@ function MainMenu:load()
       480, 360,
       320, 60,
       image.mainMenu.volleyball,
+      sysFont.menuCommon, "center",
       "standby",
       locale.volleyball.tooltip,
       "VolleyballSetup"
@@ -35,6 +36,7 @@ function MainMenu:load()
       480, 440,
       320, 60,
       image.mainMenu.soundboard,
+      sysFont.menuCommon, "center",
       "standby",
       locale.soundboard.tooltip,
       "SoundboardSetup"
@@ -45,6 +47,7 @@ function MainMenu:load()
       480, 520,
       320, 60,
       image.mainMenu.settings,
+      sysFont.menuCommon, "center",
       "standby",
       locale.settings.tooltip,
       "SettingsScreen"
@@ -55,6 +58,7 @@ function MainMenu:load()
       480, 600,
       320, 60,
       image.mainMenu.help,
+      sysFont.menuCommon, "center",
       "standby",
       locale.help.tooltip,
       "HelpScreen"
@@ -80,23 +84,7 @@ function MainMenu:draw()
   
   -- Main section
   love.graphics.draw(mainMenuTitle, 382, 60)
-  for _, mb in ipairs(menuButtons) do
-    love.graphics.setColor(mb.bgColorStandby)
-    if elementOnFocus == mb.id then
-      love.graphics.setColor(mb.bgColorStandbyFocus)
-    end
-    love.graphics.rectangle("fill", mb.x, mb.y, mb.width, mb.height)
-    love.graphics.setFont(sysFont.menuCommon)
-    love.graphics.setColor(mb.fgColor)
-    love.graphics.printf(
-      mb.text,
-      mb.x+(mb.height*0.9), mb.y+(mb.height-sysFont.menuCommon:getHeight())/2,
-      mb.width-mb.height, "center"
-    )
-    love.graphics.setColor(1,1,1,1)
-    love.graphics.draw(mb.image,
-      mb.x+(mb.height*0.1), mb.y+(mb.height*0.1))
-  end
+  drawElements(menuButtons, elementOnFocus)
   
   -- Footer section
   love.graphics.setFont(sysFont.footer)

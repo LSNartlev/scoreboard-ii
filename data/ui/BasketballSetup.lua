@@ -1,10 +1,9 @@
 local BasketballSetup = {}
 
-local sysFont, element, getElementBg
+local element, getElementBg
 local elementList, headerImage, footerText, elementOnFocus, activeSubpanel
 
 function BasketballSetup:load()
-  sysFont = require("data.ui.design.FontsList")
   element = require("data.ui.design.Element")
   
   headerImage = image.header.basketball
@@ -15,6 +14,7 @@ function BasketballSetup:load()
       20, 660,
       210, 40,
       nil,
+      sysFont.menuCommon, "center",
       "standby",
       locale.backToMain.tooltip,
       "MainMenu"
@@ -41,31 +41,7 @@ function BasketballSetup:draw()
   love.graphics.draw(headerImage, 20, 20)
   love.graphics.setFont(sysFont.header)
   love.graphics.print(locale.basketball.label, 80, 20)
-  
-  for _, e in ipairs(elementList) do
-    if e.status == "disabled" then love.graphics.setColor(e.bgColorDisabled)
-    elseif elementOnFocus == e.id then
-      if e.status == "standby" then love.graphics.setColor(e.bgColorStandbyFocus) end
-      if e.status == "active" then love.graphics.setColor(e.bgColorActiveFocus) end
-    else
-      if e.status == "standby" then love.graphics.setColor(e.bgColorStandby) end
-      if e.status == "active" then love.graphics.setColor(e.bgColorActive) end
-    end
-    love.graphics.rectangle("fill", e.x, e.y, e.width, e.height)
-    
-    if e.id == "BB-Setup-BackToMain" then
-      love.graphics.setFont(sysFont.menuCommon)
-    else
-      love.graphics.setFont(sysFont.setupCommon)
-    end
-    love.graphics.setColor(e.fgColor)
-    love.graphics.printf(
-      e.text,
-      e.x, e.y+(e.height-love.graphics.getFont():getHeight())/2,
-      e.width, "center"
-    )
-    love.graphics.setColor(1,1,1,1)
-  end
+  drawElements(elementList, elementOnFocus)
   
   -- Subpanel
   

@@ -1,120 +1,56 @@
 {
-  "default":{
+  "saved":{
     "basketball":{
       "matchTitle":"Basketball League 20XX",
       "isMatchTitleVisible":true,
+      "teamL":{
+        "name":"Team BLUE",
+        "bgColor1":{  },
+        "bgColor2":{  },
+        "textColor":{  }
+      },
+      "teamR":{
+        "name":"Team RED",
+        "bgColor1":{  },
+        "bgColor2":{  },
+        "textColor":{  }
+      },
       "maxPeriod":4,
       "isPeriodClockEnabled":true,
       "periodClockSetting":{
-        "period1":[10,0,0],
-        "period2":[10,0,0],
-        "period3":[10,0,0],
-        "period4":[10,0,0],
-        "overtime":[5,0,0]
+        "period1":{ "min":10, "sec":0, "dSec":0 },
+        "period2":{ "min":10, "sec":0, "dSec":0 },
+        "period3":{ "min":10, "sec":0, "dSec":0 },
+        "period4":{ "min":10, "sec":0, "dSec":0 },
+        "overtime":{ "min":5, "sec":0, "dSec":0 }
       },
       "isShotClockEnabled":true,
       "shotClockSetting":{
-        "regular":[24,0],
-        "short":[14,0]
+        "regular":{ "sec":24, "dSec":0 },
+        "short":{ "sec":14, "dSec":0 }
       },
       "maxTeamFouls":5,
       "maxTimeouts":3,
-      "timeoutSetting":{
-        "period1":1,
-        "period2":1,
-        "period3":1,
-        "period4":2,
-        "overtime":1
-      },
-      "isTimeoutCarryover":{
-        "period1":true,
-        "period2":false,
-        "period3":true,
-        "period4":false,
-        "overtime":false
-      },
-      "currentPeriod":1,
-      "currentPeriodClock":[10,0,0],
-      "currentShotClock":[24,0],
-      "currentView":"inGame",
-      "currentStateTeamA":{
-        "name":"Team A",
-        "bgColor1":{
-          "r":0.0274,
-          "g":0.2274,
-          "b":0.3725
+      "timeoutSetting":[ 1, 1, 1, 2, 1 ],
+      "isTimeoutCarryover":[ true, false, true, false, false ],
+      "gameState":{
+        "view":"inGame",
+        "period":1,
+        "periodClock":{ "min":10, "sec":0, "dSec":0 },
+        "isPeriodClockVisible":true,
+        "shotClock":{ "sec":24, "dSec":0 },
+        "isShotClockVisible":true,
+        "teamL":{
+          "score":[ 0, 0, 0, 0, 0 ],
+          "teamFouls":[ 0, 0, 0, 0, 0 ],
+          "timeouts":[ 0, 0, 0, 0, 0 ],
+          "ballPossession":false
         },
-        "bgColor2":{
-          "r":0.4274,
-          "g":0.7372,
-          "b":0.9607
-        },
-        "textColor":{
-          "r":1.0000,
-          "g":1.0000,
-          "b":1.0000
-        },
-        "hasBallPossession":false,
-        "score":{
-          "period1":0,
-          "period2":0,
-          "period3":0,
-          "period4":0,
-          "overtime":0
-        },
-        "teamFouls":{
-          "period1":0,
-          "period2":0,
-          "period3":0,
-          "period4":0,
-          "overtime":0
-        },
-        "timeouts":{
-          "period1":0,
-          "period2":0,
-          "period3":0,
-          "period4":0,
-          "overtime":0
-        }
-      },
-      "currentStateTeamB":{
-        "name":"Team B",
-        "bgColor1":{
-          "r":0.3764,
-          "g":0.0431,
-          "b":0.0235
-        },
-        "bgColor2":{
-          "r":0.9607,
-          "g":0.4274,
-          "b":0.4000
-        },
-        "textColor":{
-          "r":1.0000,
-          "g":1.0000,
-          "b":1.0000
-        },
-        "hasBallPossession":false,
-        "score":{
-          "period1":0,
-          "period2":0,
-          "period3":0,
-          "period4":0,
-          "overtime":0
-        },
-        "teamFouls":{
-          "period1":0,
-          "period2":0,
-          "period3":0,
-          "period4":0,
-          "overtime":0
-        },
-        "timeouts":{
-          "period1":0,
-          "period2":0,
-          "period3":0,
-          "period4":0,
-          "overtime":0
+        "teamR":{
+          "score":[ 0, 0, 0, 0, 0 ],
+          "teamFouls":[ 0, 0, 0, 0, 0 ],
+          "timeouts":[ 0, 0, 0, 0, 0 ],
+          "ballPossession":false
         }
       },
       "controls":{

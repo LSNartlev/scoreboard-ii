@@ -1,7 +1,7 @@
 local Element = {}
 
 function Element:newElement(elementType, id, text,
-    x, y, width, height, image, status, tooltip, action)
+    x, y, width, height, image, font, textAlign, status, tooltip, action)
   return {
     elementType = elementType,
     id = id,
@@ -20,6 +20,8 @@ function Element:newElement(elementType, id, text,
     fgColorInvalid = color.fgInvalid, -- only used by text fields
     fgColorDisabled = getFgColor(elementType, false),
     image = image,
+    font = font,
+    textAlign = textAlign,
     --[[
       Accepted values in status:
       standby  : Default status of the element. Must have an assigned action.
@@ -33,11 +35,13 @@ function Element:newElement(elementType, id, text,
   }
 end
 
--- will figure out to implement this with more finesse, trust
+-- Will figure out how to implement this with more finesse. Trust.
 function getBgColor(elementType, statusNum)
   local bgColor
   
-  if elementType == "tab" then
+  if elementType == "label" then
+    bgColor = color.bgNull
+  elseif elementType == "tab" then
     if statusNum == 1 then bgColor = color.bgStandbyTab
     elseif statusNum == 2 then bgColor = color.bgStandbyFocusTab
     elseif statusNum == 3 then bgColor = color.bgActive

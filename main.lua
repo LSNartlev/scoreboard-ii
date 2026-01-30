@@ -4,6 +4,7 @@ function love.load()
   color = require("data.ui.design.ColorsList")
   scaleImage = require("data.ui.design.ScaledImage")
   image = require("data.ui.design.ImageList")
+  drawElements = require("data.ui.design.PanelLayout")
   changeScreen("MainMenu")
 end
 

@@ -48,5 +48,21 @@ return {
   },
   helpScreen = {
     default = "Click any of the tabs on the left to learn more about Scoreboard II."
+  },
+  
+  newGame = {
+    matchTitle = {
+      label = "Match Title",
+      tooltip = "Enter the title of the tournament/exhibition match."
+    },
+    matchTitleVisible = {
+      label = "Show in scoreboard",
+      tooltip = "Check if you want to display the Match Title on top of the screen during the game."
+    },
+    teamInfo = {
+      textField = "Enter the name of the team.",
+      uniform = "Edit the color(s) of this team's uniform.",
+      switch = "Switch the courts of the teams."
+    }
   }
 }
