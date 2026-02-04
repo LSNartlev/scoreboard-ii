@@ -12,7 +12,7 @@ function Subpanel:newSubpanel(gameType)
       sysFont.setupCommon, "left",
       "standby",
       locale.newGame.matchTitle.tooltip,
-      nil
+      "editMatchTitle"
     ),
     element:newElement(
       "textField","NewGame-MatchTitle",
@@ -26,7 +26,7 @@ function Subpanel:newSubpanel(gameType)
       "editMatchTitle"
     ),
     element:newElement(
-      "checkbox","NewGame-MatchTitleVisible",
+      "checkbox","NewGame-Checkbox-MatchTitleVisible",
       Subpanel:getMatchTitleVisible(gameType),
       1015,95,
       30,30,
@@ -156,6 +156,11 @@ function Subpanel:getTeamName(gameType, side)
     teamName = rawValue.saved.volleyball.teamR.name
   end
   return teamName
+end
+
+function Subpanel:mousepressed(x, y, button)
+  if button == 1 then
+    if 
 end
 
 return Subpanel

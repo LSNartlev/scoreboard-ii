@@ -33,13 +33,13 @@ function VolleyballSetup:load()
     ),
     element:newElement(
       "tab","VB-Setup-Settings",
-      locale.setupTab.settings.basketball.label,
+      locale.setupTab.settings.volleyball.label,
       20, 140,
       220, 40,
       nil,
       sysFont.setupCommon, "right",
       "standby",
-      locale.setupTab.settings.basketball.tooltip,
+      locale.setupTab.settings.volleyball.tooltip,
       "activateSettingsTab"
     ),
     element:newElement(
@@ -132,6 +132,8 @@ function VolleyballSetup:mousepressed(x, y, button)
           activeSubpanel = "Controls"
         elseif e.action == "activateSoundEffectsTab" then
           activeSubpanel = "Sound Effects"
+        elseif e.action == "teamsSwitchCourtSides" then
+          teamSwitchCourtSides("volleyball")
         end
         VolleyballSetup:updateActiveTab()
       end

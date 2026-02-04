@@ -136,6 +136,9 @@ function BasketballSetup:mousepressed(x, y, button)
         BasketballSetup:updateActiveTab()
       end
     end
+    if activeSubpanel == "New Game" then
+      subpanelList.newGame:mousepressed(x, y, button)
+    end
   end
 end
 
