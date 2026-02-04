@@ -27,7 +27,7 @@ Lua/LÖVE-based Scoreboard for Basketball and Volleyball -- a hobby project by L
   - **V** = Reset Shot Clock to 14 (or Show/Hide Serving Timer)
   - **N** = Reset Shot Clock to 24 (or Reset Serving Timer to 8)
   - **Backspace** = Hold to sound horn buzzer
-  - **1** to **0** = Play custom sound effects
+  - **0** to **9** = Play custom sound effects
   - **F1** = Show/Hide Keyboard Control Hints
   - **F2** = Toggle Scoreboard Edit Mode
   - **F3** = Go to Previous Period/Set
