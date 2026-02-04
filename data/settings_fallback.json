@@ -1,19 +1,19 @@
 {
   "saved":{
     "basketball":{
-      "matchTitle":"Basketball League 20XX",
+      "matchTitle":"City Basketball League 20XX",
       "isMatchTitleVisible":true,
       "teamL":{
         "name":"Team BLUE",
-        "bgColor1":{  },
-        "bgColor2":{  },
-        "textColor":{  }
+        "bgColor1":[ 0.0274, 0.2274, 0.3725 ],
+        "bgColor2":[ 0.4274, 0.7372, 0.9607 ],
+        "textColor":[ 1.0000, 1.0000, 1.0000 ]
       },
       "teamR":{
         "name":"Team RED",
-        "bgColor1":{  },
-        "bgColor2":{  },
-        "textColor":{  }
+        "bgColor1":[ 0.3764, 0.0431, 0.0235 ],
+        "bgColor2":[ 0.9607, 0.4274, 0.4000 ],
+        "textColor":[ 1.0000, 1.0000, 1.0000 ]
       },
       "maxPeriod":4,
       "isPeriodClockEnabled":true,
@@ -62,160 +62,24 @@
         "periodClockShowHide":"-",
         "shotClockShowHide":"=",
         "buzzerSound":"backspace",
-        "operationMode":"f1",
-        "editMode":"f2",
+        "toggleControlGuide":"f1",
+        "toggleEditMode":"f2",
         "showPreviousPeriod":"f3",
         "showNextPeriod":"f4",
-        "viewModeToggle":"f7",
-        "changeCourt":"f8",
-        "score1TeamA":"f",
-        "score2TeamA":"r",
-        "score3TeamA":"e",
-        "foul1TeamA":"d",
-        "timeout1TeamA":"s",
-        "ballTeamA":"a",
-        "score1TeamB":"j",
-        "score2TeamB":"u",
-        "score3TeamB":"i",
-        "foul1TeamB":"k",
-        "timeout1TeamB":"l",
-        "ballTeamB":";",
-        "playSound1":"1",
-        "playSound2":"2",
-        "playSound3":"3",
-        "playSound4":"4",
-        "playSound5":"5",
-        "playSound6":"6",
-        "playSound7":"7",
-        "playSound8":"8",
-        "playSound9":"9",
-        "playSound10":"0",
-        "sfx1pt":0,
-        "sfx2pts":2,
-        "sfx3pts":3,
-        "sfx15seconds":48,
-        "sfx10seconds":49,
-        "sfx5seconds":50
-      },
-      "displayLimits":{
-        "maxPeriodClock":[99,59,9],
-        "maxShotClock":[99,9],
-        "maxTeamFouls":9,
-        "maxTimeouts":9,
-        "maxScore":999
-      }
-    },
-    "volleyball":{
-      "matchTitle":"Volleyball League 20XX",
-      "isMatchTitleVisible":true,
-      "maxSets":3,
-      "targetScore":{
-        "regularSet":25,
-        "deciderSet":15
-      },
-      "pointAdvRequirement":{
-        "regularSet":2,
-        "deciderSet":2
-      },
-      "isGoldenPointEnabled":false,
-      "goldenPoint":{
-        "regularSet":99,
-        "deciderSet":99
-      },
-      "isServeClockEnabled":false,
-      "serveClockSetting":[8,0],
-      "maxTimeouts":2,
-      "timeoutSetting":{
-        "regularSet":2,
-        "deciderSet":2
-      },
-      "isTimeoutCarryover":false,
-      "currentSet":1,
-      "currentServeClock":[8,0],
-      "currentView":"inGame",
-      "currentStateTeamA":{
-        "name":"Team A",
-        "bgColor1":{
-          "r":0.0274,
-          "g":0.2274,
-          "b":0.3725
-        },
-        "bgColor2":{
-          "r":0.4274,
-          "g":0.7372,
-          "b":0.9607
-        },
-        "textColor":{
-          "r":1.0000,
-          "g":1.0000,
-          "b":1.0000
-        },
-        "hasBallService":false,
-        "score":{
-          "set1":0,
-          "set2":0,
-          "set3":0,
-          "set4":0,
-          "set5":0
-        },
-        "timeouts":{
-          "set1":2,
-          "set2":2,
-          "set3":2,
-          "set4":2,
-          "set5":2
-        }
-      },
-      "currentStateTeamB":{
-        "name":"Team B",
-        "bgColor1":{
-          "r":0.3764,
-          "g":0.0431,
-          "b":0.0235
-        },
-        "bgColor2":{
-          "r":0.9607,
-          "g":0.4274,
-          "b":0.4000
-        },
-        "textColor":{
-          "r":1.0000,
-          "g":1.0000,
-          "b":1.0000
-        },
-        "hasBallService":false,
-        "score":{
-          "set1":0,
-          "set2":0,
-          "set3":0,
-          "set4":0,
-          "set5":0
-        },
-        "timeouts":{
-          "set1":2,
-          "set2":2,
-          "set3":2,
-          "set4":2,
-          "set5":2
-        }
-      },
-      "controls":{
-        "serveClockPlayPause":"space",
-        "periodShowHide":"`",
-        "serveClockShowHide":"b",
-        "buzzerSound":"backspace",
-        "operationMode":"f1",
-        "editMode":"f2",
-        "showPreviousSet":"f3",
-        "showNextSet":"f4",
-        "viewModeToggle":"f7",
-        "changeCourt":"f8",
-        "scoreTeamA":"f",
-        "timeoutTeamA":"s",
-        "ballTeamA":"a",
-        "scoreTeamB":"j",
-        "timeoutTeamB":"l",
-        "ballTeamB":";",
+        "changeCourt":"f5",
+        "changeViewMode":"f8",
+        "score1TeamL":"f",
+        "score2TeamL":"r",
+        "score3TeamL":"e",
+        "foul1TeamL":"d",
+        "timeout1TeamL":"s",
+        "ballTeamL":"a",
+        "score1TeamR":"j",
+        "score2TeamR":"u",
+        "score3TeamR":"i",
+        "foul1TeamR":"k",
+        "timeout1TeamR":"l",
+        "ballTeamR":";",
         "playSound1":"1",
         "playSound2":"2",
         "playSound3":"3",
@@ -228,10 +92,103 @@
         "playSound10":"0"
       },
       "displayLimits":{
-        "maxServeClock":[99,9],
+        "maxPeriodClock":{ "min":99, "sec":59, "dSec":9 },
+        "maxShotClock":{ "sec":99, "dSec":9 },
+        "maxTeamFouls":10,
+        "maxTimeouts":10,
+        "maxScore":999
+      }
+    },
+    "volleyball":{
+      "matchTitle":"City Volleyball League 20XX",
+      "isMatchTitleVisible":true,
+      "teamL":{
+        "name":"Team BLUE",
+        "bgColor1":[ 0.0274, 0.2274, 0.3725 ],
+        "bgColor2":[ 0.4274, 0.7372, 0.9607 ],
+        "textColor":[ 1.0000, 1.0000, 1.0000 ]
+      },
+      "teamR":{
+        "name":"Team RED",
+        "bgColor1":[ 0.3764, 0.0431, 0.0235 ],
+        "bgColor2":[ 0.9607, 0.4274, 0.4000 ],
+        "textColor":[ 1.0000, 1.0000, 1.0000 ]
+      },
+      "maxSets":5,
+      "targetScore":{
+        "regularSet":25,
+        "deciderSet":15
+      },
+      "pointAdvRequirement":{
+        "regularSet":2,
+        "deciderSet":2
+      },
+      "isGoldenPointEnabled":false,
+      "goldenPoint":{
+        "regularSet":48,
+        "deciderSet":30
+      },
+      "isServeClockEnabled":false,
+      "serveClockSetting":{ "sec":8, "dSec":0 },
+      "maxTimeouts":2,
+      "timeoutSetting":{
+        "regularSet":2,
+        "deciderSet":2
+      },
+      "isTimeoutCarryover":{
+        "regularSet":false,
+        "deciderSet":false
+      },
+      "gameState":{
+        "view":"inGame",
+        "set":1,
+        "serveClock":{ "sec":8, "dSec":0 },
+        "isServeClockVisible":false,
+        "teamL":{
+          "score":[ 0, 0, 0, 0, 0 ],
+          "timeouts":[ 2, 2, 2, 2, 2 ],
+          "ballService":false
+        },
+        "teamR":{
+          "score":[ 0, 0, 0, 0, 0 ],
+          "timeouts":[ 2, 2, 2, 2, 2 ],
+          "ballService":false
+        }
+      },
+      "controls":{
+        "serveClockPlayPause":"space",
+        "periodShowHide":"`",
+        "serveClockShowHide":"b",
+        "buzzerSound":"backspace",
+        "toggleControlGuide":"f1",
+        "toggleEditMode":"f2",
+        "showPreviousSet":"f3",
+        "showNextSet":"f4",
+        "changeCourt":"f5",
+        "changeViewMode":"f8",
+        "scoreTeamL":"f",
+        "timeoutTeamL":"s",
+        "ballTeamL":"a",
+        "scoreTeamR":"j",
+        "timeoutTeamR":"l",
+        "ballTeamR":";",
+        "playSound1":"1",
+        "playSound2":"2",
+        "playSound3":"3",
+        "playSound4":"4",
+        "playSound5":"5",
+        "playSound6":"6",
+        "playSound7":"7",
+        "playSound8":"8",
+        "playSound9":"9",
+        "playSound10":"0"
+      },
+      "displayLimits":{
+        "maxServeClock":{ "sec":99, "dSec":9 },
         "maxTargetScore":999,
         "maxPointAdvRequirement":9,
         "maxGoldenPoint":999,
+        "maxTimeouts":10,
         "maxScore":999
       }
     },
@@ -272,172 +229,97 @@
       { "id":34, "keybind":"b", "file":"" },
       { "id":35, "keybind":"n", "file":"" },
       { "id":36, "keybind":"m", "file":"" },
-      { "id":37, "keybind":"`", "file":"" },
-      { "id":38, "keybind":"-", "file":"" },
-      { "id":39, "keybind":"=", "file":"" },
-      { "id":40, "keybind":"[", "file":"" },
-      { "id":41, "keybind":"]", "file":"" },
-      { "id":42, "keybind":";", "file":"" },
-      { "id":43, "keybind":"'", "file":"" },
-      { "id":44, "keybind":",", "file":"" },
-      { "id":45, "keybind":".", "file":"" },
-      { "id":46, "keybind":"/", "file":"" },
-      { "id":47, "keybind":"\\", "file":"" },
-      { "id":48, "keybind":"backspace", "file":"" },
-      { "id":49, "keybind":"return", "file":"" },
-      { "id":50, "keybind":"space", "file":"" }
+      { "id":37, "keybind":"backspace", "file":"" },
+      { "id":38, "keybind":"space", "file":"" },
+      { "id":39, "keybind":"return", "file":"" }
     ],
     "presetTeams":[
-      { "id":1, "name":"Team A", "bgColor1":{ "r":0.0274, "g":0.2274, "b":0.3725 }, "bgColor2":{ "r":0.4274, "g":0.7372, "b":0.9607 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":2, "name":"Team B", "bgColor1":{ "r":0.3764, "g":0.0431, "b":0.0235 }, "bgColor2":{ "r":0.9607, "g":0.4274, "b":0.4000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":3, "name":"Team C", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":4, "name":"Team D", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":5, "name":"Team E", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":6, "name":"Team F", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":7, "name":"Team G", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":8, "name":"Team H", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":9, "name":"Team I", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":10, "name":"Team J", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":11, "name":"Team K", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":12, "name":"Team L", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":13, "name":"Team M", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":14, "name":"Team N", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":15, "name":"Team O", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":16, "name":"Team P", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":17, "name":"Team Q", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":18, "name":"Team R", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":19, "name":"Team S", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":20, "name":"Team T", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":21, "name":"Team U", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":22, "name":"Team V", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":23, "name":"Team W", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":24, "name":"Team X", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":25, "name":"Team Y", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":26, "name":"Team Z", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":27, "name":"Team AA", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":28, "name":"Team BB", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":29, "name":"Team CC", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":30, "name":"Team DD", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":31, "name":"Team EE", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":32, "name":"Team FF", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } }
+      { "id":1, "name":"Sample Team 01", "bgColor1":[ 0.0274, 0.2274, 0.3725 ], "bgColor2":[ 0.4274, 0.7372, 0.9607 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":2, "name":"Sample Team 02", "bgColor1":[ 0.3764, 0.0431, 0.0235 ], "bgColor2":[ 0.9607, 0.4274, 0.4000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":3, "name":"New Team 03", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":4, "name":"New Team 04", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":5, "name":"New Team 05", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":6, "name":"New Team 06", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":7, "name":"New Team 07", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":8, "name":"New Team 08", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":9, "name":"New Team 09", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":10, "name":"New Team 10", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":11, "name":"New Team 11", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":12, "name":"New Team 12", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":13, "name":"New Team 13", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":14, "name":"New Team 14", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":15, "name":"New Team 15", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":16, "name":"New Team 16", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":17, "name":"New Team 17", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":18, "name":"New Team 18", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":19, "name":"New Team 19", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":20, "name":"New Team 20", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":21, "name":"New Team 21", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":22, "name":"New Team 22", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":23, "name":"New Team 23", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":24, "name":"New Team 24", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":25, "name":"New Team 25", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":26, "name":"New Team 26", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":27, "name":"New Team 27", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":28, "name":"New Team 28", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":29, "name":"New Team 29", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":30, "name":"New Team 30", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":31, "name":"New Team 31", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":32, "name":"New Team 32", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] }
     ]
   },
-  "active":{
+  "default":{
     "basketball":{
-      "matchTitle":"Basketball League 20XX",
+      "matchTitle":"City Basketball League",
       "isMatchTitleVisible":true,
+      "teamL":{
+        "name":"Team BLUE",
+        "bgColor1":[ 0.0274, 0.2274, 0.3725 ],
+        "bgColor2":[ 0.4274, 0.7372, 0.9607 ],
+        "textColor":[ 1.0000, 1.0000, 1.0000 ]
+      },
+      "teamR":{
+        "name":"Team RED",
+        "bgColor1":[ 0.3764, 0.0431, 0.0235 ],
+        "bgColor2":[ 0.9607, 0.4274, 0.4000 ],
+        "textColor":[ 1.0000, 1.0000, 1.0000 ]
+      },
       "maxPeriod":4,
       "isPeriodClockEnabled":true,
       "periodClockSetting":{
-        "period1":[10,0,0],
-        "period2":[10,0,0],
-        "period3":[10,0,0],
-        "period4":[10,0,0],
-        "overtime":[5,0,0]
+        "period1":{ "min":10, "sec":0, "dSec":0 },
+        "period2":{ "min":10, "sec":0, "dSec":0 },
+        "period3":{ "min":10, "sec":0, "dSec":0 },
+        "period4":{ "min":10, "sec":0, "dSec":0 },
+        "overtime":{ "min":5, "sec":0, "dSec":0 }
       },
       "isShotClockEnabled":true,
       "shotClockSetting":{
-        "regular":[24,0],
-        "short":[14,0]
+        "regular":{ "sec":24, "dSec":0 },
+        "short":{ "sec":14, "dSec":0 }
       },
       "maxTeamFouls":5,
       "maxTimeouts":3,
-      "timeoutSetting":{
-        "period1":1,
-        "period2":1,
-        "period3":1,
-        "period4":2,
-        "overtime":1
-      },
-      "isTimeoutCarryover":{
-        "period1":true,
-        "period2":false,
-        "period3":true,
-        "period4":false,
-        "overtime":false
-      },
-      "currentPeriod":1,
-      "currentPeriodClock":[10,0,0],
-      "currentShotClock":[24,0],
-      "currentView":"inGame",
-      "currentStateTeamA":{
-        "name":"Team A",
-        "bgColor1":{
-          "r":0.0274,
-          "g":0.2274,
-          "b":0.3725
+      "timeoutSetting":[ 1, 1, 1, 2, 1 ],
+      "isTimeoutCarryover":[ true, false, true, false, false ],
+      "gameState":{
+        "view":"inGame",
+        "period":1,
+        "periodClock":{ "min":10, "sec":0, "dSec":0 },
+        "isPeriodClockVisible":true,
+        "shotClock":{ "sec":24, "dSec":0 },
+        "isShotClockVisible":true,
+        "teamL":{
+          "score":[ 0, 0, 0, 0, 0 ],
+          "teamFouls":[ 0, 0, 0, 0, 0 ],
+          "timeouts":[ 0, 0, 0, 0, 0 ],
+          "ballPossession":false
         },
-        "bgColor2":{
-          "r":0.4274,
-          "g":0.7372,
-          "b":0.9607
-        },
-        "textColor":{
-          "r":1.0000,
-          "g":1.0000,
-          "b":1.0000
-        },
-        "hasBallPossession":false,
-        "score":{
-          "period1":0,
-          "period2":0,
-          "period3":0,
-          "period4":0,
-          "overtime":0
-        },
-        "teamFouls":{
-          "period1":0,
-          "period2":0,
-          "period3":0,
-          "period4":0,
-          "overtime":0
-        },
-        "timeouts":{
-          "period1":0,
-          "period2":0,
-          "period3":0,
-          "period4":0,
-          "overtime":0
-        }
-      },
-      "currentStateTeamB":{
-        "name":"Team B",
-        "bgColor1":{
-          "r":0.3764,
-          "g":0.0431,
-          "b":0.0235
-        },
-        "bgColor2":{
-          "r":0.9607,
-          "g":0.4274,
-          "b":0.4000
-        },
-        "textColor":{
-          "r":1.0000,
-          "g":1.0000,
-          "b":1.0000
-        },
-        "hasBallPossession":false,
-        "score":{
-          "period1":0,
-          "period2":0,
-          "period3":0,
-          "period4":0,
-          "overtime":0
-        },
-        "teamFouls":{
-          "period1":0,
-          "period2":0,
-          "period3":0,
-          "period4":0,
-          "overtime":0
-        },
-        "timeouts":{
-          "period1":0,
-          "period2":0,
-          "period3":0,
-          "period4":0,
-          "overtime":0
+        "teamR":{
+          "score":[ 0, 0, 0, 0, 0 ],
+          "teamFouls":[ 0, 0, 0, 0, 0 ],
+          "timeouts":[ 0, 0, 0, 0, 0 ],
+          "ballPossession":false
         }
       },
       "controls":{
@@ -449,160 +331,24 @@
         "periodClockShowHide":"-",
         "shotClockShowHide":"=",
         "buzzerSound":"backspace",
-        "operationMode":"f1",
-        "editMode":"f2",
+        "toggleControlGuide":"f1",
+        "toggleEditMode":"f2",
         "showPreviousPeriod":"f3",
         "showNextPeriod":"f4",
-        "viewModeToggle":"f7",
-        "changeCourt":"f8",
-        "score1TeamA":"f",
-        "score2TeamA":"r",
-        "score3TeamA":"e",
-        "foul1TeamA":"d",
-        "timeout1TeamA":"s",
-        "ballTeamA":"a",
-        "score1TeamB":"j",
-        "score2TeamB":"u",
-        "score3TeamB":"i",
-        "foul1TeamB":"k",
-        "timeout1TeamB":"l",
-        "ballTeamB":";",
-        "playSound1":"1",
-        "playSound2":"2",
-        "playSound3":"3",
-        "playSound4":"4",
-        "playSound5":"5",
-        "playSound6":"6",
-        "playSound7":"7",
-        "playSound8":"8",
-        "playSound9":"9",
-        "playSound10":"0",
-        "sfx1pt":0,
-        "sfx2pts":2,
-        "sfx3pts":3,
-        "sfx15seconds":48,
-        "sfx10seconds":49,
-        "sfx5seconds":50
-      },
-      "displayLimits":{
-        "maxPeriodClock":[99,59,9],
-        "maxShotClock":[99,9],
-        "maxTeamFouls":9,
-        "maxTimeouts":9,
-        "maxScore":999
-      }
-    },
-    "volleyball":{
-      "matchTitle":"Volleyball League 20XX",
-      "isMatchTitleVisible":true,
-      "maxSets":3,
-      "targetScore":{
-        "regularSet":25,
-        "deciderSet":15
-      },
-      "pointAdvRequirement":{
-        "regularSet":2,
-        "deciderSet":2
-      },
-      "isGoldenPointEnabled":false,
-      "goldenPoint":{
-        "regularSet":99,
-        "deciderSet":99
-      },
-      "isServeClockEnabled":false,
-      "serveClockSetting":[8,0],
-      "maxTimeouts":2,
-      "timeoutSetting":{
-        "regularSet":2,
-        "deciderSet":2
-      },
-      "isTimeoutCarryover":false,
-      "currentSet":1,
-      "currentServeClock":[8,0],
-      "currentView":"inGame",
-      "currentStateTeamA":{
-        "name":"Team A",
-        "bgColor1":{
-          "r":0.0274,
-          "g":0.2274,
-          "b":0.3725
-        },
-        "bgColor2":{
-          "r":0.4274,
-          "g":0.7372,
-          "b":0.9607
-        },
-        "textColor":{
-          "r":1.0000,
-          "g":1.0000,
-          "b":1.0000
-        },
-        "hasBallService":false,
-        "score":{
-          "set1":0,
-          "set2":0,
-          "set3":0,
-          "set4":0,
-          "set5":0
-        },
-        "timeouts":{
-          "set1":2,
-          "set2":2,
-          "set3":2,
-          "set4":2,
-          "set5":2
-        }
-      },
-      "currentStateTeamB":{
-        "name":"Team B",
-        "bgColor1":{
-          "r":0.3764,
-          "g":0.0431,
-          "b":0.0235
-        },
-        "bgColor2":{
-          "r":0.9607,
-          "g":0.4274,
-          "b":0.4000
-        },
-        "textColor":{
-          "r":1.0000,
-          "g":1.0000,
-          "b":1.0000
-        },
-        "hasBallService":false,
-        "score":{
-          "set1":0,
-          "set2":0,
-          "set3":0,
-          "set4":0,
-          "set5":0
-        },
-        "timeouts":{
-          "set1":2,
-          "set2":2,
-          "set3":2,
-          "set4":2,
-          "set5":2
-        }
-      },
-      "controls":{
-        "serveClockPlayPause":"space",
-        "periodShowHide":"`",
-        "serveClockShowHide":"b",
-        "buzzerSound":"backspace",
-        "operationMode":"f1",
-        "editMode":"f2",
-        "showPreviousSet":"f3",
-        "showNextSet":"f4",
-        "viewModeToggle":"f7",
-        "changeCourt":"f8",
-        "scoreTeamA":"f",
-        "timeoutTeamA":"s",
-        "ballTeamA":"a",
-        "scoreTeamB":"j",
-        "timeoutTeamB":"l",
-        "ballTeamB":";",
+        "changeCourt":"f5",
+        "changeViewMode":"f8",
+        "score1TeamL":"f",
+        "score2TeamL":"r",
+        "score3TeamL":"e",
+        "foul1TeamL":"d",
+        "timeout1TeamL":"s",
+        "ballTeamL":"a",
+        "score1TeamR":"j",
+        "score2TeamR":"u",
+        "score3TeamR":"i",
+        "foul1TeamR":"k",
+        "timeout1TeamR":"l",
+        "ballTeamR":";",
         "playSound1":"1",
         "playSound2":"2",
         "playSound3":"3",
@@ -615,10 +361,105 @@
         "playSound10":"0"
       },
       "displayLimits":{
-        "maxServeClock":[99,9],
+        "maxPeriodClock":{ "min":99, "sec":59, "dSec":9 },
+        "maxShotClock":{ "sec":99, "dSec":9 },
+        "maxTeamFouls":10,
+        "maxTimeouts":10,
+        "maxScore":999
+      }
+    },
+    "volleyball":{
+      "matchTitle":"City Volleyball League",
+      "isMatchTitleVisible":true,
+      "teamL":{
+        "name":"Team BLUE",
+        "bgColor1":[ 0.0274, 0.2274, 0.3725 ],
+        "bgColor2":[ 0.4274, 0.7372, 0.9607 ],
+        "textColor":[ 1.0000, 1.0000, 1.0000 ]
+      },
+      "teamR":{
+        "name":"Team RED",
+        "bgColor1":[ 0.3764, 0.0431, 0.0235 ],
+        "bgColor2":[ 0.9607, 0.4274, 0.4000 ],
+        "textColor":[ 1.0000, 1.0000, 1.0000 ]
+      },
+      "maxSets":5,
+      "targetScore":{
+        "regularSet":25,
+        "deciderSet":15
+      },
+      "pointAdvRequirement":{
+        "regularSet":2,
+        "deciderSet":2
+      },
+      "isGoldenPointEnabled":false,
+      "goldenPoint":{
+        "regularSet":48,
+        "deciderSet":30
+      },
+      "isServeClockEnabled":false,
+      "serveClockSetting":{ "sec":8, "dSec":0 },
+      "maxTimeouts":2,
+      "timeoutSetting":{
+        "regularSet":2,
+        "deciderSet":2
+      },
+      "isTimeoutCarryover":{
+        "regularSet":false,
+        "deciderSet":false
+      },
+      "gameState":{
+        "view":"inGame",
+        "set":1,
+        "serveClock":{ "sec":8, "dSec":0 },
+        "isServeClockVisible":false,
+        "teamL":{
+          "score":[ 0, 0, 0, 0, 0 ],
+          "teamFouls":[ 0, 0, 0, 0, 0 ],
+          "timeouts":[ 2, 2, 2, 2, 2 ],
+          "ballService":false
+        },
+        "teamR":{
+          "score":[ 0, 0, 0, 0, 0 ],
+          "teamFouls":[ 0, 0, 0, 0, 0 ],
+          "timeouts":[ 2, 2, 2, 2, 2 ],
+          "ballService":false
+        }
+      },
+      "controls":{
+        "serveClockPlayPause":"space",
+        "periodShowHide":"`",
+        "serveClockShowHide":"b",
+        "buzzerSound":"backspace",
+        "toggleControlGuide":"f1",
+        "toggleEditMode":"f2",
+        "showPreviousSet":"f3",
+        "showNextSet":"f4",
+        "changeCourt":"f5",
+        "changeViewMode":"f8",
+        "scoreTeamL":"f",
+        "timeoutTeamL":"s",
+        "ballTeamL":"a",
+        "scoreTeamR":"j",
+        "timeoutTeamR":"l",
+        "ballTeamR":";",
+        "playSound1":"1",
+        "playSound2":"2",
+        "playSound3":"3",
+        "playSound4":"4",
+        "playSound5":"5",
+        "playSound6":"6",
+        "playSound7":"7",
+        "playSound8":"8",
+        "playSound9":"9",
+        "playSound10":"0"
+      },
+      "displayLimits":{
+        "maxServeClock":{ "sec":99, "dSec":9 },
         "maxTargetScore":999,
         "maxPointAdvRequirement":9,
         "maxGoldenPoint":999,
+        "maxTimeouts":10,
         "maxScore":999
       }
     },
@@ -659,54 +500,43 @@
       { "id":34, "keybind":"b", "file":"" },
       { "id":35, "keybind":"n", "file":"" },
       { "id":36, "keybind":"m", "file":"" },
-      { "id":37, "keybind":"`", "file":"" },
-      { "id":38, "keybind":"-", "file":"" },
-      { "id":39, "keybind":"=", "file":"" },
-      { "id":40, "keybind":"[", "file":"" },
-      { "id":41, "keybind":"]", "file":"" },
-      { "id":42, "keybind":";", "file":"" },
-      { "id":43, "keybind":"'", "file":"" },
-      { "id":44, "keybind":",", "file":"" },
-      { "id":45, "keybind":".", "file":"" },
-      { "id":46, "keybind":"/", "file":"" },
-      { "id":47, "keybind":"\\", "file":"" },
-      { "id":48, "keybind":"backspace", "file":"" },
-      { "id":49, "keybind":"return", "file":"" },
-      { "id":50, "keybind":"space", "file":"" }
+      { "id":37, "keybind":"backspace", "file":"" },
+      { "id":38, "keybind":"space", "file":"" },
+      { "id":39, "keybind":"return", "file":"" }
     ],
     "presetTeams":[
-      { "id":1, "name":"Team A", "bgColor1":{ "r":0.0274, "g":0.2274, "b":0.3725 }, "bgColor2":{ "r":0.4274, "g":0.7372, "b":0.9607 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":2, "name":"Team B", "bgColor1":{ "r":0.3764, "g":0.0431, "b":0.0235 }, "bgColor2":{ "r":0.9607, "g":0.4274, "b":0.4000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":3, "name":"Team C", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":4, "name":"Team D", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":5, "name":"Team E", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":6, "name":"Team F", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":7, "name":"Team G", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":8, "name":"Team H", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":9, "name":"Team I", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":10, "name":"Team J", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":11, "name":"Team K", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":12, "name":"Team L", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":13, "name":"Team M", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":14, "name":"Team N", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":15, "name":"Team O", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":16, "name":"Team P", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":17, "name":"Team Q", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":18, "name":"Team R", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":19, "name":"Team S", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":20, "name":"Team T", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":21, "name":"Team U", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":22, "name":"Team V", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":23, "name":"Team W", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":24, "name":"Team X", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":25, "name":"Team Y", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":26, "name":"Team Z", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":27, "name":"Team AA", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":28, "name":"Team BB", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":29, "name":"Team CC", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":30, "name":"Team DD", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":31, "name":"Team EE", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } },
-      { "id":32, "name":"Team FF", "bgColor1":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "bgColor2":{ "r":0.2000, "g":0.2000, "b":0.2000 }, "textColor":{ "r":1.0000, "g":1.0000, "b":1.0000 } }
+      { "id":1, "name":"Sample Team 01", "bgColor1":[ 0.0274, 0.2274, 0.3725 ], "bgColor2":[ 0.4274, 0.7372, 0.9607 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":2, "name":"Sample Team 02", "bgColor1":[ 0.3764, 0.0431, 0.0235 ], "bgColor2":[ 0.9607, 0.4274, 0.4000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":3, "name":"New Team 03", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":4, "name":"New Team 04", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":5, "name":"New Team 05", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":6, "name":"New Team 06", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":7, "name":"New Team 07", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":8, "name":"New Team 08", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":9, "name":"New Team 09", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":10, "name":"New Team 10", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":11, "name":"New Team 11", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":12, "name":"New Team 12", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":13, "name":"New Team 13", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":14, "name":"New Team 14", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":15, "name":"New Team 15", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":16, "name":"New Team 16", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":17, "name":"New Team 17", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":18, "name":"New Team 18", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":19, "name":"New Team 19", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":20, "name":"New Team 20", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":21, "name":"New Team 21", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":22, "name":"New Team 22", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":23, "name":"New Team 23", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":24, "name":"New Team 24", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":25, "name":"New Team 25", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":26, "name":"New Team 26", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":27, "name":"New Team 27", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":28, "name":"New Team 28", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":29, "name":"New Team 29", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":30, "name":"New Team 30", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":31, "name":"New Team 31", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] },
+      { "id":32, "name":"New Team 32", "bgColor1":[ 0.2000, 0.2000, 0.2000 ], "bgColor2":[ 0.2000, 0.2000, 0.2000 ], "textColor":[ 1.0000, 1.0000, 1.0000 ] }
     ]
   }
 }

@@ -1,10 +1,13 @@
 function love.load()
+  json = require("ext.rxi-json.json")
   locale = require("data.locales.en")
   sysFont = require("data.ui.design.FontsList")
   color = require("data.ui.design.ColorsList")
   scaleImage = require("data.ui.design.ScaledImage")
   image = require("data.ui.design.ImageList")
   drawElements = require("data.ui.design.PanelLayout")
+  local rawSettings = love.filesystem.read("data/settings.json")
+  rawValue = json.decode(rawSettings)
   changeScreen("MainMenu")
 end
 

@@ -1,15 +1,18 @@
 local Element = {}
 
 function Element:newElement(elementType, id, text,
-    x, y, width, height, image, font, textAlign, status, tooltip, action)
+    x, y, width, height, image, font, textAlign,
+    status, tooltip, action)
   return {
     elementType = elementType,
     id = id,
     text = text,
+    
     x = x,
     y = y,
     width = width,
     height = height,
+    
     bgColorStandby = getBgColor(elementType, 1),
     bgColorStandbyFocus = getBgColor(elementType, 2),
     bgColorActive = getBgColor(elementType, 3),
@@ -19,12 +22,14 @@ function Element:newElement(elementType, id, text,
     fgColorActive = color.fgBlack, -- only used by tabs
     fgColorInvalid = color.fgInvalid, -- only used by text fields
     fgColorDisabled = getFgColor(elementType, false),
+    
     image = image,
     font = font,
     textAlign = textAlign,
+    
     --[[
       Accepted values in status:
-      standby  : Default status of the element. Must have an assigned action.
+      standby  : Default status of the element. Must have an assigned action (unless it's a label).
       active   : If the element is selected (tab, checkbox, option button), or is in use (text field).
       invalid  : (For text fields only) Temporary status whenever the input text is not acceptable.
       disabled : Status if visible, but not interactable.
@@ -78,7 +83,7 @@ function getFgColor(elementType, isEnabled)
   local fgColor
   
   if isEnabled then
-    if elementType == "tab" or elementType == "textField" then
+    if elementType == "label" or elementType == "tab" or elementType == "textField" then
       fgColor = color.fgWhite
     else
       fgColor = color.fgBlack

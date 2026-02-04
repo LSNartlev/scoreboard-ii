@@ -13,5 +13,10 @@ return {
     soundboard = scaleImage("ext/openmoji/sound.png", 60, 60),
     settings = scaleImage("ext/openmoji/settings.png", 60, 60),
     help = scaleImage("ext/openmoji/help.png", 60, 60)
+  },
+  checkmark = scaleImage("assets/images/check.png", 30, 30),
+  court = {
+    basketball = scaleImage("assets/images/bbcourt.png", 470, 250),
+    volleyball = scaleImage("assets/images/vbcourt.png", 470, 250)
   }
 }
