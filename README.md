@@ -1,7 +1,6 @@
 ![Scoreboard II - Made with LÖVE](https://github.com/LSNartlev/scoreboard-ii/blob/main/assets/images/menutitle.png?raw=true)
 
-Lua/LÖVE-based Scoreboard for Basketball and Volleyball
-a hobby project by LSNartlev
+Lua/LÖVE-based Scoreboard for Basketball and Volleyball -- a hobby project by LSNartlev
 
 ### Features
 - Use the mouse or assign keybinds to control the scoreboard
