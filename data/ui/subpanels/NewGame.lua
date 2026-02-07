@@ -15,7 +15,7 @@ function Subpanel:newSubpanel(gameType)
       "editMatchTitle"
     ),
     element:newElement(
-      "textField","NewGame-MatchTitle",
+      "textField","NewGame-TextField-MatchTitle",
       Subpanel:getMatchTitle(gameType),
       400,90,
       600,40,
@@ -156,11 +156,6 @@ function Subpanel:getTeamName(gameType, side)
     teamName = rawValue.saved.volleyball.teamR.name
   end
   return teamName
-end
-
-function Subpanel:mousepressed(x, y, button)
-  if button == 1 then
-    if 
 end
 
 return Subpanel

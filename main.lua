@@ -30,6 +30,12 @@ function changeScreen(nextScreen)
   end
 end
 
+function love.textinput(t)
+  if OnScreen.textinput then
+    OnScreen:textinput(t)
+  end
+end
+
 function love.mousepressed(x, y, button)
   if OnScreen.mousepressed then
     OnScreen:mousepressed(x, y, button)

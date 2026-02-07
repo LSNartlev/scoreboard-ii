@@ -68,7 +68,7 @@ function BasketballSetup:load()
   activeSubpanel = "New Game"
   
   subpanelList = {
-    newGame = newGameSub:newSubpanel("basketball")
+    newGameElementList = newGameSub:newSubpanel("basketball")
   }
   BasketballSetup:updateActiveTab()
 end
@@ -137,9 +137,19 @@ function BasketballSetup:mousepressed(x, y, button)
       end
     end
     if activeSubpanel == "New Game" then
-      subpanelList.newGame:mousepressed(x, y, button)
+      for _, e in ipairs(subpanelList.newGameElementList) do
+        if e.action == "editMatchTitle" then
+          if e.id == "NewGame-TextField-MatchTitle" then
+            e.status = "active"
+          end
+        end
+      end
     end
   end
+end
+
+function BasketballSetup:keypressed(key)
+  
 end
 
 function BasketballSetup:updateActiveTab()
