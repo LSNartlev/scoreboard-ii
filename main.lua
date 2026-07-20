@@ -34,3 +34,9 @@ function love.keypressed(key, scancode, isrepeat)
     ScreenManager.onDisplay:keypressed(key, scancode, isrepeat)
   end
 end
+
+function love.keyreleased(key, scancode)
+  if ScreenManager.onDisplay.keyreleased then
+    ScreenManager.onDisplay:keyreleased(key, scancode)
+  end
+end

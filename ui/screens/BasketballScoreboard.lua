@@ -2,12 +2,33 @@ local BasketballScoreboard = {}
 local ScoreboardState = require("data.ScoreboardState")
 local Designer = require("ui.designs.BasketballScoreboardDesigner")
 local Controls = require("data.Controls")
+local gradRect = require("ui.designs.GradientRectangle")
 local periodTimerRun, shotClockRun, periodDT, shotDT, lastPeriodDT, lastShotDT
+local bgTeamA, bgTeamAName, bgTeamB, bgTeamBName
 
 function BasketballScoreboard:load()
   lastPeriodDT = 0
   lastShotDT = 0
-  -- load saved configs, overriding fallback values on ScoreboardState
+  bgTeamA = love.graphics.newMesh(gradRect:newGradRect(0, 0, 640, 720,
+    { ScoreboardState.teamA.bgColor1.r,ScoreboardState.teamA.bgColor1.g,ScoreboardState.teamA.bgColor1.b },
+    { ScoreboardState.teamA.bgColor2.r,ScoreboardState.teamA.bgColor2.g,ScoreboardState.teamA.bgColor2.b },
+    0.8, true
+  ))
+  bgTeamAName = love.graphics.newMesh(gradRect:newGradRect(40, 120, 560, 60,
+    { ScoreboardState.teamA.bgColor1.r,ScoreboardState.teamA.bgColor1.g,ScoreboardState.teamA.bgColor1.b },
+    { ScoreboardState.teamA.bgColor2.r,ScoreboardState.teamA.bgColor2.g,ScoreboardState.teamA.bgColor2.b },
+    1, true
+  ))
+  bgTeamB = love.graphics.newMesh(gradRect:newGradRect(640, 0, 640, 720,
+    { ScoreboardState.teamB.bgColor1.r,ScoreboardState.teamB.bgColor1.g,ScoreboardState.teamB.bgColor1.b },
+    { ScoreboardState.teamB.bgColor2.r,ScoreboardState.teamB.bgColor2.g,ScoreboardState.teamB.bgColor2.b },
+    0.8, true
+  ))
+  bgTeamBName = love.graphics.newMesh(gradRect:newGradRect(680, 120, 560, 60,
+    { ScoreboardState.teamB.bgColor1.r,ScoreboardState.teamB.bgColor1.g,ScoreboardState.teamB.bgColor1.b },
+    { ScoreboardState.teamB.bgColor2.r,ScoreboardState.teamB.bgColor2.g,ScoreboardState.teamB.bgColor2.b },
+    1, true
+  ))
 end
 
 function BasketballScoreboard:update(dt)
@@ -48,12 +69,33 @@ function BasketballScoreboard:update(dt)
 end
 
 function BasketballScoreboard:draw()
+  love.graphics.draw(bgTeamA)
+  love.graphics.draw(bgTeamAName)
+  love.graphics.draw(bgTeamB)
+  love.graphics.draw(bgTeamBName)
+  
+  for _, v in ipairs(Designer.rectangles) do
+    love.graphics.setColor(v.color())
+    love.graphics.rectangle("fill", v.x, v.y, v.width, v.height)
+    love.graphics.setColor(0,0,0,0)
+  end
+  
+  for _, v in ipairs(Designer.triangles) do
+    love.graphics.setColor(v.color())
+    love.graphics.polygon("fill", v.x1, v.y1, v.x2, v.y2, v.x3, v.y3)
+    love.graphics.setColor(0,0,0,0)
+  end
+  
   for _, v in ipairs(Designer.texts) do
     love.graphics.setFont(v.font())
     love.graphics.setColor(v.color())
     love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
     love.graphics.setColor(0,0,0,0)
   end
+  
+  
+  
+  
 end
 
 function BasketballScoreboard:keypressed(key, scancode, isrepeat)
@@ -108,12 +150,12 @@ function BasketballScoreboard:keypressed(key, scancode, isrepeat)
       end
     end
   elseif key == Controls.bb.ballPossTeamA then
-    if ScoreboardState.teamA.ballPoss == true then
-      ScoreboardState.teamA.ballPoss = false
+    if ScoreboardState.teamA.bbBallPoss == true then
+      ScoreboardState.teamA.bbBallPoss = false
     else
-      ScoreboardState.teamA.ballPoss = true
+      ScoreboardState.teamA.bbBallPoss = true
     end
-    ScoreboardState.teamB.ballPoss = false
+    ScoreboardState.teamB.bbBallPoss = false
   end
   
   if key == Controls.bb.scoreTeamB then
@@ -147,14 +189,25 @@ function BasketballScoreboard:keypressed(key, scancode, isrepeat)
       end
     end
   elseif key == Controls.bb.ballPossTeamB then
-    if ScoreboardState.teamB.ballPoss == true then
-      ScoreboardState.teamB.ballPoss = false
+    if ScoreboardState.teamB.bbBallPoss == true then
+      ScoreboardState.teamB.bbBallPoss = false
     else
-      ScoreboardState.teamB.ballPoss = true
+      ScoreboardState.teamB.bbBallPoss = true
     end
-    ScoreboardState.teamA.ballPoss = false
+    ScoreboardState.teamA.bbBallPoss = false
   end
   
+  if love.keyboard.isDown(Controls.bb.hornSound) then
+    ScoreboardState.isHornSoundPlaying = true
+  end
+  
+end
+
+function BasketballScoreboard:keyreleased(key, scancode)
+  if key == Controls.bb.hornSound then
+    ScoreboardState.isHornSoundPlaying = false
+    -- and if the horn is playing while period timer is 0, proceed to next period
+  end
 end
 
 function BasketballScoreboard:countdownPeriodTimer()
@@ -176,6 +229,7 @@ function BasketballScoreboard:countdownPeriodTimer()
       and ScoreboardState.periodTimer.sec == 0
       and ScoreboardState.periodTimer.min == 0 then
       ScoreboardState.isPeriodTimerRunning = false
+      ScoreboardState.isHornSoundPlaying = true
     end
   end
 end
@@ -192,6 +246,7 @@ function BasketballScoreboard:countdownShotClock()
     if ScoreboardState.shotClock.dSec == 0
       and ScoreboardState.shotClock.sec == 0 then
       ScoreboardState.isShotClockRunning = false
+      ScoreboardState.isHornSoundPlaying = true
       if ScoreboardState.isPeriodTimerRunning then
         ScoreboardState.isPeriodTimerRunning = false
       end
