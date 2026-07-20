@@ -1,49 +1,36 @@
+local ScreenManager = require("ui.ScreenManager")
+local Fonts = require("ui.designs.Fonts")
+local Color = require("ui.designs.Colors")
+local ScoreboardState = require("data.ScoreboardState")
+local bbDesigner = require("ui.designs.BasketballScoreboardDesigner")
+local Controls = require("data.Controls")
 function love.load()
-  json = require("ext.rxi-json.json")
-  locale = require("data.locales.en")
-  sysFont = require("data.ui.design.FontsList")
-  color = require("data.ui.design.ColorsList")
-  scaleImage = require("data.ui.design.ScaledImage")
-  image = require("data.ui.design.ImageList")
-  drawElements = require("data.ui.design.PanelLayout")
-  local rawSettings = love.filesystem.read("data/settings.json")
-  rawValue = json.decode(rawSettings)
-  changeScreen("MainMenu")
+  love.keyboard.setKeyRepeat(true)
+  ScreenManager.changeScreen("BasketballScoreboard")
 end
 
 function love.update(dt)
-  if OnScreen.update then
-    OnScreen:update(dt)
-  end
+  ScreenManager.onDisplay:update(dt)
 end
 
 function love.draw()
-  if OnScreen.draw then
-    OnScreen:draw()
-  end
-end
-
-function changeScreen(nextScreen)
-  OnScreen = require("data.ui." .. nextScreen)
-  if OnScreen.load then 
-    OnScreen:load()
-  end
+  ScreenManager.onDisplay:draw()
 end
 
 function love.textinput(t)
-  if OnScreen.textinput then
-    OnScreen:textinput(t)
+  if ScreenManager.onDisplay.textinput then
+    ScreenManager.onDisplay:textinput(t)
   end
 end
 
 function love.mousepressed(x, y, button)
-  if OnScreen.mousepressed then
-    OnScreen:mousepressed(x, y, button)
+  if ScreenManager.onDisplay.mousepressed then
+    ScreenManager.onDisplay:mousepressed(x, y, button)
   end
 end
 
 function love.keypressed(key, scancode, isrepeat)
-  if OnScreen.keypressed then
-    OnScreen:keypressed(key, scancode, isrepeat)
+  if ScreenManager.onDisplay.keypressed then
+    ScreenManager.onDisplay:keypressed(key, scancode, isrepeat)
   end
 end
