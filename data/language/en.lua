@@ -1,9 +1,12 @@
+local ScoreboardState = require("data.ScoreboardState")
+local Controls = require("data.Controls")
+
 local languagePack = {
   tooltips = {
-    scoreboardFallback = "Welcome to Scoreboard II. To setup the scoreboard for a game, press [ESC]. For details on how to operate, move the mouse cursor to any part of the window.",
+    scoreboardFallback = "Welcome to Scoreboard II. Press [ESC] to setup a match. For details on how to use, move the mouse cursor to any part of the scoreboard.",
     matchInfo = "The name/title of the tournament or match. Click this to setup the scoreboard for a game.",
-    teamNameA = "The name of the team on the left side of the court. Click this to edit this team's info.",
-    teamNameB = "The name of the team on the right side of the court. Click this to edit this team's info.",
+    teamAName = "The name of the team on the left side of the court. Click this to edit this team name.",
+    teamBName = "The name of the team on the right side of the court. Click this to edit this team name.",
     changeCourt = {"Click here to switch the court sides of the teams. Alternatively, press [","]."},
     score = {"The total points scored by ",". Press [","] to add a point, or [Shift]+[","] to remove a point."},
     setScore = {"The total points scored by "," for this set. Press [","] to add a point, or [Shift]+[","] to remove a point."},

@@ -2,45 +2,50 @@ local ScoreboardState = require("data.ScoreboardState")
 local TextStrings = require("data.language.en")
 local Fonts = require("ui.designs.Fonts")
 local Color = require("ui.designs.Colors")
-local gradRect = require("ui.designs.GradientRectangle")
 local Designer = {
   texts = {
     -- id, text, x, y, width, align, font
     { id = "tooltip", text = function() return ScoreboardState.tooltip end,
       x = 20, y = 730, width = 1000, align = "left",
       font = function() return Fonts.tooltip end, color = function() return Color.white end },
-    { id = "matchInfo", text = function() return ScoreboardState.matchTitle end,
-      x = 40, y = 40, width = 1200, align = "center",
+    { id = "matchInfo",
+      text = function() 
+        if ScoreboardState.isTimerAdjustmentEnabled then
+          return "Adjusting Timers. Please wait..."
+        end
+        return ScoreboardState.matchTitle 
+      end,
+      x = 40, y = 50, width = 1200, align = "center",
       font = function() return Fonts.matchInfo end, color = function() return Color.black end },
     { id = "teamAName", text = function() return ScoreboardState.teamA.name end,
-      x = 40, y = 120, width = 560, align = "center",
+      x = 40, y = 130, width = 560, align = "center",
       font = function() return Fonts.matchInfo end,
       color = function() return { ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b} end },
     { id = "vsLabel", text = function() return "VS" end,
-      x = 600, y = 120, width = 80, align = "center",
+      x = 600, y = 130, width = 80, align = "center",
       font = function() return Fonts.matchInfo end, color = function() return Color.black end },
     { id = "teamBName", text = function() return ScoreboardState.teamB.name end,
-      x = 680, y = 120, width = 560, align = "center",
+      x = 680, y = 130, width = 560, align = "center",
       font = function() return Fonts.matchInfo end,
       color = function() return { ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b} end },
     { id = "teamFoulsLabel", text = function() return "Team Fouls" end,
-      x = 500, y = 420, width = 280, align = "center",
+      x = 500, y = 430, width = 280, align = "center",
       font = function() return Fonts.counterLabel end, color = function() return Color.black end },
     { id = "timeoutsLabel", text = function() return "Timeout(s) Left" end,
-      x = 500, y = 480, width = 280, align = "center",
+      x = 500, y = 490, width = 280, align = "center",
       font = function() return Fonts.counterLabel end, color = function() return Color.black end },
     { id = "teamAScore", text = function() return ScoreboardState.teamA.bbScore end,
-      x = 150, y = 200, width = 450, align = "center",
+      x = 150, y = 210, width = 450, align = "center",
       font = function() return Fonts.score end, color = function() return Color.white end },
     { id = "teamBScore", text = function() return ScoreboardState.teamB.bbScore end,
-      x = 680, y = 200, width = 450, align = "center",
+      x = 680, y = 210, width = 450, align = "center",
       font = function() return Fonts.score end, color = function() return Color.white end },
     { id = "period", text = function() return TextStrings.bbPeriod[ScoreboardState.bbPeriod] end,
-      x = 150, y = 550, width = 280, align = "center",
+      x = 150, y = 555, width = 280, align = "center",
       font = function() return Fonts.bbTimer end, color = function() return Color.white end } ,
     {
       id = "periodTimer", text = function() return ScoreboardState.periodTimer.displayText end,
-      x = 440, y = 550, width = 400, align = "center",
+      x = 440, y = 555, width = 400, align = "center",
       font = function()
         if ScoreboardState.isTimerAdjustmentEnabled then
           return Fonts.bbTimerEdit
@@ -48,15 +53,14 @@ local Designer = {
         return Fonts.bbTimer
       end,
       color = function()
-        if ScoreboardState.isTimerAdjustmentEnabled then
-          return Color.blue
+        if ScoreboardState.isPeriodTimerEnabled then return Color.black
+        else return Color.alpha
         end
-        return Color.black
       end
     },
     {
       id = "shotClock", text = function() return ScoreboardState.shotClock.displayText end,
-      x = 850, y = 550, width = 280, align = "center",
+      x = 850, y = 555, width = 280, align = "center",
       font = function()
         if ScoreboardState.isTimerAdjustmentEnabled then return Fonts.bbTimerEdit end
         return Fonts.bbTimer
@@ -108,8 +112,6 @@ local Designer = {
       end
     }
   },
-  markers = {
-  },
   tabButtons = {
   },
   rectangles = {
@@ -123,7 +125,7 @@ local Designer = {
     },
     { id = "vsLabel", x = 600, y = 120, width = 80, height = 60,
       color = function() return Color.white end },
-    { id = "teamAScore", x = 150, y = 120, width = 450, height = 200,
+    { id = "teamAScore", x = 150, y = 200, width = 450, height = 200,
       color = function() return Color.black end },
     { id = "teamBScore", x = 680, y = 200, width = 450, height = 200,
       color = function() return Color.black end },
@@ -136,7 +138,8 @@ local Designer = {
     {
       id = "periodTimer", x = 440, y = 550, width = 400, height = 130,
       color = function()
-        if ScoreboardState.isTimerAdjustmentEnabled then return Color.blue end
+        if ScoreboardState.isTimerAdjustmentEnabled then return Color.blue
+        elseif ScoreboardState.periodTimer.displayText == 0.0 then return Color.editRed end
         return Color.white
       end
     },
@@ -152,8 +155,6 @@ local Designer = {
     },
     { id = "footer", x = 0, y = 720, width = 1280, height = 80,
       color = function() return Color.footerBG end },
-  },
-  backgrounds = {
   }
 }
 

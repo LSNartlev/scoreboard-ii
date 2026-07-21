@@ -24,7 +24,9 @@ local Controls = {
       periodSec = "d",
       periodDsec = "f",
       shotSec = "j",
-      shotDsec = "k"
+      shotDsec = "k",
+      togglePeriodTimerEnabled = "space",
+      toggleShotClockEnabled = "b"
     },
   },
   ns = {

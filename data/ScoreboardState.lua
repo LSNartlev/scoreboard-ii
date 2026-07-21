@@ -3,7 +3,7 @@ local ScoreboardState = {
   tooltip = "This scoreboard is currently under development--what you see is not yet final.",
   isHornSoundPlaying = false,
   bbPeriod = 1,
-  periodTimer = { min = 10, sec = 0, dSec = 0, displayText = "10:00" },
+  periodTimer = { min = 2, sec = 0, dSec = 0, displayText = "10:00" },
   isPeriodTimerEnabled = true,
   isPeriodTimerRunning = false,
   shotClock = { sec = 24, dSec = 0, displayText = "24" },
