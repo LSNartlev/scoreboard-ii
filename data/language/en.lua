@@ -20,7 +20,8 @@ local languagePack = {
       "] to reset the shot clock to "," second(s), or [","] to reset the shot clock to "," second(s)."},
     serveClock = {"The time remaining for the player to serve. Press [","] to toggle between start/stop/hide/show the serve clock."},
     timeDisplay = "The time now is ",
-    matchWinner = {"The winner is ","! Congratulations!"},
+    matchEnd = { basketball = "The match has concluded. To setup a new match, press [ESC]. If this match is still not over, adjust the period timer to keep playing.",
+      netSport = "The match has concluded. To setup a new match, press [ESC]. If this match is still not over, roll back the scores on this set/game to keep playing." },
     setWinner = {"The winner of this set is ","! To proceed to the next set, press [","]."},
     gameWinner = {"The winner of this game is ","! To proceed to the next game, press [","]."}
   },

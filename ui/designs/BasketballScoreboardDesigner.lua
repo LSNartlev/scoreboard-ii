@@ -107,7 +107,9 @@ local Designer = {
     {
       id = "shotClock", x1 = 1100, y1 = 680, x2 = 1130, y2 = 650, x3 = 1130, y3 = 680,
       color = function()
-        if ScoreboardState.isShotClockRunning == false then return Color.red end
+        if ScoreboardState.isShotClockRunning == false and ScoreboardState.isShotClockEnabled == true then
+          return Color.red
+        end
         return Color.alpha
       end
     }
@@ -135,26 +137,26 @@ local Designer = {
       color = function() return Color.white end },
     { id = "period", x = 150, y = 550, width = 280, height = 130,
       color = function() return Color.black end },
-    {
-      id = "periodTimer", x = 440, y = 550, width = 400, height = 130,
+    { id = "periodTimer", x = 440, y = 550, width = 400, height = 130,
       color = function()
         if ScoreboardState.isTimerAdjustmentEnabled then return Color.blue
-        elseif ScoreboardState.periodTimer.displayText == 0.0 then return Color.editRed end
+        elseif ScoreboardState.periodTimer.displayText == "0.0" then return Color.red
+        elseif (ScoreboardState.periodTimer.min*60 + ScoreboardState.periodTimer.sec +
+          ScoreboardState.periodTimer.dSec/10) <= 120.9 and ScoreboardState.bbPeriod >= 4 then
+          return Color.yellow
+        end
         return Color.white
       end
     },
     {
       id = "shotClock", x = 850, y = 550, width = 280, height = 130,
       color = function()
-        if ScoreboardState.isTimerAdjustmentEnabled then return Color.black
-        elseif ScoreboardState.shotClock.displayText == "0.0" then return Color.red
-        elseif ScoreboardState.isShotClockEnabled then return Color.black
-        else return Color.alpha
-        end
+        if ScoreboardState.shotClock.displayText == "0.0" then return Color.red end
+        return Color.black
       end
     },
     { id = "footer", x = 0, y = 720, width = 1280, height = 80,
-      color = function() return Color.footerBG end },
+      color = function() return Color.footerBG end }
   }
 }
 

@@ -17,8 +17,6 @@ local Controls = {
     nextPeriod = "f4",
     changeCourt = "return",
     toggleTimerAdjust = "f2",
-    showControls = "f1",
-    newGame = "f5",
     timerAdjust = {
       periodMin = "s",
       periodSec = "d",
@@ -40,14 +38,56 @@ local Controls = {
     hornSound = "backspace",
     prevPeriod = "f3",
     nextPeriod = "f4",
-    changeCourt = "return",
-    showControls = "f1",
-    newGame = "f5",
+    changeCourt = "return"
   },
   matchSetup = "escape",
+  showControls = "f1",
   changeScoreboardType = "f9",
   toSettings = "f10",
-  toAbout = "f11"
+  toAbout = "f11",
+  defaults = {
+    bb = {
+      scoreTeamA = "f",
+      foulTeamA = "d",
+      timeoutTeamA = "s",
+      ballPossTeamA = "a",
+      scoreTeamB = "j",
+      foulTeamB = "k",
+      timeoutTeamB = "l",
+      ballPossTeamB = ";",
+      togglePeriodTimer = "space",
+      toggleShotClock = "b",
+      resetShotClockFull = "n",
+      resetShotClockShort = "v",
+      hornSound = "backspace",
+      prevPeriod = "f3",
+      nextPeriod = "f4",
+      changeCourt = "return",
+      toggleTimerAdjust = "f2",
+      timerAdjust = {
+        periodMin = "s",
+        periodSec = "d",
+        periodDsec = "f",
+        shotSec = "j",
+        shotDsec = "k",
+        togglePeriodTimerEnabled = "space",
+        toggleShotClockEnabled = "b"
+      },
+    },
+    ns = {
+      scoreTeamA = "f",
+      serveTeamA = "d",
+      timeoutTeamA = "s",
+      scoreTeamB = "j",
+      serveTeamB = "k",
+      timeoutTeamB = "l",
+      togglePeriodClock = "space",
+      hornSound = "backspace",
+      prevPeriod = "f3",
+      nextPeriod = "f4",
+      changeCourt = "return"
+    }
+  }
 }
 
 return Controls

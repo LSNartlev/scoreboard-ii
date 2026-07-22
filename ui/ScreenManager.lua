@@ -1,7 +1,8 @@
 local ScreenManager = {}
 
 local screens = {
-  BasketballScoreboard = require("ui.screens.BasketballScoreboard")
+  BasketballScoreboard = require("ui.screens.BasketballScoreboard"),
+  MatchSetup = require("ui.screens.MatchSetup")
 }
 
 ScreenManager.onDisplay = nil

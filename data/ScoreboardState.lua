@@ -18,11 +18,11 @@ local ScoreboardState = {
     bb = {
       maxPeriods = 4,
       periodTimer = { enabled = true, reset = 10 },
-      overtime = { min = 5 },
+      overtime = { reset = 5 },
       shotClock = { enabled = true, resetFull = 24, resetShort = 14 },
       maxTeamFouls = 5,
       maxTimeouts = 3,
-      givenTimeouts = { 2, 0, 3, 0, 1 },
+      givenTimeouts = { 1, 1, 1, 2, 1 },
       isTimeoutCarryover = { true, false, true, false, false }
     },
     ns = {
