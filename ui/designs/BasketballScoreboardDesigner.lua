@@ -66,10 +66,10 @@ local Designer = {
         return Fonts.bbTimer
       end,
       color = function()
-        if ScoreboardState.isTimerAdjustmentEnabled then return Color.blue
+        if ScoreboardState.isShotClockEnabled == false then return Color.alpha
         elseif ScoreboardState.shotClock.displayText == "0.0" then return Color.black
-        elseif ScoreboardState.isShotClockEnabled then return Color.red
-        else return Color.alpha
+        elseif ScoreboardState.isTimerAdjustmentEnabled then return Color.blue
+        else return Color.red
         end
       end
     }
@@ -93,14 +93,16 @@ local Designer = {
     {
       id = "period", x1 = 400, y1 = 680, x2 = 430, y2 = 650, x3 = 430, y3 = 680,
       color = function()
-        if ScoreboardState.isHornSoundPlaying then return Color.yellow end
+        if ScoreboardState.isHornSoundPlaying then return Color.white end
         return Color.alpha
       end
     },
     {
       id = "periodTimer", x1 = 810, y1 = 680, x2 = 840, y2 = 650, x3 = 840, y3 = 680,
       color = function()
-        if ScoreboardState.isPeriodTimerRunning == false then return Color.red end
+        if ScoreboardState.isPeriodTimerEnabled == false then return Color.alpha 
+        elseif ScoreboardState.isPeriodTimerRunning == false then return Color.red
+        end
         return Color.alpha
       end
     },

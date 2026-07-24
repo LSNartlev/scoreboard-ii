@@ -1,6 +1,6 @@
 --[[
   HSL to RGB Converter by Taehl
-  code snippet from https://love2d.org/wiki/HSL_color
+  Source: https://love2d.org/wiki/HSL_color
 ]]
 function HSL(h, s, l, a)
 	if s<=0 then return l,l,l,a end
