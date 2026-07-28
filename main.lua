@@ -1,12 +1,13 @@
 local ScreenManager = require("ui.ScreenManager")
 local Fonts = require("ui.designs.Fonts")
 local Color = require("ui.designs.Colors")
+local Icons = require("ui.designs.Icons")
 local ScoreboardState = require("data.ScoreboardState")
 local bbDesigner = require("ui.designs.BasketballScoreboardDesigner")
 local Controls = require("data.Controls")
 function love.load()
   love.keyboard.setKeyRepeat(true)
-  ScreenManager.changeScreen("BasketballScoreboard")
+  ScreenManager.changeScreen("MatchSetup")
 end
 
 function love.update(dt)
@@ -20,6 +21,12 @@ end
 function love.textinput(t)
   if ScreenManager.onDisplay.textinput then
     ScreenManager.onDisplay:textinput(t)
+  end
+end
+
+function love.mousemoved(x, y, dx, dy, istouch)
+  if ScreenManager.onDisplay.mousemoved then
+    ScreenManager.onDisplay:mousemoved(x, y, dx, dy, istouch)
   end
 end
 

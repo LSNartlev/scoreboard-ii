@@ -3,6 +3,7 @@ local ScoreboardState = require("data.ScoreboardState")
 local Designer = require("ui.designs.BasketballScoreboardDesigner")
 local Color = require("ui.designs.Colors")
 local Fonts = require("ui.designs.Fonts")
+local Icons = require("ui.designs.Icons")
 local Lang = require("data.language.en")
 local Controls = require("data.Controls")
 local gradRect = require("ui.designs.GradientMesh")
@@ -27,6 +28,9 @@ function BasketballScoreboard:load()
   pointDiff = 0
   scoreAnim = { teamA = 0, teamB = 0 }
   isMatchOver = false
+  for _, v in ipairs(Icons) do
+    v:setFilter("linear", "linear")
+  end
 end
 
 function BasketballScoreboard:update(dt)
@@ -133,8 +137,19 @@ function BasketballScoreboard:draw()
   for _, v in ipairs(Designer.texts) do
     love.graphics.setFont(v.font())
     love.graphics.setColor(v.color())
+    if v.id == "teamAName" or v.id == "teamBName" then
+      love.graphics.setScissor(v.x, v.y, v.width, 40)
+    end
     love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
+    love.graphics.setScissor()
     love.graphics.setColor(1,1,1,1)
+  end
+  
+  for _, v in ipairs(Designer.tabButtons) do
+    love.graphics.setColor(v.color())
+    love.graphics.rectangle("fill", v.x, v.y, v.width, v.height)
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.draw(v.icon(), v.x, v.y+10, 0, 60/v.icon():getWidth(), 60/v.icon():getHeight())
   end
   
   if scoreAnim.teamA > 0 or scoreAnim.teamB > 0 or isMatchOver then
@@ -164,13 +179,19 @@ function BasketballScoreboard:regularKeyAction(key)
   if key == Controls.bb.togglePeriodTimer then
     if ScoreboardState.isPeriodTimerRunning then 
       ScoreboardState.isPeriodTimerRunning = false
+      if ScoreboardState.isShotClockRunning then
+        ScoreboardState.isShotClockRunning = false
+      end
     elseif ScoreboardState.isPeriodTimerEnabled then
       ScoreboardState.isPeriodTimerRunning = true
+      if ScoreboardState.isShotClockEnabled then
+        ScoreboardState.isShotClockRunning = true
+      end
     end
   elseif key == Controls.bb.toggleShotClock then
     if ScoreboardState.isShotClockRunning then 
       ScoreboardState.isShotClockRunning = false
-    elseif ScoreboardState.isShotClockEnabled then
+    elseif ScoreboardState.isShotClockEnabled and ScoreboardState.isPeriodTimerRunning then
       ScoreboardState.isShotClockRunning = true
     end
   elseif key == Controls.bb.resetShotClockShort then
@@ -294,6 +315,7 @@ function BasketballScoreboard:regularKeyAction(key)
     ScoreboardState.isPeriodTimerRunning = false
     ScoreboardState.isShotClockRunning = false
     ScoreboardState.isTimerAdjustmentEnabled = true
+    ScoreboardState.tooltip = Lang.bbScoreboard.timerAdjustment
   end
 end
 

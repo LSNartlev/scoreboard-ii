@@ -3,7 +3,7 @@ local font = {
   tooltip = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Medium.ttf", 14),
   
   -- Uniform font size on Settings screens
-  settings = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Medium.ttf", 20),
+  config = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Medium.ttf", 20),
   -- NOTE: Header Text of Settings screens shall also use font.matchInfo
   
   -- Scoreboard font sizes

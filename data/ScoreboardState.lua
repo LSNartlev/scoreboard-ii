@@ -1,6 +1,8 @@
 local ScoreboardState = {
   matchTitle = "Scoreboard II",
-  tooltip = "This scoreboard is currently under development--what you see is not yet final.",
+  tooltip = "",
+  onDisplay = "BasketballScoreboard",
+  onEdit = { id = "", value = nil },
   isHornSoundPlaying = false,
   bbPeriod = 1,
   periodTimer = { min = 10, sec = 0, dSec = 0, displayText = "10:00" },
@@ -34,6 +36,10 @@ local ScoreboardState = {
       advantage = 2,
       advantageLast = 2,
       serveTimer = { enabled = true, reset = 8 }
+    },
+    tabs = {
+      activeTab = "matchSetup",
+      isSelectable = true
     }
   },
   teamA = {
