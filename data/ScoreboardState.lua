@@ -1,16 +1,16 @@
 local ScoreboardState = {
-  matchTitle = "Scoreboard II",
+  matchTitle = ".: Scoreboard II :.",
+  matchStatus = 0, -- cycle between {0, 1, 2}: 0 = new match, 1 = default, 2 = resume match from other screens
   tooltip = "",
   onDisplay = "BasketballScoreboard",
-  onEdit = { id = "", value = nil },
+  onEdit = { id = "", value = "" },
   onMouseFocus = "",
-  isNewGame = true
   isHornSoundPlaying = false,
   bbPeriod = 1,
-  periodTimer = { min = 10, sec = 0, dSec = 0, displayText = "10:00" },
+  periodTimer = { min = 0, sec = 0, dSec = 1, displayText = "" },
   isPeriodTimerEnabled = true,
   isPeriodTimerRunning = false,
-  shotClock = { sec = 24, dSec = 0, displayText = "24" },
+  shotClock = { sec = 0, dSec = 1, displayText = "" },
   isShotClockEnabled = true,
   isShotClockRunning = false,
   isTimerAdjustmentEnabled = false,

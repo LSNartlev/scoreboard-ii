@@ -39,6 +39,20 @@ function MatchSetup:draw()
     love.graphics.setColor(1,1,1,1)
     love.graphics.draw(v.icon(), v.x, v.y+10, 0, 60/v.icon():getWidth(), 60/v.icon():getHeight())
   end
+  
+  love.graphics.draw(teamAColors.mesh, 400, 205, 0, 260, 260)
+  love.graphics.draw(teamBColors.mesh, 860, 205, 0, 260, 260)
+  
+  for _, v in ipairs(Designer.texts) do
+    love.graphics.setFont(v.font)
+    love.graphics.setColor(v.color())
+    if v.id == "matchTitle" or v.id == "teamAName" or v.id == "teamBName" then
+      love.graphics.setScissor(v.x, v.y, v.width, 30)
+    end
+    love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
+    love.graphics.setScissor()
+    love.graphics.setColor(1,1,1,1)
+  end
 end
 
 function MatchSetup:keypressed(key, scancode, isrepeat)
@@ -50,7 +64,8 @@ function MatchSetup:textinput()
 end
 
 function MatchSetup:mousepressed(x, y, button)
-  
+  ScoreboardState.onDisplay = "BasketballScoreboard"
+  ScreenManager.changeScreen("BasketballScoreboard")
 end
 
 return MatchSetup

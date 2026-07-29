@@ -5,7 +5,7 @@ local Color = require("ui.designs.Colors")
 local Icons = require("ui.designs.Icons")
 local Designer = {
   texts = {
-    -- id, text, x, y, width, align, font
+    -- id, text, x, y, width, align, font, color
     { id = "tooltip", text = function() return ScoreboardState.tooltip end,
       x = 20, y = 730, width = 1000, align = "left",
       font = function() return Fonts.tooltip end, color = function() return Color.white end },
@@ -21,14 +21,20 @@ local Designer = {
     { id = "teamAName", text = function() return ScoreboardState.teamA.name end,
       x = 40, y = 130, width = 560, align = "center",
       font = function() return Fonts.matchInfo end,
-      color = function() return { ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b} end },
+      color = function()
+        local r, g, b = ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b
+        return { r, g, b }
+      end },
     { id = "vsLabel", text = function() return "VS" end,
       x = 600, y = 130, width = 80, align = "center",
       font = function() return Fonts.matchInfo end, color = function() return Color.black end },
     { id = "teamBName", text = function() return ScoreboardState.teamB.name end,
       x = 680, y = 130, width = 560, align = "center",
       font = function() return Fonts.matchInfo end,
-      color = function() return { ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b} end },
+      color = function()
+        local r, g, b = ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b
+        return { r, g, b }
+      end },
     { id = "teamFoulsLabel", text = function() return "Team Fouls" end,
       x = 500, y = 430, width = 280, align = "center",
       font = function() return Fonts.counterLabel end, color = function() return Color.black end },

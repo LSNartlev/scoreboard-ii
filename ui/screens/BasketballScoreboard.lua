@@ -29,9 +29,6 @@ function BasketballScoreboard:load()
   }
   pointDiff = 0
   scoreAnim = { teamA = 0, teamB = 0 }
-  if ScoreboardState.isNewGame then
-    BasketballScoreboard:prepareNextPeriod()
-  end
   isMatchOver = false
   for _, v in ipairs(Icons) do
     v:setFilter("linear", "linear")
@@ -163,12 +160,22 @@ function BasketballScoreboard:draw()
 end
 
 function BasketballScoreboard:mousemoved(x, y, dx, dy, istouch)
-  ScoreboardState.tooltip = Lang.tooltips.scoreboardFallback
+  if ScoreboardState.isTimerAdjustmentEnabled then
+    ScoreboardState.tooltip = Lang.bbScoreboard.timerAdjustment
+  else
+    ScoreboardState.tooltip = Lang.tooltips.scoreboardFallback
+  end
   for _,v in ipairs(Designer.mouseBounds) do
     if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
       ScoreboardState.onMouseFocus = v.id
-      ScoreboardState.tooltip = Lang.bbScoreboard[ScoreboardState.onMouseFocus]
-      break
+      if ScoreboardState.isTimerAdjustmentEnabled then
+        if Lang.bbScoreboard.timerAdjustmentMode[ScoreboardState.onMouseFocus] then
+          ScoreboardState.tooltip = Lang.bbScoreboard.timerAdjustmentMode[ScoreboardState.onMouseFocus]
+        end
+      else 
+        ScoreboardState.tooltip = Lang.bbScoreboard[ScoreboardState.onMouseFocus]
+        break
+      end
     end
   end
 end
@@ -339,6 +346,8 @@ function BasketballScoreboard:regularKeyAction(key)
     ScoreboardState.onDisplay = "MatchSetup"
     ScreenManager.changeScreen("MatchSetup")
   end
+  
+  ScoreboardState.matchStatus = 1
 end
 
 function BasketballScoreboard:timerAdjustmentAction(key)
@@ -464,16 +473,24 @@ function BasketballScoreboard:timerAdjustmentAction(key)
   end
 end
 
-function BasketballScoreboard:prepareNextPeriod()
+function BasketballScoreboard:prepareNextPeriod(matchStatus)
+  --TODO: It doesn't work properly when shifting screens.
   local prevPeriod = ScoreboardState.bbPeriod
-  if ScoreboardState.isNewGame then
+  if matchStatus == 0 then
     ScoreboardState.teamA.bbScore = 0
     ScoreboardState.teamB.bbScore = 0
     ScoreboardState.teamA.bbBallPoss = false
     ScoreboardState.teamB.bbBallPoss = false
-    ScoreboardState.isNewGame = false
-  end
-  if ScoreboardState.teamA.bbScore == ScoreboardState.teamB.bbScore or ScoreboardState.bbPeriod < 4 then
+    ScoreboardState.teamA.bbTimeouts = ScoreboardState.config.bb.givenTimeouts[prevPeriod]
+    ScoreboardState.teamB.bbTimeouts = ScoreboardState.config.bb.givenTimeouts[prevPeriod]
+    ScoreboardState.periodTimer.min = ScoreboardState.config.bb.periodTimer.reset
+    ScoreboardState.periodTimer.sec = 0
+    ScoreboardState.periodTimer.dSec = 0
+    ScoreboardState.isShotClockEnabled = true
+    ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetFull
+    ScoreboardState.shotClock.dSec = 0
+    ScoreboardState.matchStatus = 1
+  elseif matchStatus == 1 and (ScoreboardState.teamA.bbScore == ScoreboardState.teamB.bbScore or ScoreboardState.bbPeriod < 4) then
     ScoreboardState.bbPeriod = ScoreboardState.bbPeriod + 1
     ScoreboardState.periodTimer.min = ScoreboardState.config.bb.periodTimer.reset
     if ScoreboardState.bbPeriod == 5 then
@@ -487,11 +504,11 @@ function BasketballScoreboard:prepareNextPeriod()
     ScoreboardState.isShotClockEnabled = true
     ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetFull
     ScoreboardState.shotClock.dSec = 0
-  else
+  elseif matchStatus == 1 and ScoreboardState.teamA.bbScore ~= ScoreboardState.teamB.bbScore and ScoreboardState.bbPeriod >= 4 then
     isMatchOver = true
     ScoreboardState.isShotClockEnabled = false
   end
-  if isMatchOver == false then
+  if matchStatus == 1 and isMatchOver == false then
     if ScoreboardState.config.bb.isTimeoutCarryover[prevPeriod] then
       ScoreboardState.teamA.bbTimeouts = ScoreboardState.teamA.bbTimeouts
         + ScoreboardState.config.bb.givenTimeouts[ScoreboardState.bbPeriod]
@@ -645,6 +662,7 @@ function BasketballScoreboard:attemptExitScreen()
   ScoreboardState.isPeriodTimerRunning = false
   ScoreboardState.isShotClockRunning = false
   ScoreboardState.isHornSoundPlaying = false
+  ScoreboardState.matchStatus = 2
   hornSound:stop()
 end
 
