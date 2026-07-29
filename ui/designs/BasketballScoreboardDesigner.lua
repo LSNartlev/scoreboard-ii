@@ -119,26 +119,26 @@ local Designer = {
   },
   tabButtons = {
     {
-      id = "bbTab", x = 1030, y = 720, width = 60, height = 70, icon = function() return Icons.basketball end,
+      id = "bbTab", x = 1030, y = 720, width = 60, height = 80, icon = function() return Icons.basketball end,
       color = function() return Color.tabButton.bg.active end
     },
     {
-      id = "nsTab", x = 1090, y = 720, width = 60, height = 70, icon = function() 
+      id = "nsTab", x = 1090, y = 720, width = 60, height = 80, icon = function() 
         local sec = os.date("*t").sec
         if sec % 4 == 0 then return Icons.volleyball
         elseif sec % 4 == 1 then return Icons.badminton
         elseif sec % 4 == 2 then return Icons.tabletennis
         else return Icons.pickleball end
       end,
-      color = function() return Color.alpha end
+      color = function() return Color.textField.bg.enabled end
     },
     {
-      id = "configTab", x = 1150, y = 720, width = 60, height = 70, icon = function() return Icons.config end,
-      color = function() return Color.alpha end
+      id = "configTab", x = 1150, y = 720, width = 60, height = 80, icon = function() return Icons.config end,
+      color = function() return Color.textField.bg.enabled end
     },
     {
-      id = "aboutTab", x = 1210, y = 720, width = 60, height = 70, icon = function() return Icons.about end,
-      color = function() return Color.alpha end
+      id = "aboutTab", x = 1210, y = 720, width = 60, height = 80, icon = function() return Icons.about end,
+      color = function() return Color.textField.bg.enabled end
     },
   },
   rectangles = {
@@ -198,9 +198,10 @@ local Designer = {
     { id = "period", x1 = 150, y1 = 550, x2 = 430, y2 = 680 },
     { id = "periodTimer", x1 = 440, y1 = 550, x2 = 840, y2 = 680 },
     { id = "shotClock", x1 = 850, y1 = 550, x2 = 1130, y2 = 680 },
-    { id = "toNetSport", x1 = 40, y1 = 40, x2 = 1240, y2 = 100 },
-    { id = "toConfig", x1 = 40, y1 = 40, x2 = 1240, y2 = 100 },
-    { id = "toAbout", x1 = 40, y1 = 40, x2 = 1240, y2 = 100 }
+    { id = "bbTab", x1 = 1030, y1 = 720, x2 = 1090, y2 = 800 },
+    { id = "nsTab", x1 = 1090, y1 = 720, x2 = 1150, y2 = 800 },
+    { id = "configTab", x1 = 1150, y1 = 720, x2 = 1210, y2 = 800 },
+    { id = "aboutTab", x1 = 1210, y1 = 720, x2 = 1270, y2 = 800 }
   }
 }
 

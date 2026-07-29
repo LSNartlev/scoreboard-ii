@@ -1,4 +1,5 @@
 local BasketballScoreboard = {}
+local ScreenManager = require("ui.ScreenManager")
 local ScoreboardState = require("data.ScoreboardState")
 local Designer = require("ui.designs.BasketballScoreboardDesigner")
 local Color = require("ui.designs.Colors")
@@ -12,6 +13,7 @@ local teamAColors, teamBColors
 local animatedBg, pointDiff, scoreAnim, isMatchOver
 
 function BasketballScoreboard:load()
+  ScoreboardState.onDisplay = "BasketballScoreboard"
   ScoreboardState.tooltip = Lang.tooltips.scoreboardFallback
   hornSound = love.audio.newSource("assets/horn.wav", "static")
   hornSound:setLooping(true)
@@ -27,6 +29,9 @@ function BasketballScoreboard:load()
   }
   pointDiff = 0
   scoreAnim = { teamA = 0, teamB = 0 }
+  if ScoreboardState.isNewGame then
+    BasketballScoreboard:prepareNextPeriod()
+  end
   isMatchOver = false
   for _, v in ipairs(Icons) do
     v:setFilter("linear", "linear")
@@ -154,6 +159,17 @@ function BasketballScoreboard:draw()
   
   if scoreAnim.teamA > 0 or scoreAnim.teamB > 0 or isMatchOver then
     self:drawScoreAnimation()
+  end
+end
+
+function BasketballScoreboard:mousemoved(x, y, dx, dy, istouch)
+  ScoreboardState.tooltip = Lang.tooltips.scoreboardFallback
+  for _,v in ipairs(Designer.mouseBounds) do
+    if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
+      ScoreboardState.onMouseFocus = v.id
+      ScoreboardState.tooltip = Lang.bbScoreboard[ScoreboardState.onMouseFocus]
+      break
+    end
   end
 end
 
@@ -317,6 +333,12 @@ function BasketballScoreboard:regularKeyAction(key)
     ScoreboardState.isTimerAdjustmentEnabled = true
     ScoreboardState.tooltip = Lang.bbScoreboard.timerAdjustment
   end
+  
+  if key == "escape" then
+    BasketballScoreboard:attemptExitScreen()
+    ScoreboardState.onDisplay = "MatchSetup"
+    ScreenManager.changeScreen("MatchSetup")
+  end
 end
 
 function BasketballScoreboard:timerAdjustmentAction(key)
@@ -338,6 +360,10 @@ function BasketballScoreboard:timerAdjustmentAction(key)
     if love.keyboard.isDown("lshift","rshift") then
       if ScoreboardState.periodTimer.min > 0 then
         ScoreboardState.periodTimer.min = ScoreboardState.periodTimer.min - 1
+        if ScoreboardState.periodTimer.min == 0 and ScoreboardState.periodTimer.sec == 0
+          and ScoreboardState.periodTimer.dSec == 0 then
+          ScoreboardState.periodTimer.dSec = 1
+        end
       end
     else
       if ScoreboardState.periodTimer.min < 99 then
@@ -348,6 +374,10 @@ function BasketballScoreboard:timerAdjustmentAction(key)
     if love.keyboard.isDown("lshift","rshift") then
       if ScoreboardState.periodTimer.sec > 0 then
         ScoreboardState.periodTimer.sec = ScoreboardState.periodTimer.sec - 1
+        if ScoreboardState.periodTimer.min == 0 and ScoreboardState.periodTimer.sec == 0
+          and ScoreboardState.periodTimer.dSec == 0 then
+          ScoreboardState.periodTimer.dSec = 1
+        end
       elseif ScoreboardState.periodTimer.min > 0 then
         ScoreboardState.periodTimer.min = ScoreboardState.periodTimer.min - 1
         ScoreboardState.periodTimer.sec = 59
@@ -364,6 +394,10 @@ function BasketballScoreboard:timerAdjustmentAction(key)
     if love.keyboard.isDown("lshift","rshift") then
       if ScoreboardState.periodTimer.dSec > 0 then
         ScoreboardState.periodTimer.dSec = ScoreboardState.periodTimer.dSec - 1
+        if ScoreboardState.periodTimer.min == 0 and ScoreboardState.periodTimer.sec == 0
+          and ScoreboardState.periodTimer.dSec == 0 then
+          ScoreboardState.periodTimer.dSec = 1
+        end
       elseif ScoreboardState.periodTimer.sec > 0 then
         ScoreboardState.periodTimer.sec = ScoreboardState.periodTimer.sec - 1
         ScoreboardState.periodTimer.dSec = 9
@@ -390,6 +424,9 @@ function BasketballScoreboard:timerAdjustmentAction(key)
     if love.keyboard.isDown("lshift","rshift") then
       if ScoreboardState.shotClock.sec > 0 then
         ScoreboardState.shotClock.sec = ScoreboardState.shotClock.sec - 1
+        if ScoreboardState.shotClock.sec == 0 and ScoreboardState.shotClock.dSec == 0 then
+          ScoreboardState.shotClock.dSec = 1
+        end
       end
     else
       if ScoreboardState.shotClock.sec < 99 then
@@ -400,6 +437,9 @@ function BasketballScoreboard:timerAdjustmentAction(key)
     if love.keyboard.isDown("lshift","rshift") then
       if ScoreboardState.shotClock.dSec > 0 then
         ScoreboardState.shotClock.dSec = ScoreboardState.shotClock.dSec - 1
+        if ScoreboardState.shotClock.sec == 0 and ScoreboardState.shotClock.dSec == 0 then
+          ScoreboardState.shotClock.dSec = 1
+        end
       elseif ScoreboardState.shotClock.sec > 0 then
         ScoreboardState.shotClock.sec = ScoreboardState.shotClock.sec - 1
         ScoreboardState.shotClock.dSec = 9
@@ -425,8 +465,34 @@ function BasketballScoreboard:timerAdjustmentAction(key)
 end
 
 function BasketballScoreboard:prepareNextPeriod()
+  local prevPeriod = ScoreboardState.bbPeriod
+  if ScoreboardState.isNewGame then
+    ScoreboardState.teamA.bbScore = 0
+    ScoreboardState.teamB.bbScore = 0
+    ScoreboardState.teamA.bbBallPoss = false
+    ScoreboardState.teamB.bbBallPoss = false
+    ScoreboardState.isNewGame = false
+  end
+  if ScoreboardState.teamA.bbScore == ScoreboardState.teamB.bbScore or ScoreboardState.bbPeriod < 4 then
+    ScoreboardState.bbPeriod = ScoreboardState.bbPeriod + 1
+    ScoreboardState.periodTimer.min = ScoreboardState.config.bb.periodTimer.reset
+    if ScoreboardState.bbPeriod == 5 then
+      ScoreboardState.periodTimer.min = ScoreboardState.config.bb.overtime.reset
+    else
+      ScoreboardState.teamA.bbTeamFouls = 0
+      ScoreboardState.teamB.bbTeamFouls = 0
+    end
+    ScoreboardState.periodTimer.sec = 0
+    ScoreboardState.periodTimer.dSec = 0
+    ScoreboardState.isShotClockEnabled = true
+    ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetFull
+    ScoreboardState.shotClock.dSec = 0
+  else
+    isMatchOver = true
+    ScoreboardState.isShotClockEnabled = false
+  end
   if isMatchOver == false then
-    if ScoreboardState.config.bb.isTimeoutCarryover[ScoreboardState.bbPeriod] then
+    if ScoreboardState.config.bb.isTimeoutCarryover[prevPeriod] then
       ScoreboardState.teamA.bbTimeouts = ScoreboardState.teamA.bbTimeouts
         + ScoreboardState.config.bb.givenTimeouts[ScoreboardState.bbPeriod]
       ScoreboardState.teamB.bbTimeouts = ScoreboardState.teamB.bbTimeouts
@@ -435,26 +501,7 @@ function BasketballScoreboard:prepareNextPeriod()
       ScoreboardState.teamA.bbTimeouts = ScoreboardState.config.bb.givenTimeouts[ScoreboardState.bbPeriod]
       ScoreboardState.teamB.bbTimeouts = ScoreboardState.config.bb.givenTimeouts[ScoreboardState.bbPeriod]
     end
-    ScoreboardState.isShotClockEnabled = true 
   end
-  if ScoreboardState.bbPeriod < 4 then
-    ScoreboardState.bbPeriod = ScoreboardState.bbPeriod + 1
-    ScoreboardState.periodTimer.min = ScoreboardState.config.bb.periodTimer.reset
-    ScoreboardState.periodTimer.dSec = 0
-    ScoreboardState.teamA.bbTeamFouls = 0
-    ScoreboardState.teamB.bbTeamFouls = 0
-  elseif ScoreboardState.bbPeriod >= 4 then
-    if ScoreboardState.teamA.bbScore > ScoreboardState.teamB.bbScore or
-      ScoreboardState.teamA.bbScore < ScoreboardState.teamB.bbScore then
-      isMatchOver = true
-    else
-      ScoreboardState.bbPeriod = 5
-      ScoreboardState.periodTimer.min = ScoreboardState.config.bb.overtime.reset
-      ScoreboardState.periodTimer.dSec = 0
-    end
-  end
-  ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetFull
-  ScoreboardState.shotClock.dSec = 0
 end
 
 function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
@@ -558,6 +605,10 @@ function BasketballScoreboard:countdownPeriodTimer()
       and ScoreboardState.periodTimer.sec == 0
       and ScoreboardState.periodTimer.min == 0 then
       ScoreboardState.isPeriodTimerRunning = false
+      -- force the shot clock empty to make the empty shot clock box lit red as well
+      ScoreboardState.shotClock.dSec = 0
+      ScoreboardState.shotClock.sec = 0
+      ScoreboardState.isShotClockRunning = false
       ScoreboardState.isHornSoundPlaying = true
       hornSound:setVolume(1)
     end

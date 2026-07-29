@@ -1,9 +1,6 @@
 local ScreenManager = {}
 
-local screens = {
-  BasketballScoreboard = require("ui.screens.BasketballScoreboard"),
-  MatchSetup = require("ui.screens.MatchSetup")
-}
+local screens = {}
 
 ScreenManager.onDisplay = nil
 
@@ -11,6 +8,10 @@ function ScreenManager.changeScreen(nextScreen)
   -- Stop running timers and playing sounds before proceeding to next screen
   if ScreenManager.onDisplay and ScreenManager.onDisplay.attemptExitScreen then
     ScreenManager.onDisplay:attemptExitScreen()
+  end
+  
+  if not screens[nextScreen] then
+    screens[nextScreen] = require("ui.screens." .. nextScreen)
   end
   
   ScreenManager.onDisplay = screens[nextScreen]

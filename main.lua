@@ -7,7 +7,7 @@ local bbDesigner = require("ui.designs.BasketballScoreboardDesigner")
 local Controls = require("data.Controls")
 function love.load()
   love.keyboard.setKeyRepeat(true)
-  ScreenManager.changeScreen("MatchSetup")
+  ScreenManager.changeScreen("BasketballScoreboard")
 end
 
 function love.update(dt)

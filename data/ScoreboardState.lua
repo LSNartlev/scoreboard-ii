@@ -3,6 +3,8 @@ local ScoreboardState = {
   tooltip = "",
   onDisplay = "BasketballScoreboard",
   onEdit = { id = "", value = nil },
+  onMouseFocus = "",
+  isNewGame = true
   isHornSoundPlaying = false,
   bbPeriod = 1,
   periodTimer = { min = 10, sec = 0, dSec = 0, displayText = "10:00" },
@@ -49,11 +51,11 @@ local ScoreboardState = {
     fgColor = { r = 255/255, g = 255/255, b = 255/255 },
     bbScore = 0,
     bbTeamFouls = 0,
-    bbTimeouts = 1,
+    bbTimeouts = 0,
     bbBallPoss = false,
     nsScores = { 0, 0, 0, 0, 0, 0, 0 },
     nsSetWins = 0,
-    nsTimeouts = 2,
+    nsTimeouts = 0,
     nsBallServe = false
   },
   teamB = {
@@ -63,11 +65,11 @@ local ScoreboardState = {
     fgColor = { r = 255/255, g = 255/255, b = 255/255 },
     bbScore = 0,
     bbTeamFouls = 0,
-    bbTimeouts = 1,
+    bbTimeouts = 0,
     bbBallPoss = false,
     nsScores = { 0, 0, 0, 0, 0, 0, 0 },
     nsSetWins = 0,
-    nsTimeouts = 2,
+    nsTimeouts = 0,
     nsBallServe = false
   }
 }
