@@ -91,6 +91,8 @@ function MatchSetup:mousemoved(x, y, dx, dy, istouch)
         ScoreboardState.tooltip = Lang.matchSetup.onEdit
       end
       -- if textfield or button, change to focus color
+    else
+      ScoreboardState.onMouseFocus = ""
     end
   end
 end

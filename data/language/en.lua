@@ -72,8 +72,8 @@ local languagePack = {
     toNetSport = "Save this match setup and proceed to the net sport match.\nChoose whether to resume the current match with this setup or start a new match.",
     bbTab = "Save this match setup and proceed to the basketball match.\nChoose whether to resume the current match with this setup or start a new match.",
     nsTab = "Save this match setup and proceed to the net sport match.\nChoose whether to resume the current match with this setup or start a new match.",
-    aboutTab = "Click to learn more about Scoreboard II."
-    onEdit = "Now editing the selected text field. Other functions are temporarily disabled.\nTo confirm changes, press [RETURN]. To cancel editing, press [ESC].",
+    aboutTab = "Click to learn more about Scoreboard II.",
+    onEdit = "Now editing the selected text field. Other functions are temporarily disabled.\nTo confirm changes, press [RETURN]. To cancel editing, press [ESC]."
   },
   dialogBox = {
     continueBasketball = "A basketball match is currently in progress.\nThe updated settings will apply if you continue.\n\nWould you like to continue the match?",
