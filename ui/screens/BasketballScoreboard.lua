@@ -29,6 +29,9 @@ function BasketballScoreboard:load()
   }
   pointDiff = 0
   scoreAnim = { teamA = 0, teamB = 0 }
+  if ScoreboardState.matchStatus == 0 then
+    self:startNewMatch()
+  end
   isMatchOver = false
   for _, v in ipairs(Icons) do
     v:setFilter("linear", "linear")
@@ -473,42 +476,44 @@ function BasketballScoreboard:timerAdjustmentAction(key)
   end
 end
 
-function BasketballScoreboard:prepareNextPeriod(matchStatus)
-  --TODO: It doesn't work properly when shifting screens.
-  local prevPeriod = ScoreboardState.bbPeriod
-  if matchStatus == 0 then
-    ScoreboardState.teamA.bbScore = 0
-    ScoreboardState.teamB.bbScore = 0
-    ScoreboardState.teamA.bbBallPoss = false
-    ScoreboardState.teamB.bbBallPoss = false
-    ScoreboardState.teamA.bbTimeouts = ScoreboardState.config.bb.givenTimeouts[prevPeriod]
-    ScoreboardState.teamB.bbTimeouts = ScoreboardState.config.bb.givenTimeouts[prevPeriod]
-    ScoreboardState.periodTimer.min = ScoreboardState.config.bb.periodTimer.reset
-    ScoreboardState.periodTimer.sec = 0
-    ScoreboardState.periodTimer.dSec = 0
-    ScoreboardState.isShotClockEnabled = true
-    ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetFull
-    ScoreboardState.shotClock.dSec = 0
-    ScoreboardState.matchStatus = 1
-  elseif matchStatus == 1 and (ScoreboardState.teamA.bbScore == ScoreboardState.teamB.bbScore or ScoreboardState.bbPeriod < 4) then
-    ScoreboardState.bbPeriod = ScoreboardState.bbPeriod + 1
-    ScoreboardState.periodTimer.min = ScoreboardState.config.bb.periodTimer.reset
-    if ScoreboardState.bbPeriod == 5 then
-      ScoreboardState.periodTimer.min = ScoreboardState.config.bb.overtime.reset
-    else
-      ScoreboardState.teamA.bbTeamFouls = 0
-      ScoreboardState.teamB.bbTeamFouls = 0
-    end
-    ScoreboardState.periodTimer.sec = 0
-    ScoreboardState.periodTimer.dSec = 0
-    ScoreboardState.isShotClockEnabled = true
-    ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetFull
-    ScoreboardState.shotClock.dSec = 0
-  elseif matchStatus == 1 and ScoreboardState.teamA.bbScore ~= ScoreboardState.teamB.bbScore and ScoreboardState.bbPeriod >= 4 then
+function BasketballScoreboard:startNewMatch()
+  ScoreboardState.teamA.bbScore = 0
+  ScoreboardState.teamB.bbScore = 0
+  ScoreboardState.teamA.bbBallPoss = false
+  ScoreboardState.teamB.bbBallPoss = false
+  ScoreboardState.teamA.bbTimeouts = ScoreboardState.config.bb.givenTimeouts[1]
+  ScoreboardState.teamB.bbTimeouts = ScoreboardState.config.bb.givenTimeouts[1]
+  ScoreboardState.bbPeriod = 1
+  ScoreboardState.isPeriodTimerEnabled = true
+  ScoreboardState.periodTimer.min = ScoreboardState.config.bb.periodTimer.reset
+  ScoreboardState.periodTimer.sec = 0
+  ScoreboardState.periodTimer.dSec = 0
+  ScoreboardState.isShotClockEnabled = true
+  ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetFull
+  ScoreboardState.shotClock.dSec = 0
+  ScoreboardState.matchStatus = 1
+end
+
+function BasketballScoreboard:prepareNextPeriod()
+  if ScoreboardState.bbPeriod >= 4 and ScoreboardState.teamA.bbScore ~= ScoreboardState.teamB.bbScore then
     isMatchOver = true
     ScoreboardState.isShotClockEnabled = false
-  end
-  if matchStatus == 1 and isMatchOver == false then
+  else
+    local prevPeriod = ScoreboardState.bbPeriod
+    ScoreboardState.bbPeriod = ScoreboardState.bbPeriod + 1
+    ScoreboardState.isPeriodTimerEnabled = true
+    ScoreboardState.periodTimer.sec = 0
+    ScoreboardState.periodTimer.dSec = 0
+    ScoreboardState.isShotClockEnabled = true
+    ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetFull
+    ScoreboardState.shotClock.dSec = 0
+    if ScoreboardState.bbPeriod <= 4 then
+      ScoreboardState.periodTimer.min = ScoreboardState.config.bb.periodTimer.reset
+      ScoreboardState.teamA.bbTeamFouls = 0
+      ScoreboardState.teamB.bbTeamFouls = 0
+    else
+      ScoreboardState.periodTimer.min = ScoreboardState.config.bb.overtime.reset
+    end
     if ScoreboardState.config.bb.isTimeoutCarryover[prevPeriod] then
       ScoreboardState.teamA.bbTimeouts = ScoreboardState.teamA.bbTimeouts
         + ScoreboardState.config.bb.givenTimeouts[ScoreboardState.bbPeriod]
@@ -662,7 +667,9 @@ function BasketballScoreboard:attemptExitScreen()
   ScoreboardState.isPeriodTimerRunning = false
   ScoreboardState.isShotClockRunning = false
   ScoreboardState.isHornSoundPlaying = false
-  ScoreboardState.matchStatus = 2
+  ScoreboardState.onMouseFocus = ""
+  ScoreboardState.onEdit.id = ""
+  ScoreboardState.onEdit.value = ""
   hornSound:stop()
 end
 

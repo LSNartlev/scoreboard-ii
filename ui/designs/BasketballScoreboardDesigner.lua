@@ -9,7 +9,7 @@ local Designer = {
     { id = "tooltip", text = function() return ScoreboardState.tooltip end,
       x = 20, y = 730, width = 1000, align = "left",
       font = function() return Fonts.tooltip end, color = function() return Color.white end },
-    { id = "matchInfo",
+    { id = "matchTitle",
       text = function() 
         if ScoreboardState.isTimerAdjustmentEnabled then
           return "Adjusting Timers. Please wait..."
@@ -150,7 +150,7 @@ local Designer = {
   rectangles = {
     -- id, x, y, width, height, color
     {
-      id = "matchInfo", x = 40, y = 40, width = 1200, height = 60,
+      id = "matchTitle", x = 40, y = 40, width = 1200, height = 60,
       color = function()
         if ScoreboardState.isTimerAdjustmentEnabled then return Color.blue end
         return Color.white
@@ -190,7 +190,7 @@ local Designer = {
       color = function() return Color.footerBG end }
   },
   mouseBounds = {
-    { id = "matchInfo", x1 = 40, y1 = 40, x2 = 1240, y2 = 100 },
+    { id = "matchTitle", x1 = 40, y1 = 40, x2 = 1240, y2 = 100 },
     { id = "teamAName", x1 = 40, y1 = 120, x2 = 600, y2 = 180 },
     { id = "teamBName", x1 = 680, y1 = 120, x2 = 1240, y2 = 180 },
     { id = "teamAScore", x1 = 150, y1 = 200, x2 = 600, y2 = 400 },

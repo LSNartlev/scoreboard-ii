@@ -1,12 +1,12 @@
 local ScoreboardState = {
   matchTitle = ".: Scoreboard II :.",
-  matchStatus = 0, -- cycle between {0, 1, 2}: 0 = new match, 1 = default, 2 = resume match from other screens
+  matchStatus = 0, -- cycle between {0, 1, 2}: 0 = new match, 1 = Basketball match in progess, 2 = Net Sport match in progress
   tooltip = "",
   onDisplay = "BasketballScoreboard",
   onEdit = { id = "", value = "" },
   onMouseFocus = "",
   isHornSoundPlaying = false,
-  bbPeriod = 1,
+  bbPeriod = 0,
   periodTimer = { min = 0, sec = 0, dSec = 1, displayText = "" },
   isPeriodTimerEnabled = true,
   isPeriodTimerRunning = false,
