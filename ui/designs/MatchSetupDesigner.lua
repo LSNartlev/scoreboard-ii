@@ -142,24 +142,31 @@ local Designer = {
             return TextStrings.dialogBox.continueBasketball end
           return TextStrings.dialogBox.continueNetSport
         end,
-        x = 405, y = 330, width = 470, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
+        x = 395, y = 330, width = 490, align = "center", font = Fonts.config, color = function() return Color.white end },
       { id = "continue", text = function() return "Continue" end,
-        x = 415, y = 465, width = 220, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
+        x = 405, y = 465, width = 150, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
       { id = "startNew", text = function() return "Start New" end,
-        x = 645, y = 465, width = 220, align = "center", font = Fonts.config, color = function() return Color.button.fg end }
+        x = 565, y = 465, width = 150, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
+      { id = "exitDialog", text = function() return "Back" end,
+        x = 725, y = 465, width = 150, align = "center", font = Fonts.config, color = function() return Color.button.fg end }
     },
     rectangles = {
-      { id = "message", x = 405, y = 295, width = 470, height = 210, color = function() return Color.footerBG end },
-      { id = "continue", x = 415, y = 455, width = 220, height = 40, color = function()
+      { id = "message", x = 395, y = 295, width = 490, height = 210, color = function() return Color.footerBG end },
+      { id = "continue", x = 405, y = 455, width = 150, height = 40, color = function()
           if ScoreboardState.onMouseFocus == "continue" then
             return Color.button.bg.focus end
           return Color.button.bg.enabled
         end },
-      { id = "startNew", x = 645, y = 455, width = 220, height = 40, color = function()
+      { id = "startNew", x = 565, y = 455, width = 150, height = 40, color = function()
           if ScoreboardState.onMouseFocus == "startNew" then
             return Color.button.bg.focus end
           return Color.button.bg.enabled
         end },
+      { id = "exitDialog", x = 725, y = 455, width = 150, height = 40, color = function()
+          if ScoreboardState.onMouseFocus == "exitDialog" then
+            return Color.button.bg.focus end
+          return Color.button.bg.enabled
+        end }
     }
   },
   mouseBounds = {
@@ -189,7 +196,9 @@ local Designer = {
       { id = "aboutTab", x1 = 1210, y1 = 720, x2 = 1270, y2 = 800 }
     },
     dialogBox = {
-      
+      { id = "continue", x1 = 405, y1 = 455, x2 = 555, y2 = 495 },
+      { id = "startNew", x1 = 565, y1 = 455, x2 = 715, y2 = 495 },
+      { id = "exitDialog", x1 = 725, y1 = 455, x2 = 875, y2 = 495 }
     }
   }
 }

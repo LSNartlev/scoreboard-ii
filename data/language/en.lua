@@ -9,6 +9,7 @@ local languagePack = {
       netSport = "The match has concluded.\nTo setup a new match, press [ESC]. If this match is still not over, roll back the scores on this set/game to keep playing." }
   },
   bbPeriod = { "1st", "2nd", "3rd", "4th", "OT" },
+  nsSet = { ".: 1 :.", ".: 2 :.", ".: 3 :.", ".: 4 :.", ".: 5 :.", ".: 6 :.", ".: 7 :." },
   bbScoreboard = {
     timerAdjustment = "TIMER ADJUSTMENT MODE IS ENABLED.\nYou may now manually adjust or disable/enable the period timer and shot clock, but other controls are disabled.\n"
     .."To disable Timer Adjustment Mode and resume to the game, press [ESC] or [" .. string.upper(Controls.bb.toggleTimerAdjust) .. "].",
@@ -63,7 +64,7 @@ local languagePack = {
   matchSetup = {
     matchTitle = "The name of the match or tournament. Click to edit.",
     teamAName = "The name of the team on the left side of the court. Click to edit.",
-    teamAName = "The name of the team on the right side of the court. Click to edit.",
+    teamBName = "The name of the team on the right side of the court. Click to edit.",
     switchSides = "Make both teams switch sides.",
     changeTeamA = "The uniform colors of " .. ScoreboardState.teamA.name .. ". Click to edit these colors and more.",
     changeTeamB = "The uniform colors of " .. ScoreboardState.teamB.name .. ". Click to edit these colors and more.",
@@ -76,8 +77,8 @@ local languagePack = {
     onEdit = "Now editing the selected text field. Other functions are temporarily disabled.\nTo confirm changes, press [RETURN]. To cancel editing, press [ESC]."
   },
   dialogBox = {
-    continueBasketball = "A basketball match is currently in progress.\nThe updated settings will apply if you continue.\n\nWould you like to continue the match?",
-    continueNetSport = "A net sport match is currently in progress.\nThe updated settings will apply if you continue.\n\nWould you like to continue the match?",
+    continueBasketball = "A basketball match is currently in progress.\nAny updated settings will apply if you continue.\n\nWould you like to continue the match?",
+    continueNetSport = "A net sport match is currently in progress.\nAny updated settings will apply if you continue.\n\nWould you like to continue the match?",
     savedAsDefault = "These settings will now apply by default on launch.",
     invalidKeybind = "Invalid keybind\n\nThis key is reserved." -- for attempting to use Esc, Shift, Super/Windows key
   },

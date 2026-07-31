@@ -3,15 +3,17 @@ local ScreenManager = require("ui.ScreenManager")
 local ScoreboardState = require("data.ScoreboardState")
 local Designer = require("ui.designs.MatchSetupDesigner")
 local ConfigDesigner = require("ui.designs.ConfigDesigner")
+local Color = require("ui.designs.Colors")
 local Lang = require("data.language.en")
 local gradRect = require("ui.designs.GradientMesh")
-local teamAColors, teamBColors
+local teamAColors, teamBColors, openDialogBoxFor
 
 function MatchSetup:load()
   ScoreboardState.onDisplay = "MatchSetup"
   ScoreboardState.tooltip = Lang.tooltips.matchSetup
   teamAColors = gradRect.new(ScoreboardState.teamA.bgColor1, ScoreboardState.teamA.bgColor2, 1)
   teamBColors = gradRect.new(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, 1)
+  openDialogBoxFor = ""
 end
 
 function MatchSetup:update(dt)
@@ -65,6 +67,10 @@ function MatchSetup:draw()
     love.graphics.setScissor()
     love.graphics.setColor(1,1,1,1)
   end
+  
+  if openDialogBoxFor ~= "" then
+    self:drawDialogBox()
+  end
 end
 
 function MatchSetup:keypressed(key, scancode, isrepeat)
@@ -77,30 +83,119 @@ end
 
 function MatchSetup:mousemoved(x, y, dx, dy, istouch)
   ScoreboardState.tooltip = Lang.tooltips.matchSetup
-  for _,v in ipairs(Designer.mouseBounds.default) do
-    if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
-      ScoreboardState.onMouseFocus = v.id
-      -- show tooltip
-      if Lang.matchSetup[ScoreboardState.onMouseFocus] then
-        ScoreboardState.tooltip = Lang.matchSetup[ScoreboardState.onMouseFocus]
+  if openDialogBoxFor ~= "" then
+    for _, v in ipairs(Designer.mouseBounds.dialogBox) do
+      if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
+        ScoreboardState.onMouseFocus = v.id
         break
-      elseif Lang.config.tabTooltip[ScoreboardState.onMouseFocus] then
-        ScoreboardState.tooltip = Lang.config.tabTooltip[ScoreboardState.onMouseFocus]
-        break
-      elseif ScoreboardState.onEdit.id ~= "" then
-        ScoreboardState.tooltip = Lang.matchSetup.onEdit
+      else
+        ScoreboardState.onMouseFocus = ""
       end
-      -- if textfield or button, change to focus color
-    else
-      ScoreboardState.onMouseFocus = ""
+    end
+  else
+    for _, v in ipairs(Designer.mouseBounds.default) do
+      if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
+        ScoreboardState.onMouseFocus = v.id
+        -- show tooltip
+        if Lang.matchSetup[ScoreboardState.onMouseFocus] then
+          ScoreboardState.tooltip = Lang.matchSetup[ScoreboardState.onMouseFocus]
+          break
+        elseif Lang.config.tabTooltip[ScoreboardState.onMouseFocus] then
+          ScoreboardState.tooltip = Lang.config.tabTooltip[ScoreboardState.onMouseFocus]
+          break
+        elseif ScoreboardState.onEdit.id ~= "" then
+          ScoreboardState.tooltip = Lang.matchSetup.onEdit
+        end
+        -- if textfield or button, change to focus color
+      else
+        ScoreboardState.onMouseFocus = ""
+      end
     end
   end
 end
 
 function MatchSetup:mousepressed(x, y, button)
+  if openDialogBoxFor ~= "" then
+    for _, v in ipairs(Designer.mouseBounds.dialogBox) do
+      if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
+        self:performClickAction(v.id)
+        break
+      end
+    end
+  else
+    for _, v in ipairs(Designer.mouseBounds.default) do
+      if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
+        self:performClickAction(v.id)
+        break
+      end
+    end
+  end
+end
+
+function MatchSetup:drawDialogBox()
+  for _, v in ipairs(Designer.dialogBox.rectangles) do
+    love.graphics.setColor(v.color())
+    love.graphics.rectangle("fill", v.x, v.y, v.width, v.height)
+    if v.id == "message" then
+      love.graphics.setColor(Color.yellow)
+      love.graphics.setLineWidth(2)
+      love.graphics.rectangle("line", v.x, v.y, v.width, v.height)
+      love.graphics.setLineWidth(0)
+    end
+    love.graphics.setColor(1,1,1,1)
+  end
+  for _, v in ipairs(Designer.dialogBox.texts) do
+    love.graphics.setFont(v.font)
+    love.graphics.setColor(v.color())
+    love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
+    love.graphics.setColor(1,1,1,1)
+  end
+end
+
+function MatchSetup:performClickAction(elementId)
+  if elementId == "switchSides" then
+    ScoreboardState.teamA, ScoreboardState.teamB = ScoreboardState.teamB, ScoreboardState.teamA
+    teamAColors.mesh, teamBColors.mesh = teamBColors.mesh, teamAColors.mesh
+  elseif elementId == "bbTab" or elementId == "toBasketball" then
+    if ScoreboardState.matchStatus == 0 then
+      ScoreboardState.onDisplay = "BasketballScoreboard"
+      ScreenManager.changeScreen("BasketballScoreboard")
+    elseif ScoreboardState.matchStatus == 1 then
+      openDialogBoxFor = "continueBasketball"
+    elseif ScoreboardState.matchStatus == 2 then
+      openDialogBoxFor = "continueNetSport"
+    end
+  elseif elementId == "nsTab" or elementId == "toNetSport" then
+    --[[ create NetSportScoreboard first, then un-comment out this block
+    if ScoreboardState.matchStatus == 0 then
+      ScoreboardState.onDisplay = "NetSportScoreboard"
+      ScreenManager.changeScreen("NetSportScoreboard")
+    elseif ScoreboardState.matchStatus == 1 then
+      openDialogBoxFor = "continueBasketball"
+    elseif ScoreboardState.matchStatus == 2 then
+      openDialogBoxFor = "continueNetSport"
+    end
+    ]]
+  elseif elementId == "continue" or elementId == "startNew" then
+    if elementId == "startNew" then
+      ScoreboardState.matchStatus = 0
+    end
+    if openDialogBoxFor == "continueBasketball" then
+      ScoreboardState.onDisplay = "BasketballScoreboard"
+      ScreenManager.changeScreen("BasketballScoreboard")
+    else
+      --[[
+      ScoreboardState.onDisplay = "NetSportScoreboard"
+      ScreenManager.changeScreen("NetSportScoreboard")
+      ]]
+    end
+  elseif elementId == "exitDialog" then
+    openDialogBoxFor = ""
+  end
+end
+
+function MatchSetup:attemptExitScreen()
   
-  --ScoreboardState.onDisplay = "BasketballScoreboard"
-  --ScreenManager.changeScreen("BasketballScoreboard")
 end
 
 return MatchSetup

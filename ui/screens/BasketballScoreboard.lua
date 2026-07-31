@@ -2,6 +2,7 @@ local BasketballScoreboard = {}
 local ScreenManager = require("ui.ScreenManager")
 local ScoreboardState = require("data.ScoreboardState")
 local Designer = require("ui.designs.BasketballScoreboardDesigner")
+local Actions = require("ui.functions.BasketballActions")
 local Color = require("ui.designs.Colors")
 local Fonts = require("ui.designs.Fonts")
 local Icons = require("ui.designs.Icons")
@@ -30,7 +31,7 @@ function BasketballScoreboard:load()
   pointDiff = 0
   scoreAnim = { teamA = 0, teamB = 0 }
   if ScoreboardState.matchStatus == 0 then
-    self:startNewMatch()
+    Actions:startNewMatch()
   end
   isMatchOver = false
   for _, v in ipairs(Icons) do
@@ -78,6 +79,12 @@ function BasketballScoreboard:update(dt)
   else
     ScoreboardState.shotClock.displayText = ScoreboardState.shotClock.sec
       .. "." .. ScoreboardState.shotClock.dSec
+  end
+  
+  if ScoreboardState.onMouseFocus == "period" and love.mouse.isDown(1) then
+    ScoreboardState.isHornSoundPlaying = true
+  elseif love.mouse.isDown(1) == false then
+    ScoreboardState.isHornSoundPlaying = false
   end
   
   if isMatchOver then
@@ -183,6 +190,15 @@ function BasketballScoreboard:mousemoved(x, y, dx, dy, istouch)
   end
 end
 
+function BasketballScoreboard:mousepressed(x, y, button)
+  for _, v in ipairs(Designer.mouseBounds) do
+    if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
+      self:performClickAction(v.id, button)
+      break
+    end
+  end
+end
+
 function BasketballScoreboard:keypressed(key, scancode, isrepeat)
   if ScoreboardState.isTimerAdjustmentEnabled then
     self:timerAdjustmentAction(key)
@@ -201,123 +217,106 @@ function BasketballScoreboard:keyreleased(key, scancode)
   end
 end
 
+function BasketballScoreboard:performClickAction(elementId, button)
+  if ScoreboardState.isTimerAdjustmentEnabled == false then
+    if elementId == "matchTitle" or elementId == "teamAName" or elementId == "teamBName" then
+      ScreenManager.changeScreen("MatchSetup")
+    elseif elementId == "teamAScore" then
+      if button == 1 then
+        Actions:score("A", 1)
+        scoreAnim.teamA = 1.25
+      elseif button == 2 then
+        Actions:score("A", -1)
+      end
+    elseif elementId == "teamBScore" then
+      if button == 1 then
+        Actions:score("B", 1)
+        scoreAnim.teamB = 1.25
+      elseif button == 2 then
+        Actions:score("B", -1)
+      end
+    elseif elementId == "teamAFouls" then
+      if button == 1 then Actions:foul("A", 1) elseif button == 2 then Actions:foul("A", -1) end
+    elseif elementId == "teamBFouls" then
+      if button == 1 then Actions:foul("B", 1) elseif button == 2 then Actions:foul("B", -1) end
+    elseif elementId == "teamATimeouts" then
+      if button == 1 then Actions:timeout("A", -1) elseif button == 2 then Actions:timeout("A", 1) end
+    elseif elementId == "teamBTimeouts" then
+      if button == 1 then Actions:timeout("B", -1) elseif button == 2 then Actions:timeout("B", 1) end
+    elseif elementId == "teamABallPoss" and button == 1 then
+      Actions:toggleBallPossession("A")
+    elseif elementId == "teamBBallPoss" and button == 1 then
+      Actions:toggleBallPossession("B")
+    elseif elementId == "period" then
+      -- for button == 1, see BasketballScoreboard:update(dt)
+      if button == 2 then BasketballScoreboard:changeCourt() end
+    elseif elementId == "periodTimer" and button == 1 then
+      Actions:togglePeriodTimer()
+    elseif elementId == "shotClock" then
+      if button == 1 then
+        Actions:toggleShotClock()
+      elseif button == 2 then
+        Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetFull)
+      else
+        Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetShort)
+      end
+    end
+  end
+end
+
 function BasketballScoreboard:regularKeyAction(key)
   if key == Controls.bb.togglePeriodTimer then
-    if ScoreboardState.isPeriodTimerRunning then 
-      ScoreboardState.isPeriodTimerRunning = false
-      if ScoreboardState.isShotClockRunning then
-        ScoreboardState.isShotClockRunning = false
-      end
-    elseif ScoreboardState.isPeriodTimerEnabled then
-      ScoreboardState.isPeriodTimerRunning = true
-      if ScoreboardState.isShotClockEnabled then
-        ScoreboardState.isShotClockRunning = true
-      end
-    end
+    Actions:togglePeriodTimer()
   elseif key == Controls.bb.toggleShotClock then
-    if ScoreboardState.isShotClockRunning then 
-      ScoreboardState.isShotClockRunning = false
-    elseif ScoreboardState.isShotClockEnabled and ScoreboardState.isPeriodTimerRunning then
-      ScoreboardState.isShotClockRunning = true
-    end
+    Actions:toggleShotClock()
   elseif key == Controls.bb.resetShotClockShort then
-    if (ScoreboardState.periodTimer.min*60) + ScoreboardState.periodTimer.sec
-      + (ScoreboardState.periodTimer.dSec/10) >= ScoreboardState.config.bb.shotClock.resetShort then 
-      ScoreboardState.isShotClockEnabled = true
-      ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetShort
-      ScoreboardState.shotClock.dSec = 0
-    else
-      ScoreboardState.isShotClockEnabled = false
-    end
-    ScoreboardState.isShotClockRunning = false
+    Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetShort)
   elseif key == Controls.bb.resetShotClockFull then
-    if (ScoreboardState.periodTimer.min*60) + ScoreboardState.periodTimer.sec
-      + (ScoreboardState.periodTimer.dSec/10) >= ScoreboardState.config.bb.shotClock.resetFull then 
-      ScoreboardState.isShotClockEnabled = true
-      ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetFull
-      ScoreboardState.shotClock.dSec = 0
-    else
-      ScoreboardState.isShotClockEnabled = false
-    end
-    ScoreboardState.isShotClockRunning = false
+    Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetFull)
   end
   
   if key == Controls.bb.scoreTeamA then
     if love.keyboard.isDown("lshift","rshift") then
-      if ScoreboardState.teamA.bbScore > 0 then
-        ScoreboardState.teamA.bbScore = ScoreboardState.teamA.bbScore - 1
-      end
+      Actions:score("A", -1)
     else 
-      if ScoreboardState.teamA.bbScore < 999 then
-        ScoreboardState.teamA.bbScore = ScoreboardState.teamA.bbScore + 1
-        scoreAnim.teamA = 1.25
-      end
+      Actions:score("A", 1)
+      scoreAnim.teamA = 1.25
     end
   elseif key == Controls.bb.foulTeamA then
     if love.keyboard.isDown("lshift","rshift") then
-      if ScoreboardState.teamA.bbTeamFouls > 0 then
-        ScoreboardState.teamA.bbTeamFouls = ScoreboardState.teamA.bbTeamFouls - 1
-      end
+      Actions:foul("A", -1)
     else
-      if ScoreboardState.teamA.bbTeamFouls < ScoreboardState.config.bb.maxTeamFouls then
-        ScoreboardState.teamA.bbTeamFouls = ScoreboardState.teamA.bbTeamFouls + 1
-      end
+      Actions:foul("A", 1)
     end
   elseif key == Controls.bb.timeoutTeamA then
     if love.keyboard.isDown("lshift","rshift") then
-      if ScoreboardState.teamA.bbTimeouts < ScoreboardState.config.bb.maxTimeouts then
-        ScoreboardState.teamA.bbTimeouts = ScoreboardState.teamA.bbTimeouts + 1
-      end
+      Actions:timeout("A", 1)
     else
-      if ScoreboardState.teamA.bbTimeouts > 0 then
-        ScoreboardState.teamA.bbTimeouts = ScoreboardState.teamA.bbTimeouts - 1
-      end
+      Actions:timeout("A", -1)
     end
   elseif key == Controls.bb.ballPossTeamA then
-    if ScoreboardState.teamA.bbBallPoss == true then
-      ScoreboardState.teamA.bbBallPoss = false
-    else
-      ScoreboardState.teamA.bbBallPoss = true
-    end
-    ScoreboardState.teamB.bbBallPoss = false
+    Actions:toggleBallPossession("A")
   elseif key == Controls.bb.scoreTeamB then
     if love.keyboard.isDown("lshift","rshift") then
-      if ScoreboardState.teamB.bbScore > 0 then
-        ScoreboardState.teamB.bbScore = ScoreboardState.teamB.bbScore - 1
-      end
+      Actions:score("B", -1)
     else
-      if ScoreboardState.teamB.bbScore < 999 then
-        ScoreboardState.teamB.bbScore = ScoreboardState.teamB.bbScore + 1
-        scoreAnim.teamB = 1.25
-      end
+      Actions:score("B", 1)
+      scoreAnim.teamB = 1.25
     end
   elseif key == Controls.bb.foulTeamB then
     if love.keyboard.isDown("lshift","rshift") then
-      if ScoreboardState.teamB.bbTeamFouls > 0 then
-        ScoreboardState.teamB.bbTeamFouls = ScoreboardState.teamB.bbTeamFouls - 1
-      end
+      Actions:foul("B", -1)
     else
-      if ScoreboardState.teamB.bbTeamFouls < ScoreboardState.config.bb.maxTeamFouls then
-        ScoreboardState.teamB.bbTeamFouls = ScoreboardState.teamB.bbTeamFouls + 1
-      end
+      Actions:foul("B", 1)
     end
   elseif key == Controls.bb.timeoutTeamB then
     if love.keyboard.isDown("lshift","rshift") then
-      if ScoreboardState.teamB.bbTimeouts < ScoreboardState.config.bb.maxTimeouts then
-        ScoreboardState.teamB.bbTimeouts = ScoreboardState.teamB.bbTimeouts + 1
-      end
+      Actions:timeout("B", 1)
     else
-      if ScoreboardState.teamB.bbTimeouts > 0 then
-        ScoreboardState.teamB.bbTimeouts = ScoreboardState.teamB.bbTimeouts - 1
-      end
+      Actions:timeout("B", -1)
     end
   elseif key == Controls.bb.ballPossTeamB then
-    if ScoreboardState.teamB.bbBallPoss == true then
-      ScoreboardState.teamB.bbBallPoss = false
-    else
-      ScoreboardState.teamB.bbBallPoss = true
-    end
-    ScoreboardState.teamA.bbBallPoss = false
+    Actions:toggleBallPossession("B")
   end
   
   if love.keyboard.isDown(Controls.bb.hornSound) then
@@ -329,7 +328,7 @@ function BasketballScoreboard:regularKeyAction(key)
     ScoreboardState.bbPeriod = ScoreboardState.bbPeriod - 1
   end
   
-  if key == Controls.bb.nextPeriod and ScoreboardState.bbPeriod < 5 then
+  if key == Controls.bb.nextPeriod and ScoreboardState.bbPeriod <= ScoreboardState.config.bb.maxPeriods then
     ScoreboardState.bbPeriod = ScoreboardState.bbPeriod + 1
   end
   
@@ -355,114 +354,42 @@ end
 
 function BasketballScoreboard:timerAdjustmentAction(key)
   if key == Controls.bb.timerAdjust.togglePeriodTimerEnabled then
-    if ScoreboardState.isPeriodTimerEnabled then
-      ScoreboardState.isPeriodTimerEnabled = false
-    else
-      ScoreboardState.isPeriodTimerEnabled = true
-    end
+    Actions:togglePeriodTimerEnabled()
   elseif key == Controls.bb.timerAdjust.toggleShotClockEnabled then
-    if ScoreboardState.isShotClockEnabled then
-      ScoreboardState.isShotClockEnabled = false
-    else
-      ScoreboardState.isShotClockEnabled = true
-    end
+    Actions:toggleShotClockEnabled()
   end
   
   if key == Controls.bb.timerAdjust.periodMin then
     if love.keyboard.isDown("lshift","rshift") then
-      if ScoreboardState.periodTimer.min > 0 then
-        ScoreboardState.periodTimer.min = ScoreboardState.periodTimer.min - 1
-        if ScoreboardState.periodTimer.min == 0 and ScoreboardState.periodTimer.sec == 0
-          and ScoreboardState.periodTimer.dSec == 0 then
-          ScoreboardState.periodTimer.dSec = 1
-        end
-      end
+      Actions:adjustPeriodTimer("min", -1)
     else
-      if ScoreboardState.periodTimer.min < 99 then
-        ScoreboardState.periodTimer.min = ScoreboardState.periodTimer.min + 1
-      end
+      Actions:adjustPeriodTimer("min", 1)
     end
   elseif key == Controls.bb.timerAdjust.periodSec then
     if love.keyboard.isDown("lshift","rshift") then
-      if ScoreboardState.periodTimer.sec > 0 then
-        ScoreboardState.periodTimer.sec = ScoreboardState.periodTimer.sec - 1
-        if ScoreboardState.periodTimer.min == 0 and ScoreboardState.periodTimer.sec == 0
-          and ScoreboardState.periodTimer.dSec == 0 then
-          ScoreboardState.periodTimer.dSec = 1
-        end
-      elseif ScoreboardState.periodTimer.min > 0 then
-        ScoreboardState.periodTimer.min = ScoreboardState.periodTimer.min - 1
-        ScoreboardState.periodTimer.sec = 59
-      end
+      Actions:adjustPeriodTimer("sec", -1)
     else
-      if ScoreboardState.periodTimer.sec < 59 then
-        ScoreboardState.periodTimer.sec = ScoreboardState.periodTimer.sec + 1
-      elseif ScoreboardState.periodTimer.min < 99 then
-        ScoreboardState.periodTimer.min = ScoreboardState.periodTimer.min + 1
-        ScoreboardState.periodTimer.sec = 0
-      end
+      Actions:adjustPeriodTimer("sec", 1)
     end
   elseif key == Controls.bb.timerAdjust.periodDsec then
     if love.keyboard.isDown("lshift","rshift") then
-      if ScoreboardState.periodTimer.dSec > 0 then
-        ScoreboardState.periodTimer.dSec = ScoreboardState.periodTimer.dSec - 1
-        if ScoreboardState.periodTimer.min == 0 and ScoreboardState.periodTimer.sec == 0
-          and ScoreboardState.periodTimer.dSec == 0 then
-          ScoreboardState.periodTimer.dSec = 1
-        end
-      elseif ScoreboardState.periodTimer.sec > 0 then
-        ScoreboardState.periodTimer.sec = ScoreboardState.periodTimer.sec - 1
-        ScoreboardState.periodTimer.dSec = 9
-      elseif ScoreboardState.periodTimer.min > 0 then
-        ScoreboardState.periodTimer.min = ScoreboardState.periodTimer.min - 1
-        ScoreboardState.periodTimer.sec = 59
-        ScoreboardState.periodTimer.dSec = 9
-      end
+      Actions:adjustPeriodTimer("dSec", -1)
     else
-      if ScoreboardState.periodTimer.dSec < 9 then
-        ScoreboardState.periodTimer.dSec = ScoreboardState.periodTimer.dSec + 1
-      elseif ScoreboardState.periodTimer.sec < 59 then
-        ScoreboardState.periodTimer.sec = ScoreboardState.periodTimer.sec + 1
-        ScoreboardState.periodTimer.dSec = 0
-      elseif ScoreboardState.periodTimer.min < 99 then
-        ScoreboardState.periodTimer.min = ScoreboardState.periodTimer.min + 1
-        ScoreboardState.periodTimer.sec = 0
-        ScoreboardState.periodTimer.dSec = 0
-      end
+      Actions:adjustPeriodTimer("dSec", 1)
     end
   end
   
   if key == Controls.bb.timerAdjust.shotSec then
     if love.keyboard.isDown("lshift","rshift") then
-      if ScoreboardState.shotClock.sec > 0 then
-        ScoreboardState.shotClock.sec = ScoreboardState.shotClock.sec - 1
-        if ScoreboardState.shotClock.sec == 0 and ScoreboardState.shotClock.dSec == 0 then
-          ScoreboardState.shotClock.dSec = 1
-        end
-      end
+      Actions:adjustShotClock("sec", -1)
     else
-      if ScoreboardState.shotClock.sec < 99 then
-        ScoreboardState.shotClock.sec = ScoreboardState.shotClock.sec + 1
-      end
+      Actions:adjustShotClock("sec", 1)
     end
   elseif key == Controls.bb.timerAdjust.shotDsec then
     if love.keyboard.isDown("lshift","rshift") then
-      if ScoreboardState.shotClock.dSec > 0 then
-        ScoreboardState.shotClock.dSec = ScoreboardState.shotClock.dSec - 1
-        if ScoreboardState.shotClock.sec == 0 and ScoreboardState.shotClock.dSec == 0 then
-          ScoreboardState.shotClock.dSec = 1
-        end
-      elseif ScoreboardState.shotClock.sec > 0 then
-        ScoreboardState.shotClock.sec = ScoreboardState.shotClock.sec - 1
-        ScoreboardState.shotClock.dSec = 9
-      end
+      Actions:adjustShotClock("dSec", -1)
     else
-      if ScoreboardState.shotClock.dSec < 9 then
-        ScoreboardState.shotClock.dSec = ScoreboardState.shotClock.dSec + 1
-      elseif ScoreboardState.shotClock.sec < 99 then
-        ScoreboardState.shotClock.sec = ScoreboardState.shotClock.sec + 1
-        ScoreboardState.shotClock.dSec = 0
-      end
+      Actions:adjustShotClock("dSec", 1)
     end
   end
   
@@ -474,24 +401,6 @@ function BasketballScoreboard:timerAdjustmentAction(key)
       ScoreboardState.tooltip = Lang.tooltips.scoreboardFallback
     end
   end
-end
-
-function BasketballScoreboard:startNewMatch()
-  ScoreboardState.teamA.bbScore = 0
-  ScoreboardState.teamB.bbScore = 0
-  ScoreboardState.teamA.bbBallPoss = false
-  ScoreboardState.teamB.bbBallPoss = false
-  ScoreboardState.teamA.bbTimeouts = ScoreboardState.config.bb.givenTimeouts[1]
-  ScoreboardState.teamB.bbTimeouts = ScoreboardState.config.bb.givenTimeouts[1]
-  ScoreboardState.bbPeriod = 1
-  ScoreboardState.isPeriodTimerEnabled = true
-  ScoreboardState.periodTimer.min = ScoreboardState.config.bb.periodTimer.reset
-  ScoreboardState.periodTimer.sec = 0
-  ScoreboardState.periodTimer.dSec = 0
-  ScoreboardState.isShotClockEnabled = true
-  ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetFull
-  ScoreboardState.shotClock.dSec = 0
-  ScoreboardState.matchStatus = 1
 end
 
 function BasketballScoreboard:prepareNextPeriod()
