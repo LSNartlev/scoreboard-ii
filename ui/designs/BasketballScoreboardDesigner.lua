@@ -3,6 +3,8 @@ local TextStrings = require("data.language.en")
 local Fonts = require("ui.designs.Fonts")
 local Color = require("ui.designs.Colors")
 local Icons = require("ui.designs.Icons")
+local hsl = require("ext.HSLtoRGB")
+
 local Designer = {
   texts = {
     -- id, text, x, y, width, align, font, color
@@ -32,7 +34,7 @@ local Designer = {
       x = 680, y = 130, width = 560, align = "center",
       font = function() return Fonts.matchInfo end,
       color = function()
-        local r, g, b = ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b
+        local r, g, b = ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b
         return { r, g, b }
       end },
     { id = "teamFoulsLabel", text = function() return "Team Fouls" end,

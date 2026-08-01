@@ -18,9 +18,9 @@ function love.draw()
   ScreenManager.onDisplay:draw()
 end
 
-function love.textinput(t)
+function love.textinput(text)
   if ScreenManager.onDisplay.textinput then
-    ScreenManager.onDisplay:textinput(t)
+    ScreenManager.onDisplay:textinput(text)
   end
 end
 

@@ -1,4 +1,5 @@
 local MatchSetup = {}
+local utf8 = require("utf8") -- see MatchSetup:keypressed()
 local ScreenManager = require("ui.ScreenManager")
 local ScoreboardState = require("data.ScoreboardState")
 local Designer = require("ui.designs.MatchSetupDesigner")
@@ -63,7 +64,22 @@ function MatchSetup:draw()
     if v.id == "matchTitle" or v.id == "teamAName" or v.id == "teamBName" then
       love.graphics.setScissor(v.x, v.y, v.width, 30)
     end
-    love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
+    if ScoreboardState.onEdit.id == v.id then
+      local sec = math.floor((love.timer.getTime()*10)%8)
+      local cursorColor = function()
+        if sec < 4 then return {0,0,0,0}
+        else return Color.orange
+        end
+      end
+      love.graphics.printf(
+      {
+        v.color(), v.text(),
+        cursorColor(), "_"
+      },
+      v.x, v.y, v.width, v.align)
+    else
+      love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
+    end
     love.graphics.setScissor()
     love.graphics.setColor(1,1,1,1)
   end
@@ -74,11 +90,28 @@ function MatchSetup:draw()
 end
 
 function MatchSetup:keypressed(key, scancode, isrepeat)
-  
+  if ScoreboardState.onEdit.id ~= "" then
+    if key == "escape" then
+      love.keyboard.setTextInput(false)
+      ScoreboardState.onEdit.id = ""
+      ScoreboardState.onEdit.value = ""
+    elseif key == "backspace" then
+      --[[
+      implementation based on the snippet from LÖVE wiki
+      Source: https://love2d.org/wiki/love.textinput
+      ]]
+      local byteOffset = utf8.offset(ScoreboardState.onEdit.value, -1)
+      if byteOffset then
+        ScoreboardState.onEdit.value = string.sub(ScoreboardState.onEdit.value, 1, byteOffset-1)
+      end
+    elseif key == "return" then
+      self:finishEditing()
+    end
+  end
 end
 
-function MatchSetup:textinput()
-  
+function MatchSetup:textinput(text)
+  ScoreboardState.onEdit.value = ScoreboardState.onEdit.value .. text
 end
 
 function MatchSetup:mousemoved(x, y, dx, dy, istouch)
@@ -96,7 +129,6 @@ function MatchSetup:mousemoved(x, y, dx, dy, istouch)
     for _, v in ipairs(Designer.mouseBounds.default) do
       if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
         ScoreboardState.onMouseFocus = v.id
-        -- show tooltip
         if Lang.matchSetup[ScoreboardState.onMouseFocus] then
           ScoreboardState.tooltip = Lang.matchSetup[ScoreboardState.onMouseFocus]
           break
@@ -106,7 +138,6 @@ function MatchSetup:mousemoved(x, y, dx, dy, istouch)
         elseif ScoreboardState.onEdit.id ~= "" then
           ScoreboardState.tooltip = Lang.matchSetup.onEdit
         end
-        -- if textfield or button, change to focus color
       else
         ScoreboardState.onMouseFocus = ""
       end
@@ -153,9 +184,22 @@ function MatchSetup:drawDialogBox()
 end
 
 function MatchSetup:performClickAction(elementId)
+  self:finishEditing()
   if elementId == "switchSides" then
     ScoreboardState.teamA, ScoreboardState.teamB = ScoreboardState.teamB, ScoreboardState.teamA
     teamAColors.mesh, teamBColors.mesh = teamBColors.mesh, teamAColors.mesh
+  elseif elementId == "matchTitle" then
+    ScoreboardState.onEdit.id = elementId
+    ScoreboardState.onEdit.value = ScoreboardState.matchTitle
+    love.keyboard.setTextInput(true)
+  elseif elementId == "teamAName" then
+    ScoreboardState.onEdit.id = elementId
+    ScoreboardState.onEdit.value = ScoreboardState.teamA.name
+    love.keyboard.setTextInput(true)
+  elseif elementId == "teamBName" then
+    ScoreboardState.onEdit.id = elementId
+    ScoreboardState.onEdit.value = ScoreboardState.teamB.name
+    love.keyboard.setTextInput(true)
   elseif elementId == "bbTab" or elementId == "toBasketball" then
     if ScoreboardState.matchStatus == 0 then
       ScoreboardState.onDisplay = "BasketballScoreboard"
@@ -194,8 +238,23 @@ function MatchSetup:performClickAction(elementId)
   end
 end
 
+function MatchSetup:finishEditing()
+  love.keyboard.setTextInput(false)
+  if ScoreboardState.onEdit.id == "matchTitle" then
+    ScoreboardState.matchTitle = ScoreboardState.onEdit.value
+  elseif ScoreboardState.onEdit.id == "teamAName" then
+    ScoreboardState.teamA.name = ScoreboardState.onEdit.value
+  elseif ScoreboardState.onEdit.id == "teamBName" then
+    ScoreboardState.teamB.name = ScoreboardState.onEdit.value
+  end
+  ScoreboardState.onEdit.id = ""
+  ScoreboardState.onEdit.value = ""
+end
+
 function MatchSetup:attemptExitScreen()
-  
+  ScoreboardState.onMouseFocus = ""
+  ScoreboardState.onEdit.id = ""
+  ScoreboardState.onEdit.value = ""
 end
 
 return MatchSetup

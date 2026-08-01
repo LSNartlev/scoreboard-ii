@@ -44,11 +44,17 @@ local ScoreboardState = {
       isSelectable = true
     }
   },
+  teamOnEdit = "",
   teamA = {
     name = "TEAM RED",
-    bgColor1 = { r = 163/255, g = 18/255, b = 11/255 },
-    bgColor2 = { r = 245/255, g = 109/255, b = 102/255 },
-    fgColor = { r = 255/255, g = 255/255, b = 255/255 },
+    bgColor1 = { r = 0.6392, g = 0.0706, b = 0.0431 },
+    bgColor2 = { r = 0.9608, g = 0.4275, b = 0.4000 },
+    fgColor = { r = 1.0000, g = 1.0000, b = 1.0000 },
+    hsl = {
+      bg1 = { 3, 315, 123 },
+      bg2 = { 3, 316, 246 },
+      fg = { 0, 0, 360 }
+    },
     bbScore = 0,
     bbTeamFouls = 0,
     bbTimeouts = 0,
@@ -61,9 +67,14 @@ local ScoreboardState = {
   },
   teamB = {
     name = "TEAM BLUE",
-    bgColor1 = { r = 11/255, g = 99/255, b = 165/255 },
-    bgColor2 = { r = 109/255, g = 188/255, b = 245/255 },
-    fgColor = { r = 255/255, g = 255/255, b = 255/255 },
+    bgColor1 = { r = 0.0431, g = 0.0745, b = 0.6471 },
+    bgColor2 = { r = 0.4275, g = 0.7373, b = 0.9608 },
+    fgColor = { r = 1.0000, g = 1.0000, b = 1.0000 },
+    hsl = {
+      bg1 = { 237, 315, 124 },
+      bg2 = { 206, 313, 250 },
+      fg = { 0, 0, 360 }
+    },
     bbScore = 0,
     bbTeamFouls = 0,
     bbTimeouts = 0,
