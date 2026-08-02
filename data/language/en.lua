@@ -76,6 +76,9 @@ local languagePack = {
     aboutTab = "Click to learn more about Scoreboard II.",
     onEdit = "Now editing the selected text field. Other functions are temporarily disabled.\nTo confirm changes, press [RETURN]. To cancel editing, press [ESC]."
   },
+  teamSetup = {
+    
+  },
   dialogBox = {
     continueBasketball = "A basketball match is currently in progress.\nAny updated settings will apply if you continue.\n\nWould you like to continue the match?",
     continueNetSport = "A net sport match is currently in progress.\nAny updated settings will apply if you continue.\n\nWould you like to continue the match?",
