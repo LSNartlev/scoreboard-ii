@@ -81,11 +81,11 @@ function BasketballScoreboard:update(dt)
       .. "." .. ScoreboardState.shotClock.dSec
   end
   
-  if ScoreboardState.onMouseFocus == "period" and love.mouse.isDown(1) then
-    ScoreboardState.isHornSoundPlaying = true
-  elseif love.mouse.isDown(1) == false then
-    ScoreboardState.isHornSoundPlaying = false
-  end
+  --if ScoreboardState.onMouseFocus == "period" and love.mouse.isDown(1) then
+  --  ScoreboardState.isHornSoundPlaying = true
+  --elseif love.mouse.isDown(1) == false then
+  --  ScoreboardState.isHornSoundPlaying = false
+  --end
   
   if isMatchOver then
       if ScoreboardState.teamA.bbScore > ScoreboardState.teamB.bbScore then
@@ -248,8 +248,7 @@ function BasketballScoreboard:performClickAction(elementId, button)
     elseif elementId == "teamBBallPoss" and button == 1 then
       Actions:toggleBallPossession("B")
     elseif elementId == "period" then
-      -- for button == 1, see BasketballScoreboard:update(dt)
-      if button == 2 then BasketballScoreboard:changeCourt() end
+      if button == 1 then BasketballScoreboard:changeCourt() end
     elseif elementId == "periodTimer" and button == 1 then
       Actions:togglePeriodTimer()
     elseif elementId == "shotClock" then
