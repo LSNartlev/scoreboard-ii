@@ -41,10 +41,23 @@ local ScoreboardState = {
     },
     tabs = {
       activeTab = "matchSetup",
-      isSelectable = true
+      isSelectable = false
     }
   },
-  teamOnEdit = "",
+  teamSetup = {
+    side = "",
+    name = "(no team selected)",
+    activeColorTab = "bg1",
+    bgColor1 = { r = 0.3333, g = 0.3333, b = 0.3333 },
+    bgColor2 = { r = 0.5000, g = 0.5000, b = 0.5000 },
+    fgColor = { r = 0.4167, g = 0.4167, b = 0.4167 },
+    hsl = {
+      bg1 = { 0, 0, 120 },
+      bg2 = { 0, 0, 120 },
+      fg = { 0, 0, 150 }
+    },
+    listPage = 1
+  },
   teamA = {
     name = "TEAM RED",
     bgColor1 = { r = 0.6392, g = 0.0706, b = 0.0431 },

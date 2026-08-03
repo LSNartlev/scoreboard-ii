@@ -58,7 +58,7 @@ local languagePack = {
     .. ScoreboardState.config.bb.shotClock.resetFull .. " seconds, press [" .. string.upper(Controls.bb.resetShotClockFull) .. "]. Resetting will also stop the shot clock.",
     bbTab = "You are now using a Basketball scoreboard.",
     nsTab = "Click to switch into a scoreboard for Volleyball, Badminton, Table Tennis, or Pickleball.",
-    configTab = "Click to change the settings.",
+    configTab = "Click to change the basketball scoreboard controls.",
     aboutTab = "Click to learn more about Scoreboard II."
   },
   matchSetup = {
@@ -77,7 +77,22 @@ local languagePack = {
     onEdit = "Now editing the selected text field. Other functions are temporarily disabled.\nTo confirm changes, press [RETURN]. To cancel editing, press [ESC]."
   },
   teamSetup = {
-    
+    editTeamA = "Edit the team playing on the left side of the court.",
+    editTeamB = "Edit the team playing on the right side of the court.",
+    teamName = "The name of the team. Click to edit.",
+    bg1Tab = "The primary color visible in the team's uniform. Click to edit.",
+    bg2Tab = "Another color in the team's uniform that is distinct from other teams with a similar main color. Click to edit.",
+    fgTab = "The color used in the name and uniform number. Click to edit.",
+    setAsSingleColor = "If the uniform only uses one solid color, click to set this color as both the Main Color and 2nd Color.",
+    saveTeam = "Click to save this team setup. Choose which slot in the list should the team be saved (this will overwrite the existing team on the selected slot).",
+    listPrev = "Show the previous eight teams on the list.",
+    listNext = "Show the next eight teams on the list.",
+    toMatchSetup = "Return to Match Setup.",
+    confirmTeam = "Confirm this team details and return to Match Setup.",
+    listHeaderLabel = "Select a slot to save this team:",
+    hueSlider = "Click and/or slide to adjust the hue. Current value: ",
+    satSlider = "Click and/or slide to adjust the saturation. Current value: ",
+    lightSlider = "Click and/or slide to adjust the lightness. Current value: "
   },
   dialogBox = {
     continueBasketball = "A basketball match is currently in progress.\nAny updated settings will apply if you continue.\n\nWould you like to continue the match?",
@@ -97,12 +112,12 @@ local languagePack = {
     },
     tabTooltip = {
       matchSetup = "Click to edit the title of the match/tournament or change the details of the competing teams.",
-      bbSettings = "Click to adjust options on what rules the basketball scoreboard should follow.",
-      bbControls = "Click to adjust which keys to press when operating the basketball scoreboard.",
-      nsSettings = "Click to adjust options on what supported sport or rules the net sport scoreboard should follow.",
-      nsControls = "Click to adjust which keys to press when operating the net sport scoreboard.",
+      bbSettings = "[Not yet available] Click to adjust options on what rules the basketball scoreboard should follow.",
+      bbControls = "[Not yet available] Click to adjust which keys to press when operating the basketball scoreboard.",
+      nsSettings = "[Not yet available] Click to adjust options on what supported sport or rules the net sport scoreboard should follow.",
+      nsControls = "[Not yet available] Click to adjust which keys to press when operating the net sport scoreboard.",
       teamsList = "Click to organize the teams that the scoreboard operator facilitates.",
-      soundsList = "Click to organize the additional sound effects the scoreboard operator can play during matches."
+      soundsList = "[Not yet available] Click to organize the additional sound effects the scoreboard operator can play during matches."
     }
   }
 }
