@@ -1,8 +1,8 @@
 local TeamsList = {
-  { name = "TEAM RED", bg1 = { 2, 316, 122 }, bg2 = { 2, 316, 245 }, fg = { 0, 0, 360 } },
-  { name = "TEAM BLUE", bg1 = { 206, 313, 124 }, bg2 = { 206, 313, 249 }, fg = { 0, 0, 360 } },
-  { name = "TEAM GREEN", bg1 = { 120, 345, 69 }, bg2 = { 120, 345, 138 }, fg = { 0, 0, 360 } },
-  { name = "TEAM YELLOW", bg1 = { 43, 312, 122 }, bg2 = { 43, 312, 245 }, fg = { 0, 0, 360 } },
+  { name = "EMBER FLAMES", bg1 = { 2, 316, 122 }, bg2 = { 2, 316, 245 }, fg = { 0, 0, 360 } },
+  { name = "CERULEAN SKIES", bg1 = { 206, 313, 124 }, bg2 = { 206, 313, 249 }, fg = { 0, 0, 360 } },
+  { name = "VERDANT FIELDS", bg1 = { 120, 345, 69 }, bg2 = { 120, 345, 138 }, fg = { 0, 0, 360 } },
+  { name = "RADIANT AIRGLOW", bg1 = { 43, 312, 122 }, bg2 = { 43, 312, 245 }, fg = { 0, 0, 360 } },
   { name = "[Empty Team Slot 05]", bg1 = { 0, 0, 120 }, bg2 = { 0, 0, 120 }, fg = { 0, 0, 150 } },
   { name = "[Empty Team Slot 06]", bg1 = { 0, 0, 120 }, bg2 = { 0, 0, 120 }, fg = { 0, 0, 150 } },
   { name = "[Empty Team Slot 07]", bg1 = { 0, 0, 120 }, bg2 = { 0, 0, 120 }, fg = { 0, 0, 150 } },

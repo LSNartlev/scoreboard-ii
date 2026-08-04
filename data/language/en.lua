@@ -5,6 +5,8 @@ local languagePack = {
   tooltips = {
     scoreboardFallback = "Welcome to Scoreboard II.\nPress [ESC] to setup a match. For details on how to use, point your mouse over the parts of the scoreboard.",
     matchSetup = "MATCH SETUP\nYou may edit the Match Title or the names of the teams here. To change or adjust any of the uniform colors, click \"Change Team / Color\".",
+    teamSetup = "TEAM SETUP\nTo change the uniform colors, select which color to edit first, then use the sliders to adjust the colors.\n"
+    .. "You may also save your customization into the List of Saved Teams.",
     matchEnd = { basketball = "The match has concluded. To setup a new match, press [ESC]. If this match is still not over, adjust the period timer to keep playing.",
       netSport = "The match has concluded.\nTo setup a new match, press [ESC]. If this match is still not over, roll back the scores on this set/game to keep playing." }
   },
@@ -89,10 +91,15 @@ local languagePack = {
     listNext = "Show the next eight teams on the list.",
     toMatchSetup = "Return to Match Setup.",
     confirmTeam = "Confirm this team details and return to Match Setup.",
-    listHeaderLabel = "Select a slot to save this team:",
+    listHeaderLabel = "Select a saved team to load its name & colors:",
+    saveTeamLabel = "Select a slot to save (and overwrite) the team name & colors:",
     hueSlider = "Click and/or slide to adjust the hue. Current value: ",
     satSlider = "Click and/or slide to adjust the saturation. Current value: ",
-    lightSlider = "Click and/or slide to adjust the lightness. Current value: "
+    lightSlider = "Click and/or slide to adjust the lightness. Current value: ",
+    onEdit = {
+      teamName = "Now editing Team Name.\nTo confirm changes, press [RETURN]. To cancel editing, press [ESC].",
+      saveTeam = "Choose a save slot on the list to save your customized team.\nNote: This will overwrite the existing team on the selected slot."
+    }
   },
   dialogBox = {
     continueBasketball = "A basketball match is currently in progress.\nAny updated settings will apply if you continue.\n\nWould you like to continue the match?",

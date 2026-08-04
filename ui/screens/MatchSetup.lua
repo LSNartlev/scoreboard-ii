@@ -209,6 +209,14 @@ function MatchSetup:performClickAction(elementId)
     elseif ScoreboardState.matchStatus == 2 then
       openDialogBoxFor = "continueNetSport"
     end
+  elseif elementId == "changeTeamA" then
+    ScoreboardState.teamSetup.side = "A"
+    ScoreboardState.onDisplay = "TeamSetup"
+    ScreenManager.changeScreen("TeamSetup")
+  elseif elementId == "changeTeamB" then
+    ScoreboardState.teamSetup.side = "B"
+    ScoreboardState.onDisplay = "TeamSetup"
+    ScreenManager.changeScreen("TeamSetup")
   elseif elementId == "nsTab" or elementId == "toNetSport" then
     --[[ create NetSportScoreboard first, then un-comment out this block
     if ScoreboardState.matchStatus == 0 then

@@ -22,7 +22,11 @@ local Designer = {
         return "Right Side" 
       end,
       x = 600, y = 90, width = 120, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
-    { id = "teamName", text = function() return ScoreboardState.teamSetup.name end,
+    { id = "teamName", text = function()
+        if ScoreboardState.onEdit.id == "teamName" then
+          return ScoreboardState.onEdit.value
+        end return ScoreboardState.teamSetup.name
+      end,
       x = 260, y = 125, width = 460, align = "center", font = Fonts.configTeam, color = function() return Color.white end },
     { id = "uniformColorsLabel", text = function() return "Uniform Colors" end,
       x = 260, y = 170, width = 460, align = "left", font = Fonts.config, color = function() return Color.white end },
@@ -46,24 +50,41 @@ local Designer = {
       end },
     { id = "setAsSingleColor", text = function() return "Set As Single Color" end,
       x = 460, y = 585, width = 260, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
-    { id = "saveTeam", text = function() return "Save to List" end,
+    { id = "saveTeam", text = function()
+        if ScoreboardState.onEdit.id == "saveTeam" then
+          return "Cancel"
+        end
+        return "Save to List"
+      end,
       x = 260, y = 675, width = 260, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
-    { id = "listPrev", text = function() return "< Prev" end,
+    { id = "listPrevPage", text = function() return "< Prev" end,
       x = 800, y = 585, width = 100, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
-    { id = "listNext", text = function() return "Next >" end,
+    { id = "listNextPage", text = function() return "Next >" end,
       x = 1160, y = 585, width = 100, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
     { id = "toMatchSetup", text = function() 
         if ScoreboardState.teamSetup.side == "" then
           return "" end
         return "Back"
       end,
-      x = 260, y = 675, width = 150, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
+      x = 950, y = 675, width = 150, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
     { id = "confirmTeam", text = function() 
         if ScoreboardState.teamSetup.side == "" then
           return "" end
         return "OK"
       end,
-      x = 1110, y = 675, width = 120, align = "center", font = Fonts.config, color = function() return Color.button.fg end }
+      x = 1110, y = 675, width = 150, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
+    { id = "listHeader", text = function()
+        if ScoreboardState.onEdit.id == "saveTeam" then
+          return TextStrings.teamSetup.saveTeamLabel
+        end
+        return TextStrings.teamSetup.listHeaderLabel
+      end,
+      x = 800, y = 140, width = 460, align = "left", font = Fonts.config, color = function()
+        if ScoreboardState.onEdit.id == "saveTeam" then
+          return Color.editGreen
+        end
+        return Color.white
+      end }
   },
   rectangles = {
     { id = "editTeamA", x = 470, y = 85, width = 120, height = 30, color = function()
@@ -133,14 +154,14 @@ local Designer = {
         end
         return Color.button.bg.enabled
       end },
-    { id = "listPrev", x = 800, y = 580, width = 100, height = 30, color = function()
-        if ScoreboardState.onMouseFocus == "listPrev" then
+    { id = "listPrevPage", x = 800, y = 580, width = 100, height = 30, color = function()
+        if ScoreboardState.onMouseFocus == "listPrevPage" then
           return Color.button.bg.focus
         end
         return Color.button.bg.enabled
       end },
-    { id = "listNext", x = 1160, y = 580, width = 100, height = 30, color = function()
-        if ScoreboardState.onMouseFocus == "listNext" then
+    { id = "listNextPage", x = 1160, y = 580, width = 100, height = 30, color = function()
+        if ScoreboardState.onMouseFocus == "listNextPage" then
           return Color.button.bg.focus
         end
         return Color.button.bg.enabled
@@ -239,7 +260,7 @@ local Designer = {
       end,
       width = 50, height = 10,
       color = function()
-        if ScoreboardState.onEdit == "hue" then
+        if ScoreboardState.onEdit.id == "hueSlider" then
           return Color.button.bg.focus
         elseif ScoreboardState.onMouseFocus == "hueSlider" then
           return Color.white
@@ -261,9 +282,9 @@ local Designer = {
       end,
       width = 50, height = 10,
       color = function()
-        if ScoreboardState.onEdit == "hue" then
+        if ScoreboardState.onEdit.id == "satSlider" then
           return Color.button.bg.focus
-        elseif ScoreboardState.onMouseFocus == "hueSlider" then
+        elseif ScoreboardState.onMouseFocus == "satSlider" then
           return Color.white
         end
         return Color.button.bg.enabled
@@ -283,9 +304,9 @@ local Designer = {
       end,
       width = 50, height = 10,
       color = function()
-        if ScoreboardState.onEdit == "hue" then
+        if ScoreboardState.onEdit.id == "lightSlider" then
           return Color.button.bg.focus
-        elseif ScoreboardState.onMouseFocus == "hueSlider" then
+        elseif ScoreboardState.onMouseFocus == "lightSlider" then
           return Color.white
         end
         return Color.button.bg.enabled
@@ -293,7 +314,55 @@ local Designer = {
     }
   },
   mouseBounds = {
-    
+    -- config tabs
+    { id = "matchSetup", x1 = 20, y1 = 80, x2 = 240, y2 = 120 },
+    { id = "bbSettings", x1 = 20, y1 = 130, x2 = 240, y2 = 170 },
+    { id = "bbControls", x1 = 20, y1 = 180, x2 = 240, y2 = 220 },
+    { id = "nsSettings", x1 = 20, y1 = 230, x2 = 240, y2 = 270 },
+    { id = "nsControls", x1 = 20, y1 = 280, x2 = 240, y2 = 320 },
+    { id = "teamsList", x1 = 20, y1 = 330, x2 = 240, y2 = 370 },
+    { id = "soundsList", x1 = 20, y1 = 380, x2 = 240, y2 = 420 },
+    -- TeamSetup elements
+    { id = "editTeamA", x1 = 470, y1 = 85, x2 = 590, y2 = 115 },
+    { id = "editTeamB", x1 = 600, y1 = 85, x2 = 720, y2 = 115 },
+    { id = "teamName", x1 = 260, y1 = 120, x2 = 720, y2 = 160 },
+    { id = "bg1Tab", x1 = 260, y1 = 200, x2 = 390, y2 = 240 },
+    { id = "bg2Tab", x1 = 400, y1 = 200, x2 = 530, y2 = 240 },
+    { id = "fgTab", x1 = 540, y1 = 200, x2 = 720, y2 = 240 },
+    { id = "hueSlider", x1 = 260, y1 = 250, x2 = 310, y2 = 610 },
+    { id = "satSlider", x1 = 320, y1 = 250, x2 = 370, y2 = 610 },
+    { id = "lightSlider", x1 = 380, y1 = 250, x2 = 430, y2 = 610 },
+    { id = "bg1Rect", x1 = 505, y1 = 250, x2 = 555, y2 = 280 },
+    { id = "bg2Rect", x1 = 565, y1 = 250, x2 = 615, y2 = 280 },
+    { id = "fgRect", x1 = 625, y1 = 250, x2 = 675, y2 = 280 },
+    { id = "previewRect", x1 = 460, y1 = 290, x2 = 720, y2 = 550 },
+    { id = "setAsSingleColor", x1 = 460, y1 = 580, x2 = 720, y2 = 610 },
+    { id = "saveTeam", x1 = 260, y1 = 670, x2 = 520, y2 = 700 },
+    { id = "listPrevPage", x1 = 800, y1 = 580, x2 = 900, y2 = 610 },
+    { id = "listEntry1", x1 = 800, y1 = 175, x2 = 1260, y2 = 215 },
+    { id = "listEntry2", x1 = 800, y1 = 225, x2 = 1260, y2 = 265 },
+    { id = "listEntry3", x1 = 800, y1 = 275, x2 = 1260, y2 = 315 },
+    { id = "listEntry4", x1 = 800, y1 = 325, x2 = 1260, y2 = 365 },
+    { id = "listEntry5", x1 = 800, y1 = 375, x2 = 1260, y2 = 415 },
+    { id = "listEntry6", x1 = 800, y1 = 425, x2 = 1260, y2 = 465 },
+    { id = "listEntry7", x1 = 800, y1 = 475, x2 = 1260, y2 = 515 },
+    { id = "listEntry8", x1 = 800, y1 = 525, x2 = 1260, y2 = 565 },
+    { id = "page1", x1 = 915, y1 = 585, x2 = 935, y2 = 605 },
+    { id = "page2", x1 = 945, y1 = 585, x2 = 965, y2 = 605 },
+    { id = "page3", x1 = 975, y1 = 585, x2 = 995, y2 = 605 },
+    { id = "page4", x1 = 1005, y1 = 585, x2 = 1025, y2 = 605 },
+    { id = "page5", x1 = 1035, y1 = 585, x2 = 1055, y2 = 605 },
+    { id = "page6", x1 = 1065, y1 = 585, x2 = 1085, y2 = 605 },
+    { id = "page7", x1 = 1095, y1 = 585, x2 = 1115, y2 = 605 },
+    { id = "page8", x1 = 1125, y1 = 585, x2 = 1145, y2 = 605 },
+    { id = "listNextPage", x1 = 1160, y1 = 580, x2 = 1260, y2 = 610 },
+    { id = "toMatchSetup", x1 = 950, y1 = 670, x2 = 1100, y2 = 700 },
+    { id = "confirmTeam", x1 = 1110, y1 = 670, x2 = 1260, y2 = 700 },
+    -- footer tabs
+    { id = "bbTab", x1 = 1030, y1 = 720, x2 = 1090, y2 = 800 },
+    { id = "nsTab", x1 = 1090, y1 = 720, x2 = 1150, y2 = 800 },
+    { id = "configTab", x1 = 1150, y1 = 720, x2 = 1210, y2 = 800 },
+    { id = "aboutTab", x1 = 1210, y1 = 720, x2 = 1270, y2 = 800 }
   }
 }
 

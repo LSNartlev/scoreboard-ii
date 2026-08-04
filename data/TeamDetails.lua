@@ -8,6 +8,11 @@ function TeamDetails.new(name, bg1, bg2, fg)
   self.bgColor1 = { r = 0, g = 0, b = 0 }
   self.bgColor2 = { r = 0, g = 0, b = 0 }
   self.fgColor = { r = 0, g = 0, b = 0 }
+  self.hsl = {
+    bg1 = { 0, 0, 0 },
+    bg2 = { 0, 0, 0 },
+    fg = { 0, 0, 0 }
+  }
   self.hsl.bg1 = bg1
   self.hsl.bg2 = bg2
   self.hsl.fg = fg

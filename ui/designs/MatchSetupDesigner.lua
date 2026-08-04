@@ -38,7 +38,7 @@ local Designer = {
       end },
     { id = "teamBPreview", text = function() return "2" end,
       x = 860, y = 245, width = 260, align = "center", font = Fonts.score, color = function()
-        local r, g, b = ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b
+        local r, g, b = ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b
         return { r, g, b }
       end },
     { id = "changeTeamA", text = function() return "Change Team / Colors" end,
