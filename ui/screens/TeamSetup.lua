@@ -13,11 +13,13 @@ local gradRect = require("ui.designs.GradientMesh")
 local team = require("data.TeamDetails")
 local hsl = require("ext.HSLtoRGB")
 local hueSlider, activeSlider
-local gradToDraw, teamList
+local gradToDraw, teamList, rawSaveData
 
 function TeamSetup:load()
   ScoreboardState.tooltip = Lang.tooltips.teamSetup
   hueSlider = love.graphics.newImage("assets/hueSlider.png", { mipmaps = true })
+  rawSaveData = love.filesystem.read("SavedTeams.json")
+  TeamsList = json.decode(rawSaveData)
   ScoreboardState.teamSetup.listPage = 1
   self:loadTeamList()
   if ScoreboardState.teamSetup.side == "" then
@@ -159,7 +161,7 @@ function TeamSetup:draw()
 end
 
 function TeamSetup:textinput(text)
-  
+  ScoreboardState.onEdit.value = ScoreboardState.onEdit.value .. text
 end
 
 function TeamSetup:mousemoved(x, y, dx, dy, istouch)
@@ -179,17 +181,11 @@ function TeamSetup:mousemoved(x, y, dx, dy, istouch)
 end
 
 function TeamSetup:mousepressed(x, y, button)
-  if ScoreboardState.onEdit.id == "" then
-    for _, v in ipairs(Designer.mouseBounds) do
-      if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
-        self:performClickAction(v.id)
-        break
-      end
+  for _, v in ipairs(Designer.mouseBounds) do
+    if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
+      self:performClickAction(v.id)
+      break
     end
-  elseif ScoreboardState.onEdit.id == "teamName" then
-    
-  elseif ScoreboardState.onEdit.id == "saveTeam" then
-    
   end
 end
 
@@ -287,97 +283,120 @@ function TeamSetup:drawElementsWithGradientColors()
 end
 
 function TeamSetup:performClickAction(elementId)
-  if elementId == "hueSlider" or elementId == "satSlider" or elementId == "lightSlider" then
-    activeSlider = elementId
-    ScoreboardState.onEdit.id = elementId
-  elseif elementId == "bg1Tab" then
-    ScoreboardState.teamSetup.activeColorTab = "bg1"
-  elseif elementId == "bg2Tab" then
-    ScoreboardState.teamSetup.activeColorTab = "bg2"
-  elseif elementId == "fgTab" then
-    ScoreboardState.teamSetup.activeColorTab = "fg"
-  elseif elementId == "teamName" then
-    ScoreboardState.onEdit.id = elementId
-    ScoreboardState.onEdit.value = ScoreboardState.teamSetup.name
-    love.keyboard.setTextInput(true)
-  elseif elementId == "toMatchSetup" or elementId == "confirmTeam" then
+  if ScoreboardState.onEdit.id == "teamName" then
     self:finishEditing()
-    if elementId == "confirmTeam" then
-      if ScoreboardState.teamSetup.side == "A" then
-        self:saveTeam("A")
-      elseif ScoreboardState.teamSetup.side == "B" then
-        self:saveTeam("B")
-      end  
+  elseif ScoreboardState.onEdit.id == "saveTeam" then
+    local page = ScoreboardState.teamSetup.listPage
+    if elementId == "listEntry1" then
+      self:saveTeam(((page-1)*8)+1)
+    elseif elementId == "listEntry2" then
+      self:saveTeam(((page-1)*8)+2)
+    elseif elementId == "listEntry3" then
+      self:saveTeam(((page-1)*8)+3)
+    elseif elementId == "listEntry4" then
+      self:saveTeam(((page-1)*8)+4)
+    elseif elementId == "listEntry5" then
+      self:saveTeam(((page-1)*8)+5)
+    elseif elementId == "listEntry6" then
+      self:saveTeam(((page-1)*8)+6)
+    elseif elementId == "listEntry7" then
+      self:saveTeam(((page-1)*8)+7)
+    elseif elementId == "listEntry8" then
+      self:saveTeam(((page-1)*8)+8)
     end
-    ScreenManager.changeScreen("MatchSetup")
-  elseif elementId == "saveTeam" then
-    ScoreboardState.onEdit.id = elementId
-  elseif elementId == "listEntry1" then
-    if ScoreboardState.onEdit.id == "saveTeam" then
-      self:saveTeam(((ScoreboardState.teamSetup.listPage-1)*8)+1)
-    elseif ScoreboardState.onEdit.id == "" then
+    ScoreboardState.onEdit.id = ""
+  else
+    if elementId == "hueSlider" or elementId == "satSlider" or elementId == "lightSlider" then
+      activeSlider = elementId
+      ScoreboardState.onEdit.id = elementId
+    elseif elementId == "bg1Tab" then
+      ScoreboardState.teamSetup.activeColorTab = "bg1"
+    elseif elementId == "bg2Tab" then
+      ScoreboardState.teamSetup.activeColorTab = "bg2"
+    elseif elementId == "fgTab" then
+      ScoreboardState.teamSetup.activeColorTab = "fg"
+    elseif elementId == "teamName" then
+      ScoreboardState.onEdit.id = elementId
+      ScoreboardState.onEdit.value = ScoreboardState.teamSetup.name
+      love.keyboard.setTextInput(true)
+    elseif elementId == "toMatchSetup" or elementId == "confirmTeam" then
+      self:finishEditing()
+      if elementId == "confirmTeam" then
+        if ScoreboardState.teamSetup.side == "A" then
+          self:saveTeam("A")
+        elseif ScoreboardState.teamSetup.side == "B" then
+          self:saveTeam("B")
+        end  
+      end
+      ScreenManager.changeScreen("MatchSetup")
+    elseif elementId == "saveTeam" then
+      ScoreboardState.onEdit.id = elementId
+    elseif elementId == "listEntry1" then
       self:loadTeam(1)
-    end
-  elseif elementId == "listEntry2" then
-    if ScoreboardState.onEdit.id == "saveTeam" then
-      self:saveTeam(((ScoreboardState.teamSetup.listPage-1)*8)+2)
-    elseif ScoreboardState.onEdit.id == "" then
+    elseif elementId == "listEntry2" then
       self:loadTeam(2)
-    end
-  elseif elementId == "listEntry3" then
-    if ScoreboardState.onEdit.id == "saveTeam" then
-      self:saveTeam(((ScoreboardState.teamSetup.listPage-1)*8)+3)
-    elseif ScoreboardState.onEdit.id == "" then
+    elseif elementId == "listEntry3" then
       self:loadTeam(3)
-    end
-  elseif elementId == "listEntry4" then
-    if ScoreboardState.onEdit.id == "saveTeam" then
-      self:saveTeam(((ScoreboardState.teamSetup.listPage-1)*8)+4)
-    elseif ScoreboardState.onEdit.id == "" then
+    elseif elementId == "listEntry4" then
       self:loadTeam(4)
-    end
-  elseif elementId == "listEntry5" then
-    if ScoreboardState.onEdit.id == "saveTeam" then
-      self:saveTeam(((ScoreboardState.teamSetup.listPage-1)*8)+5)
-    elseif ScoreboardState.onEdit.id == "" then
+    elseif elementId == "listEntry5" then
       self:loadTeam(5)
-    end
-  elseif elementId == "listEntry6" then
-    if ScoreboardState.onEdit.id == "saveTeam" then
-      self:saveTeam(((ScoreboardState.teamSetup.listPage-1)*8)+6)
-    elseif ScoreboardState.onEdit.id == "" then
+    elseif elementId == "listEntry6" then
       self:loadTeam(6)
-    end
-  elseif elementId == "listEntry7" then
-    if ScoreboardState.onEdit.id == "saveTeam" then
-      self:saveTeam(((ScoreboardState.teamSetup.listPage-1)*8)+7)
-    elseif ScoreboardState.onEdit.id == "" then
+    elseif elementId == "listEntry7" then
       self:loadTeam(7)
-    end
-  elseif elementId == "listEntry8" then
-    if ScoreboardState.onEdit.id == "saveTeam" then
-      self:saveTeam(((ScoreboardState.teamSetup.listPage-1)*8)+8)
-    elseif ScoreboardState.onEdit.id == "" then
+    elseif elementId == "listEntry8" then
       self:loadTeam(8)
+    elseif elementId == "editTeamB" and ScoreboardState.teamSetup.side == "A" then
+      self:finishEditing()
+      self:saveTeam("A")
+      ScoreboardState.teamSetup.side = "B"
+      ScoreboardState.teamSetup.name = ScoreboardState.teamB.name
+      ScoreboardState.teamSetup.hsl = ScoreboardState.teamB.hsl
+      ScoreboardState.teamSetup.bgColor1 = ScoreboardState.teamB.bgColor1
+      ScoreboardState.teamSetup.bgColor2 = ScoreboardState.teamB.bgColor2
+      ScoreboardState.teamSetup.fgColor = ScoreboardState.teamB.fgColor
+    elseif elementId == "editTeamA" and ScoreboardState.teamSetup.side == "B" then
+      self:finishEditing()
+      self:saveTeam("B")
+      ScoreboardState.teamSetup.side = "A"
+      ScoreboardState.teamSetup.name = ScoreboardState.teamA.name
+      ScoreboardState.teamSetup.hsl = ScoreboardState.teamA.hsl
+      ScoreboardState.teamSetup.bgColor1 = ScoreboardState.teamA.bgColor1
+      ScoreboardState.teamSetup.bgColor2 = ScoreboardState.teamA.bgColor2
+      ScoreboardState.teamSetup.fgColor = ScoreboardState.teamA.fgColor
     end
-  elseif elementId == "editTeamB" and ScoreboardState.teamSetup.side == "A" then
-    self:finishEditing()
-    self:saveTeam("A")
-    ScoreboardState.teamSetup.side = "B"
-    ScoreboardState.teamSetup.name = ScoreboardState.teamB.name
-    ScoreboardState.teamSetup.hsl = ScoreboardState.teamB.hsl
-    ScoreboardState.teamSetup.bgColor1 = ScoreboardState.teamB.bgColor1
-    ScoreboardState.teamSetup.bgColor2 = ScoreboardState.teamB.bgColor2
-    ScoreboardState.teamSetup.fgColor = ScoreboardState.teamB.fgColor
-  elseif elementId == "editTeamA" and ScoreboardState.teamSetup.side == "B" then
-    self:finishEditing()
-    self:saveTeam("B")
-    ScoreboardState.teamSetup.side = "A"
-    ScoreboardState.teamSetup.name = ScoreboardState.teamA.name
-    ScoreboardState.teamSetup.hsl = ScoreboardState.teamA.hsl
-    ScoreboardState.teamSetup.bgColor1 = ScoreboardState.teamA.bgColor1
-    ScoreboardState.teamSetup.bgColor2 = ScoreboardState.teamA.bgColor2
-    ScoreboardState.teamSetup.fgColor = ScoreboardState.teamA.fgColor
+  end
+  if elementId == "listPrevPage" and ScoreboardState.teamSetup.listPage > 1 then
+    ScoreboardState.teamSetup.listPage = ScoreboardState.teamSetup.listPage - 1
+    self:loadTeamList()
+  elseif elementId == "listNextPage" and ScoreboardState.teamSetup.listPage < 8 then
+    ScoreboardState.teamSetup.listPage = ScoreboardState.teamSetup.listPage + 1
+    self:loadTeamList()
+  elseif elementId == "page1" then
+    ScoreboardState.teamSetup.listPage = 1
+    self:loadTeamList()
+  elseif elementId == "page2" then
+    ScoreboardState.teamSetup.listPage = 2
+    self:loadTeamList()
+  elseif elementId == "page3" then
+    ScoreboardState.teamSetup.listPage = 3
+    self:loadTeamList()
+  elseif elementId == "page4" then
+    ScoreboardState.teamSetup.listPage = 4
+    self:loadTeamList()
+  elseif elementId == "page5" then
+    ScoreboardState.teamSetup.listPage = 5
+    self:loadTeamList()
+  elseif elementId == "page6" then
+    ScoreboardState.teamSetup.listPage = 6
+    self:loadTeamList()
+  elseif elementId == "page7" then
+    ScoreboardState.teamSetup.listPage = 7
+    self:loadTeamList()
+  elseif elementId == "page8" then
+    ScoreboardState.teamSetup.listPage = 8
+    self:loadTeamList()
   end
 end
 
@@ -392,16 +411,16 @@ end
 
 function TeamSetup:loadTeam(listEntry)
   local page = ScoreboardState.teamSetup.listPage
-  ScoreboardState.teamSetup.name = teamList[((page-1)*8)+listEntry].name
-  ScoreboardState.teamSetup.hsl = teamList[((page-1)*8)+listEntry].hsl
-  ScoreboardState.teamSetup.bgColor1 = teamList[((page-1)*8)+listEntry].bgColor1
-  ScoreboardState.teamSetup.bgColor2 = teamList[((page-1)*8)+listEntry].bgColor2
-  ScoreboardState.teamSetup.fgColor = teamList[((page-1)*8)+listEntry].fgColor
+  ScoreboardState.teamSetup.name = teamList[listEntry].name
+  ScoreboardState.teamSetup.hsl = teamList[listEntry].hsl
+  ScoreboardState.teamSetup.bgColor1 = teamList[listEntry].bgColor1
+  ScoreboardState.teamSetup.bgColor2 = teamList[listEntry].bgColor2
+  ScoreboardState.teamSetup.fgColor = teamList[listEntry].fgColor
+  self:loadTeamList()
   self:finishEditing()
 end
 
 function TeamSetup:loadTeamList()
-  teamList = nil
   local page = ScoreboardState.teamSetup.listPage
   teamList = {
     team.new(TeamsList[((page-1)*8)+1].name, TeamsList[((page-1)*8)+1].bg1,
@@ -441,11 +460,11 @@ function TeamSetup:saveTeam(saveTo)
     TeamsList[saveTo].bg1 = ScoreboardState.teamSetup.hsl.bg1
     TeamsList[saveTo].bg2 = ScoreboardState.teamSetup.hsl.bg2
     TeamsList[saveTo].fg = ScoreboardState.teamSetup.hsl.fg
-    local rawSaveData
     if love.filesystem.getInfo("SavedTeams.json") ~= nil then
-      rawSaveData = love.filesystem.read("SavedTeams.json")
-      TeamsList = json.decode(rawSaveData)
+      rawSaveData = json.encode(TeamsList)
+      success, message = love.filesystem.write("SavedTeams.json", rawSaveData)
     end
+    self:loadTeamList()
   end
   ScoreboardState.onEdit.id = ""
 end

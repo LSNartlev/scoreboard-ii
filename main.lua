@@ -14,11 +14,6 @@ function love.load()
     rawSaveData = json.encode(TeamsList)
     success, message = love.filesystem.write("SavedTeams.json", rawSaveData)
   end
-  if love.filesystem.getInfo("SavedTeams.json") ~= nil then
-    rawSaveData = love.filesystem.read("SavedTeams.json")
-    TeamsList = json.decode(rawSaveData)
-  end
-    
   -- Load SavedConfig.json
   love.keyboard.setKeyRepeat(true)
   ScreenManager.changeScreen("MatchSetup")

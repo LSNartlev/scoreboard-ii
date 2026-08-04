@@ -457,14 +457,17 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
       love.graphics.setColor(Color.black)
     else love.graphics.setColor(0,0,0,0) end
     love.graphics.rectangle("fill", x, 420, width, 50)
-    love.graphics.setColor(1,1,1,1)
+    
     if to >= i and team == "A" then
-      love.graphics.draw(teamAColors.mesh, x, 480, 0, width, 50)
+      love.graphics.setColor(ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b)
+      love.graphics.rectangle("fill", x, 480, width, 50)
     elseif to >= i and team == "B" then
-      love.graphics.draw(teamBColors.mesh, x, 480, 0, width, 50)
+      love.graphics.setColor(ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b)
+      love.graphics.rectangle("fill", x, 480, width, 50)
     elseif i <= ScoreboardState.config.bb.maxTimeouts then
       love.graphics.setColor(Color.black)
       love.graphics.rectangle("fill", x, 480, width, 50)
+    love.graphics.setColor(1,1,1,1)
     end
   end
   
