@@ -19,6 +19,31 @@ local ScoreboardState = {
   serveTimerState = 1, -- cycle between {0, 1, 2}: 0 = hidden & stopped, 1 = visible & stopped, 2 = visible & running
   vbTargetScores = { 25, 25, 25, 25, 15, 11, 11 },
   config = {
+    matchSetup = {
+      matchTitle = ".: Scoreboard II :.",
+      teamA = {
+        name = "TEAM RED",
+        bgColor1 = { r = 0.6392, g = 0.0706, b = 0.0431 },
+        bgColor2 = { r = 0.9608, g = 0.4275, b = 0.4000 },
+        fgColor = { r = 1.0000, g = 1.0000, b = 1.0000 },
+        hsl = {
+          bg1 = { 3, 315, 123 },
+          bg2 = { 3, 316, 246 },
+          fg = { 0, 0, 360 }
+        }
+      },
+      teamB = {
+        name = "TEAM BLUE",
+        bgColor1 = { r = 0.0431, g = 0.0745, b = 0.6471 },
+        bgColor2 = { r = 0.4275, g = 0.7373, b = 0.9608 },
+        fgColor = { r = 1.0000, g = 1.0000, b = 1.0000 },
+        hsl = {
+          bg1 = { 237, 315, 124 },
+          bg2 = { 206, 313, 250 },
+          fg = { 0, 0, 360 }
+        }
+      }
+    },
     bb = {
       maxPeriods = 4,
       periodTimer = { enabled = true, reset = 10 },
@@ -30,7 +55,7 @@ local ScoreboardState = {
       isTimeoutCarryover = { true, false, true, false, false }
     },
     ns = {
-      maxSets = 5,
+      maxSets = 3,
       maxTimeouts = 2,
       targetScore = 25,
       targetScoreLast = 15,

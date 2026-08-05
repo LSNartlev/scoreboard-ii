@@ -40,8 +40,10 @@ local Controls = {
     nextPeriod = "f4",
     changeCourt = "return"
   },
+  sounds = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" },
   matchSetup = "escape",
   showControls = "f1",
+  stopAllSounds = "f8",
   changeScoreboardType = "f9",
   toSettings = "f10",
   toAbout = "f11",
@@ -86,7 +88,8 @@ local Controls = {
       prevPeriod = "f3",
       nextPeriod = "f4",
       changeCourt = "return"
-    }
+    },
+    sounds = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" },
   }
 }
 

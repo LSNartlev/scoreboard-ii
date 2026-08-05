@@ -309,12 +309,20 @@ function TeamSetup:performClickAction(elementId)
     if elementId == "hueSlider" or elementId == "satSlider" or elementId == "lightSlider" then
       activeSlider = elementId
       ScoreboardState.onEdit.id = elementId
-    elseif elementId == "bg1Tab" then
+    elseif elementId == "bg1Tab" or elementId == "bg1Rect" then
       ScoreboardState.teamSetup.activeColorTab = "bg1"
-    elseif elementId == "bg2Tab" then
+    elseif elementId == "bg2Tab" or elementId == "bg2Rect"  then
       ScoreboardState.teamSetup.activeColorTab = "bg2"
-    elseif elementId == "fgTab" then
+    elseif elementId == "fgTab" or elementId == "fgRect"  then
       ScoreboardState.teamSetup.activeColorTab = "fg"
+    elseif elementId == "setAsSingleColor" then
+      if ScoreboardState.teamSetup.activeColorTab == "bg1" then
+        ScoreboardState.teamSetup.bgColor2 = ScoreboardState.teamSetup.bgColor1
+        ScoreboardState.teamSetup.hsl.bg2 = ScoreboardState.teamSetup.hsl.bg1
+      elseif ScoreboardState.teamSetup.activeColorTab == "bg2" then
+        ScoreboardState.teamSetup.bgColor1 = ScoreboardState.teamSetup.bgColor2
+        ScoreboardState.teamSetup.hsl.bg1 = ScoreboardState.teamSetup.hsl.bg2
+      end
     elseif elementId == "teamName" then
       ScoreboardState.onEdit.id = elementId
       ScoreboardState.onEdit.value = ScoreboardState.teamSetup.name

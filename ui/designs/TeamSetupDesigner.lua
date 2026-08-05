@@ -13,15 +13,21 @@ local Designer = {
     { id = "editTeamA", text = function()
         if ScoreboardState.teamSetup.side == "" then
           return "" end
-        return "Left Side"
+        return "LEFT"
       end,
-      x = 470, y = 90, width = 120, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
+      x = 970, y = 90, width = 140, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
     { id = "editTeamB", text = function()
         if ScoreboardState.teamSetup.side == "" then
           return "" end
-        return "Right Side" 
+        return "RIGHT" 
       end,
-      x = 600, y = 90, width = 120, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
+      x = 1120, y = 90, width = 140, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
+    { id = "selectCourtSide", text = function()
+        if ScoreboardState.teamSetup.side == "" then
+          return "" end
+        return "Select Court Side" 
+      end,
+      x = 800, y = 90, width = 170, align = "left", font = Fonts.config, color = function() return Color.white end },
     { id = "teamName", text = function()
         if ScoreboardState.onEdit.id == "teamName" then
           return ScoreboardState.onEdit.value
@@ -87,7 +93,7 @@ local Designer = {
       end }
   },
   rectangles = {
-    { id = "editTeamA", x = 470, y = 85, width = 120, height = 30, color = function()
+    { id = "editTeamA", x = 970, y = 85, width = 140, height = 30, color = function()
         if ScoreboardState.teamSetup.side == "A" then
           return Color.button.bg.active
         elseif ScoreboardState.teamSetup.side == "B" then
@@ -95,7 +101,7 @@ local Designer = {
         end
         return Color.alpha
       end },
-    { id = "editTeamB", x = 600, y = 85, width = 120, height = 30, color = function()
+    { id = "editTeamB", x = 1120, y = 85, width = 140, height = 30, color = function()
         if ScoreboardState.teamSetup.side == "B" then
           return Color.button.bg.active
         elseif ScoreboardState.teamSetup.side == "A" then
@@ -323,8 +329,8 @@ local Designer = {
     { id = "teamsList", x1 = 20, y1 = 330, x2 = 240, y2 = 370 },
     { id = "soundsList", x1 = 20, y1 = 380, x2 = 240, y2 = 420 },
     -- TeamSetup elements
-    { id = "editTeamA", x1 = 470, y1 = 85, x2 = 590, y2 = 115 },
-    { id = "editTeamB", x1 = 600, y1 = 85, x2 = 720, y2 = 115 },
+    { id = "editTeamA", x1 = 970, y1 = 85, x2 = 1110, y2 = 115 },
+    { id = "editTeamB", x1 = 120, y1 = 85, x2 = 1260, y2 = 115 },
     { id = "teamName", x1 = 260, y1 = 120, x2 = 720, y2 = 160 },
     { id = "bg1Tab", x1 = 260, y1 = 200, x2 = 390, y2 = 240 },
     { id = "bg2Tab", x1 = 400, y1 = 200, x2 = 530, y2 = 240 },

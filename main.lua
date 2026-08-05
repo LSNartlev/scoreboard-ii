@@ -15,6 +15,24 @@ function love.load()
     success, message = love.filesystem.write("SavedTeams.json", rawSaveData)
   end
   -- Load SavedConfig.json
+  if love.filesystem.getInfo("SavedConfig.json") == nil then
+    rawSaveData = json.encode(ScoreboardState.config)
+    success, message = love.filesystem.write("SavedConfig.json", rawSaveData)
+  end
+  rawSaveData = love.filesystem.read("SavedConfig.json")
+  local configData = json.decode(rawSaveData)
+  ScoreboardState.matchTitle = configData.matchSetup.matchTitle
+  ScoreboardState.teamA.name = configData.matchSetup.teamA.name
+  ScoreboardState.teamA.bgColor1 = configData.matchSetup.teamA.bgColor1
+  ScoreboardState.teamA.bgColor2 = configData.matchSetup.teamA.bgColor2
+  ScoreboardState.teamA.fgColor = configData.matchSetup.teamA.fgColor
+  ScoreboardState.teamA.hsl = configData.matchSetup.teamA.hsl
+  ScoreboardState.teamB.name = configData.matchSetup.teamB.name
+  ScoreboardState.teamB.bgColor1 = configData.matchSetup.teamB.bgColor1
+  ScoreboardState.teamB.bgColor2 = configData.matchSetup.teamB.bgColor2
+  ScoreboardState.teamB.fgColor = configData.matchSetup.teamB.fgColor
+  ScoreboardState.teamB.hsl = configData.matchSetup.teamB.hsl
+  
   love.keyboard.setKeyRepeat(true)
   ScreenManager.changeScreen("MatchSetup")
 end

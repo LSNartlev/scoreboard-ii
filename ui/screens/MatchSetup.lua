@@ -7,7 +7,8 @@ local ConfigDesigner = require("ui.designs.ConfigDesigner")
 local Color = require("ui.designs.Colors")
 local Lang = require("data.language.en")
 local gradRect = require("ui.designs.GradientMesh")
-local teamAColors, teamBColors, openDialogBoxFor
+local json = require("ext.rxi-json.json")
+local teamAColors, teamBColors, openDialogBoxFor, rawSaveData, saveOK
 
 function MatchSetup:load()
   ScoreboardState.onDisplay = "MatchSetup"
@@ -15,10 +16,11 @@ function MatchSetup:load()
   teamAColors = gradRect.new(ScoreboardState.teamA.bgColor1, ScoreboardState.teamA.bgColor2, 1)
   teamBColors = gradRect.new(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, 1)
   openDialogBoxFor = ""
+  saveOK = 0
 end
 
 function MatchSetup:update(dt)
-  
+  saveOK = saveOK - 0.1
 end
 
 function MatchSetup:draw()
@@ -82,6 +84,13 @@ function MatchSetup:draw()
     end
     love.graphics.setScissor()
     love.graphics.setColor(1,1,1,1)
+  end
+  
+  if saveOK > 0 then
+    love.graphics.setColor(Color.button.bg.active)
+    love.graphics.rectangle("fill", 260, 670, 290, 30)
+    love.graphics.setColor(Color.black)
+    love.graphics.printf("Match Setup saved!", 260, 675, 290, "center")
   end
   
   if openDialogBoxFor ~= "" then
@@ -217,6 +226,23 @@ function MatchSetup:performClickAction(elementId)
     ScoreboardState.teamSetup.side = "B"
     ScoreboardState.onDisplay = "TeamSetup"
     ScreenManager.changeScreen("TeamSetup")
+  elseif elementId == "saveAsDefault" then
+    ScoreboardState.config.matchSetup.matchTitle = ScoreboardState.matchTitle
+    ScoreboardState.config.matchSetup.teamA.name = ScoreboardState.teamA.name
+    ScoreboardState.config.matchSetup.teamA.bgColor1 = ScoreboardState.teamA.bgColor1
+    ScoreboardState.config.matchSetup.teamA.bgColor2 = ScoreboardState.teamA.bgColor2
+    ScoreboardState.config.matchSetup.teamA.fgColor = ScoreboardState.teamA.fgColor
+    ScoreboardState.config.matchSetup.teamA.hsl = ScoreboardState.teamA.hsl
+    ScoreboardState.config.matchSetup.teamB.name = ScoreboardState.teamB.name
+    ScoreboardState.config.matchSetup.teamB.bgColor1 = ScoreboardState.teamB.bgColor1
+    ScoreboardState.config.matchSetup.teamB.bgColor2 = ScoreboardState.teamB.bgColor2
+    ScoreboardState.config.matchSetup.teamB.fgColor = ScoreboardState.teamB.fgColor
+    ScoreboardState.config.matchSetup.teamB.hsl = ScoreboardState.teamB.hsl
+    if love.filesystem.getInfo("SavedTeams.json") ~= nil then
+      rawSaveData = json.encode(ScoreboardState.config)
+      success, message = love.filesystem.write("SavedConfig.json", rawSaveData)
+    end
+    saveOK = 5
   elseif elementId == "nsTab" or elementId == "toNetSport" then
     --[[ create NetSportScoreboard first, then un-comment out this block
     if ScoreboardState.matchStatus == 0 then
