@@ -442,11 +442,13 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
   local toB = ScoreboardState.teamB.bbTimeouts
   local x
   local slotWidth
-  if maxSlots > 5 then slotWidth = 340-(10*(maxSlots-1))/maxSlots
-  else slotWidth = 60 end
+  if maxSlots > 5 then slotWidth = 340-(5*(maxSlots-1))/maxSlots
+  else slotWidth = 64 end
   local warning = math.ceil(maxSlots*0.7)
   
-  local function drawMarkers(team, tf, warning, to, i, x, width)
+  local function drawMarkers(team, tf, warning, to, i, x, w)
+    local y = 430
+    local h = 30
     if tf == ScoreboardState.config.bb.maxTeamFouls then
       love.graphics.setColor(Color.editRed)
     elseif tf >= warning and i >= warning and tf >= i then
@@ -456,27 +458,28 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
     elseif i <= ScoreboardState.config.bb.maxTeamFouls then
       love.graphics.setColor(Color.black)
     else love.graphics.setColor(0,0,0,0) end
-    love.graphics.rectangle("fill", x, 420, width, 50)
+    love.graphics.polygon("fill", x,y+(h/2), x+10,y, x+w-10,y, x+w,y+(h/2), x+w-10,y+h, x+10,y+h)
     
+    y = 490
     if to >= i and team == "A" then
       love.graphics.setColor(ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b)
-      love.graphics.rectangle("fill", x, 480, width, 50)
+      love.graphics.polygon("fill", x,y+(h/2), x+10,y, x+w-10,y, x+w,y+(h/2), x+w-10,y+h, x+10,y+h)
     elseif to >= i and team == "B" then
       love.graphics.setColor(ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b)
-      love.graphics.rectangle("fill", x, 480, width, 50)
+      love.graphics.polygon("fill", x,y+(h/2), x+10,y, x+w-10,y, x+w,y+(h/2), x+w-10,y+h, x+10,y+h)
     elseif i <= ScoreboardState.config.bb.maxTimeouts then
       love.graphics.setColor(Color.black)
-      love.graphics.rectangle("fill", x, 480, width, 50)
-    love.graphics.setColor(1,1,1,1)
+      love.graphics.polygon("fill", x,y+(h/2), x+10,y, x+w-10,y, x+w,y+(h/2), x+w-10,y+h, x+10,y+h)
     end
+    love.graphics.setColor(1,1,1,1)
   end
   
   for i=1, maxSlots, 1 do
     --Team A
-    x = 490-(slotWidth*i)-(10*(i-1))
+    x = 490-(slotWidth*i)-(5*(i-1))
     drawMarkers("A", tfA, warning, toA, i, x, slotWidth)
     
-    x = 790+(slotWidth*(i-1))+(10*(i-1))
+    x = 790+(slotWidth*(i-1))+(5*(i-1))
     drawMarkers("B", tfB, warning, toB, i, x, slotWidth)
   end
 end
