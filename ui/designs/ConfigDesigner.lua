@@ -112,10 +112,9 @@ local Designer = {
     },
     {
       id = "nsTab", x = 1090, y = 720, width = 60, height = 80, icon = function() 
-        local sec = os.date("*t").sec
-        if sec % 4 == 0 then return Icons.volleyball
-        elseif sec % 4 == 1 then return Icons.badminton
-        elseif sec % 4 == 2 then return Icons.tabletennis
+        if ScoreboardState.config.ns.sportToPlay == "volleyball" then return Icons.volleyball
+        elseif ScoreboardState.config.ns.sportToPlay == "badminton" then return Icons.badminton
+        elseif ScoreboardState.config.ns.sportToPlay == "tabletennis" then return Icons.tabletennis
         else return Icons.pickleball end
       end,
       color = function() return Color.textField.bg.enabled end

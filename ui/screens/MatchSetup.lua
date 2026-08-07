@@ -244,7 +244,6 @@ function MatchSetup:performClickAction(elementId)
     end
     saveOK = 5
   elseif elementId == "nsTab" or elementId == "toNetSport" then
-    --[[ create NetSportScoreboard first, then un-comment out this block
     if ScoreboardState.matchStatus == 0 then
       ScoreboardState.onDisplay = "NetSportScoreboard"
       ScreenManager.changeScreen("NetSportScoreboard")
@@ -253,7 +252,6 @@ function MatchSetup:performClickAction(elementId)
     elseif ScoreboardState.matchStatus == 2 then
       openDialogBoxFor = "continueNetSport"
     end
-    ]]
   elseif elementId == "continue" or elementId == "startNew" then
     if elementId == "startNew" then
       ScoreboardState.matchStatus = 0
@@ -262,10 +260,8 @@ function MatchSetup:performClickAction(elementId)
       ScoreboardState.onDisplay = "BasketballScoreboard"
       ScreenManager.changeScreen("BasketballScoreboard")
     else
-      --[[
       ScoreboardState.onDisplay = "NetSportScoreboard"
       ScreenManager.changeScreen("NetSportScoreboard")
-      ]]
     end
   elseif elementId == "exitDialog" then
     openDialogBoxFor = ""

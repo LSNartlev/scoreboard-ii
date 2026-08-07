@@ -3,7 +3,6 @@ local TextStrings = require("data.language.en")
 local Fonts = require("ui.designs.Fonts")
 local Color = require("ui.designs.Colors")
 local Icons = require("ui.designs.Icons")
-local hsl = require("ext.HSLtoRGB")
 
 local Designer = {
   texts = {
@@ -132,10 +131,9 @@ local Designer = {
     },
     {
       id = "nsTab", x = 1090, y = 720, width = 60, height = 80, icon = function() 
-        local sec = os.date("*t").sec
-        if sec % 4 == 0 then return Icons.volleyball
-        elseif sec % 4 == 1 then return Icons.badminton
-        elseif sec % 4 == 2 then return Icons.tabletennis
+        if ScoreboardState.config.ns.sportToPlay == "volleyball" then return Icons.volleyball
+        elseif ScoreboardState.config.ns.sportToPlay == "badminton" then return Icons.badminton
+        elseif ScoreboardState.config.ns.sportToPlay == "tabletennis" then return Icons.tabletennis
         else return Icons.pickleball end
       end,
       color = function() return Color.textField.bg.enabled end
@@ -147,7 +145,7 @@ local Designer = {
     {
       id = "aboutTab", x = 1210, y = 720, width = 60, height = 80, icon = function() return Icons.about end,
       color = function() return Color.textField.bg.enabled end
-    },
+    }
   },
   rectangles = {
     -- id, x, y, width, height, color

@@ -124,7 +124,7 @@ function TeamSetup:draw()
   
   for _, v in ipairs(Designer.circles) do
     love.graphics.setColor(v.color())
-    love.graphics.circle("fill", v.x, v.y, v.radius)
+    love.graphics.circle("fill", v.x, v.y, v.radius, 6)
     love.graphics.setColor(1,1,1,1)
   end
   for _, v in ipairs(Designer.sliderThumbs) do

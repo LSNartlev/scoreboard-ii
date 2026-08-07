@@ -15,9 +15,9 @@ local ScoreboardState = {
   isShotClockRunning = false,
   isTimerAdjustmentEnabled = false,
   nsSet = 1,
-  serveTimer = { sec = 8, dSec = 0 },
+  serveTimer = { sec = 8, dSec = 0, displayText = "" },
   serveTimerState = 1, -- cycle between {0, 1, 2}: 0 = hidden & stopped, 1 = visible & stopped, 2 = visible & running
-  vbTargetScores = { 25, 25, 25, 25, 15, 11, 11 },
+  nsTargetScore = { 25, 25, 15, 999, 999, 999, 999, 999, 999 },
   config = {
     matchSetup = {
       matchTitle = ".: Scoreboard II :.",
@@ -55,6 +55,7 @@ local ScoreboardState = {
       isTimeoutCarryover = { true, false, true, false, false }
     },
     ns = {
+      sportToPlay = "volleyball",
       maxSets = 3,
       maxTimeouts = 2,
       targetScore = 25,
@@ -62,7 +63,7 @@ local ScoreboardState = {
       goldenPoint = { enabled = false, targetScore = 30, targetScoreLast = 30 },
       advantage = 2,
       advantageLast = 2,
-      serveTimer = { enabled = true, reset = 8 }
+      serveTimer = { enabled = true, reset = 8, hornSoundOnZero = false }
     },
     tabs = {
       activeTab = "matchSetup",
@@ -97,11 +98,10 @@ local ScoreboardState = {
     bbTeamFouls = 0,
     bbTimeouts = 0,
     bbBallPoss = false,
-    nsScore = { 0, 0, 0, 0, 0, 0, 0 },
-    nsTargetScore = { 0, 0, 0, 0, 0, 0, 0 },
+    nsScore = { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     nsSetWins = 0,
     nsTimeouts = 0,
-    nsBallServe = false
+    nsService = false
   },
   teamB = {
     name = "TEAM BLUE",
@@ -117,11 +117,10 @@ local ScoreboardState = {
     bbTeamFouls = 0,
     bbTimeouts = 0,
     bbBallPoss = false,
-    nsScore = { 0, 0, 0, 0, 0, 0, 0 },
-    nsTargetScore = { 0, 0, 0, 0, 0, 0, 0 },
+    nsScore = { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     nsSetWins = 0,
     nsTimeouts = 0,
-    nsBallServe = false
+    nsService = false
   }
 }
 

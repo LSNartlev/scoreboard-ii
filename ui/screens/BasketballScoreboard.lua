@@ -1,7 +1,7 @@
 local BasketballScoreboard = {}
 local ScreenManager = require("ui.ScreenManager")
 local ScoreboardState = require("data.ScoreboardState")
-local Designer = require("ui.designs.BasketballScoreboardDesigner")
+local Designer = require("ui.designs.BasketballDesigner")
 local Actions = require("ui.functions.BasketballActions")
 local Color = require("ui.designs.Colors")
 local Fonts = require("ui.designs.Fonts")
@@ -80,12 +80,6 @@ function BasketballScoreboard:update(dt)
     ScoreboardState.shotClock.displayText = ScoreboardState.shotClock.sec
       .. "." .. ScoreboardState.shotClock.dSec
   end
-  
-  --if ScoreboardState.onMouseFocus == "period" and love.mouse.isDown(1) then
-  --  ScoreboardState.isHornSoundPlaying = true
-  --elseif love.mouse.isDown(1) == false then
-  --  ScoreboardState.isHornSoundPlaying = false
-  --end
   
   if isMatchOver then
       if ScoreboardState.teamA.bbScore > ScoreboardState.teamB.bbScore then
