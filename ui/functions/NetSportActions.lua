@@ -65,6 +65,11 @@ end
 function NetSportActions:toggleServeTimer()
   if ScoreboardState.serveTimerState == 0 then
     ScoreboardState.serveTimerState = 1
+  elseif ScoreboardState.serveTimerState == 1 and ScoreboardState.serveTimer.sec == 0
+    and ScoreboardState.serveTimer.dSec == 0 then
+    ScoreboardState.serveTimerState = 0
+    ScoreboardState.serveTimer.sec = ScoreboardState.config.ns.serveTimer.reset
+    ScoreboardState.serveTimer.dSec = 0
   elseif ScoreboardState.serveTimerState == 1 then
     ScoreboardState.serveTimerState = 2
   elseif ScoreboardState.serveTimerState == 2 then

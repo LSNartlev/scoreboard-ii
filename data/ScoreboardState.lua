@@ -18,6 +18,7 @@ local ScoreboardState = {
   serveTimer = { sec = 8, dSec = 0, displayText = "" },
   serveTimerState = 1, -- cycle between {0, 1, 2}: 0 = hidden & stopped, 1 = visible & stopped, 2 = visible & running
   nsTargetScore = { 25, 25, 15, 999, 999, 999, 999, 999, 999 },
+  nsSummary = { teamA = { 0, 0, 1, 2, 3 }, teamB = { 1, 2, 3, 0, 0 } },
   config = {
     matchSetup = {
       matchTitle = ".: Scoreboard II :.",

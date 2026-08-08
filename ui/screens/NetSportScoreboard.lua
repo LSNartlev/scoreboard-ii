@@ -108,6 +108,12 @@ function NetSportScoreboard:draw()
     love.graphics.setColor(1,1,1,1)
   end
   
+  for _, v in ipairs(Designer.setScores.rectangles) do
+    love.graphics.setColor(v.color())
+    love.graphics.rectangle("fill", v.x, v.y, v.width, v.height)
+    love.graphics.setColor(1,1,1,1)
+  end
+  
   for _, v in ipairs(Designer.triangles) do
     love.graphics.setColor(v.color())
     love.graphics.polygon("fill", v.x1, v.y1, v.x2, v.y2, v.x3, v.y3)
@@ -125,18 +131,18 @@ function NetSportScoreboard:draw()
     love.graphics.setColor(1,1,1,1)
   end
   
-  for _, v in ipairs(Designer.tabButtons) do
-    love.graphics.setColor(v.color())
-    love.graphics.rectangle("fill", v.x, v.y, v.width, v.height)
-    love.graphics.setColor(1,1,1,1)
-    love.graphics.draw(v.icon(), v.x, v.y+10, 0, 60/v.icon():getWidth(), 60/v.icon():getHeight())
-  end
-  
   for _, v in ipairs(Designer.setScores.texts) do
     love.graphics.setFont(v.font)
     love.graphics.setColor(v.color())
     love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
     love.graphics.setColor(1,1,1,1)
+  end
+  
+  for _, v in ipairs(Designer.tabButtons) do
+    love.graphics.setColor(v.color())
+    love.graphics.rectangle("fill", v.x, v.y, v.width, v.height)
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.draw(v.icon(), v.x, v.y+10, 0, 60/v.icon():getWidth(), 60/v.icon():getHeight())
   end
   
   if scoreAnim.teamA > 0 or scoreAnim.teamB > 0 or isMatchOver then

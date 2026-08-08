@@ -92,375 +92,306 @@ local Designer = {
     texts = {
       {
         id = "labelA1", text = function()
-          if ScoreboardState.config.ns.maxSets < 5 then return ""
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            local toDisplay = ScoreboardState.nsSet - 4
-            if ScoreboardState.nsSet > 5 then return ".: " .. toDisplay .. " :."
-            else return ".: 1 :." end
-          end
+          if ScoreboardState.nsSummary.teamA[1] == 0 then return "" end
+          return ".: " .. ScoreboardState.nsSummary.teamA[1] .. " :."
         end,
-        x = 40, y = 420, width = 104, align = "center", font = Fonts.counterLabel, color = function()
-          if ScoreboardState.config.ns.maxSets < 5 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            if ScoreboardState.nsSet == 1 then return Color.black end
-          end
+        x = 40, y = 425, width = 104, align = "center", font = Fonts.counterLabel, color = function()
+          if ScoreboardState.nsSummary.teamA[1] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamA[1] == ScoreboardState.nsSet then return Color.black end
           return Color.white
         end
       },
       {
         id = "labelA2", text = function()
-          if ScoreboardState.config.ns.maxSets < 5 then return ""
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            local toDisplay = ScoreboardState.nsSet - 3
-            if ScoreboardState.nsSet > 5 then return ".: " .. toDisplay .. " :." end
-            return ".: 2 :."
-          end
+          if ScoreboardState.nsSummary.teamA[2] == 0 then return "" end
+          return ".: " .. ScoreboardState.nsSummary.teamA[2] .. " :."
         end,
-        x = 154, y = 420, width = 104, align = "center", font = Fonts.counterLabel, color = function()
-          if ScoreboardState.config.ns.maxSets < 5 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            if ScoreboardState.nsSet == 2 then return Color.black end
-          end
+        x = 154, y = 425, width = 104, align = "center", font = Fonts.counterLabel, color = function()
+          if ScoreboardState.nsSummary.teamA[2] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamA[2] == ScoreboardState.nsSet then return Color.black end
           return Color.white
         end
       },
       {
         id = "labelA3", text = function()
-          if ScoreboardState.config.ns.maxSets == 3 then return ".: 1 :."
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            local toDisplay = ScoreboardState.nsSet - 2
-            if ScoreboardState.nsSet > 5 then return ".: " .. toDisplay .. " :." end
-            return ".: 3 :."
-          end
+          if ScoreboardState.nsSummary.teamA[3] == 0 then return "" end
+          return ".: " .. ScoreboardState.nsSummary.teamA[3] .. " :."
         end,
-        x = 268, y = 420, width = 104, align = "center", font = Fonts.counterLabel, color = function()
-          if ScoreboardState.config.ns.maxSets < 3 then return Color.alpha
-          elseif (ScoreboardState.config.ns.maxSets == 3 and ScoreboardState.nsSet == 1)
-            or (ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet == 3) then
-            return Color.black
-          end
+        x = 268, y = 425, width = 104, align = "center", font = Fonts.counterLabel, color = function()
+          if ScoreboardState.nsSummary.teamA[3] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamA[3] == ScoreboardState.nsSet then return Color.black end
           return Color.white
         end
       },
       {
         id = "labelA4", text = function()
-          if ScoreboardState.config.ns.maxSets == 3 then return ".: 2 :."
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            local toDisplay = ScoreboardState.nsSet - 1
-            if ScoreboardState.nsSet > 5 then return ".: " .. toDisplay .. " :." end
-            return ".: 4 :."
-          end
+          if ScoreboardState.nsSummary.teamA[4] == 0 then return "" end
+          return ".: " .. ScoreboardState.nsSummary.teamA[4] .. " :."
         end,
-        x = 382, y = 420, width = 104, align = "center", font = Fonts.counterLabel, color = function()
-          if ScoreboardState.config.ns.maxSets < 3 then return Color.alpha
-          elseif (ScoreboardState.config.ns.maxSets == 3 and ScoreboardState.nsSet == 2)
-            or (ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet == 4) then
-            return Color.black
-          end
+        x = 382, y = 425, width = 104, align = "center", font = Fonts.counterLabel, color = function()
+          if ScoreboardState.nsSummary.teamA[4] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamA[4] == ScoreboardState.nsSet then return Color.black end
           return Color.white
         end
       },
       {
         id = "labelA5", text = function()
-          if ScoreboardState.config.ns.maxSets == 3 then return ".: 3 :."
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            if ScoreboardState.nsSet >= 5 then return ".: " .. ScoreboardState.nsSet .. " :." end
-            return ".: 5 :."
-          end
+          if ScoreboardState.nsSummary.teamA[5] == 0 then return "" end
+          return ".: " .. ScoreboardState.nsSummary.teamA[5] .. " :."
         end,
-        x = 496, y = 420, width = 104, align = "center", font = Fonts.counterLabel, color = function()
-          if ScoreboardState.config.ns.maxSets < 3 then return Color.alpha
-          elseif (ScoreboardState.config.ns.maxSets == 3 and ScoreboardState.nsSet == 3)
-            or (ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet >= 5) then
-            return Color.black
-          end
+        x = 496, y = 425, width = 104, align = "center", font = Fonts.counterLabel, color = function()
+          if ScoreboardState.nsSummary.teamA[5] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamA[5] == ScoreboardState.nsSet then return Color.black end
           return Color.white
         end
       },
       {
         id = "labelB1", text = function()
-          if ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet > 5 then
-            local toDisplay = ScoreboardState.nsSet - 4
-            return ".: " .. toDisplay .. " :." end
-          return ".: 1 :."
+          if ScoreboardState.nsSummary.teamB[1] == 0 then return "" end
+          return ".: " .. ScoreboardState.nsSummary.teamB[1] .. " :."
         end,
-        x = 680, y = 420, width = 104, align = "center", font = Fonts.counterLabel, color = function()
-          if ScoreboardState.nsSet == 1 then return Color.black end
+        x = 680, y = 425, width = 104, align = "center", font = Fonts.counterLabel, color = function()
+          if ScoreboardState.nsSummary.teamB[1] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamB[1] == ScoreboardState.nsSet then return Color.black end
           return Color.white
         end
       },
       {
         id = "labelB2", text = function()
-          if ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet > 5 then
-            local toDisplay = ScoreboardState.nsSet - 3
-            return ".: " .. toDisplay .. " :." end
-          return ".: 2 :."
+          if ScoreboardState.nsSummary.teamB[2] == 0 then return "" end
+          return ".: " .. ScoreboardState.nsSummary.teamB[2] .. " :."
         end,
-        x = 794, y = 420, width = 104, align = "center", font = Fonts.counterLabel, color = function()
-          if ScoreboardState.nsSet == 2 then return Color.black end
+        x = 794, y = 425, width = 104, align = "center", font = Fonts.counterLabel, color = function()
+          if ScoreboardState.nsSummary.teamB[2] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamB[2] == ScoreboardState.nsSet then return Color.black end
           return Color.white
         end
       },
       {
         id = "labelB3", text = function()
-          if ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet > 5 then
-            local toDisplay = ScoreboardState.nsSet - 2
-            return ".: " .. toDisplay .. " :." end
-          return ".: 3 :."
+          if ScoreboardState.nsSummary.teamB[3] == 0 then return "" end
+          return ".: " .. ScoreboardState.nsSummary.teamB[3] .. " :."
         end,
-        x = 908, y = 420, width = 104, align = "center", font = Fonts.counterLabel, color = function()
-          if ScoreboardState.nsSet == 3 then return Color.black end
+        x = 908, y = 425, width = 104, align = "center", font = Fonts.counterLabel, color = function()
+          if ScoreboardState.nsSummary.teamB[3] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamB[3] == ScoreboardState.nsSet then return Color.black end
           return Color.white
         end
       },
       {
         id = "labelB4", text = function()
-          if ScoreboardState.config.ns.maxSets <= 3 then return ""
-          elseif ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet > 5 then
-            local toDisplay = ScoreboardState.nsSet - 1
-            return ".: " .. toDisplay .. " :."
-          else return ".: 4 :." end
+          if ScoreboardState.nsSummary.teamB[4] == 0 then return "" end
+          return ".: " .. ScoreboardState.nsSummary.teamB[4] .. " :."
         end,
-        x = 1022, y = 420, width = 104, align = "center", font = Fonts.counterLabel, color = function()
-          if ScoreboardState.config.ns.maxSets < 5 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            if ScoreboardState.nsSet == 4 then return Color.black end
-            return Color.white
-          end
+        x = 1022, y = 425, width = 104, align = "center", font = Fonts.counterLabel, color = function()
+          if ScoreboardState.nsSummary.teamB[4] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamB[4] == ScoreboardState.nsSet then return Color.black end
+          return Color.white
         end
       },
       {
         id = "labelB5", text = function()
-          if ScoreboardState.config.ns.maxSets <= 3 then return ""
-          elseif ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet > 5 then
-            return ".: " .. ScoreboardState.nsSet .. " :."
-          else return ".: 5 :." end
+          if ScoreboardState.nsSummary.teamB[5] == 0 then return "" end
+          return ".: " .. ScoreboardState.nsSummary.teamB[5] .. " :."
         end,
-        x = 1136, y = 420, width = 104, align = "center", font = Fonts.counterLabel, color = function()
-          if ScoreboardState.config.ns.maxSets < 5 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            if ScoreboardState.nsSet >= 5 then return Color.black end
-            return Color.white
-          end
+        x = 1136, y = 425, width = 104, align = "center", font = Fonts.counterLabel, color = function()
+          if ScoreboardState.nsSummary.teamB[5] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamB[5] == ScoreboardState.nsSet then return Color.black end
+          return Color.white
         end
       },
       {
         id = "scoreA1", text = function()
-          if ScoreboardState.config.ns.maxSets < 5 then return ""
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            if ScoreboardState.nsSet > 5 then return ScoreboardState.teamA.nsScore[ScoreboardState.nsSet-4] end
-            return ScoreboardState.teamA.nsScore[1]
-          end
+          if ScoreboardState.nsSummary.teamA[1] == 0 then return "" end
+          return ScoreboardState.teamA.nsScore[ScoreboardState.nsSummary.teamA[1]]
         end,
-        x = 40, y = 460, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
-          if ScoreboardState.config.ns.maxSets < 5 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            if ScoreboardState.nsSet > 5 and
-              ScoreboardState.teamA.nsScore[ScoreboardState.nsSet-4] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet-4] then
-              return Color.yellow end
-            return Color.white
-          end
+        x = 40, y = 465, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
+          local i = ScoreboardState.nsSummary.teamA[1]
+          if i == 0 then return Color.alpha
+          elseif ScoreboardState.teamA.nsScore[i] == ScoreboardState.nsTargetScore[i] then return Color.yellow end
+          return Color.white
         end
       },
       {
         id = "scoreA2", text = function()
-          if ScoreboardState.config.ns.maxSets < 5 then return ""
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            if ScoreboardState.nsSet < 2 then return "" end
-            if ScoreboardState.nsSet > 5 then return ScoreboardState.teamA.nsScore[ScoreboardState.nsSet-3] end
-            return ScoreboardState.teamA.nsScore[2]
-          end
+          if ScoreboardState.nsSummary.teamA[2] == 0 then return "" end
+          return ScoreboardState.teamA.nsScore[ScoreboardState.nsSummary.teamA[2]]
         end,
-        x = 154, y = 460, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
-          if ScoreboardState.config.ns.maxSets < 5 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            if ScoreboardState.nsSet > 5 and
-              ScoreboardState.teamA.nsScore[ScoreboardState.nsSet-3] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet-3] then
-              return Color.yellow end
-            return Color.white
-          end
+        x = 154, y = 465, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
+          local i = ScoreboardState.nsSummary.teamA[2]
+          if i == 0 then return Color.alpha
+          elseif ScoreboardState.teamA.nsScore[i] == ScoreboardState.nsTargetScore[i] then return Color.yellow end
+          return Color.white
         end
       },
       {
         id = "scoreA3", text = function()
-          if ScoreboardState.config.ns.maxSets < 3 then return ""
-          elseif ScoreboardState.config.ns.maxSets == 3 then return ScoreboardState.teamA.nsScore[1]
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            if ScoreboardState.nsSet < 3 then return "" end
-            if ScoreboardState.nsSet > 5 then return ScoreboardState.teamA.nsScore[ScoreboardState.nsSet-2]
-            else return ScoreboardState.teamA.nsScore[3] end
-          end
+          if ScoreboardState.nsSummary.teamA[3] == 0 then return "" end
+          return ScoreboardState.teamA.nsScore[ScoreboardState.nsSummary.teamA[3]]
         end,
-        x = 268, y = 460, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
-          if ScoreboardState.config.ns.maxSets < 3 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets >= 3 then
-            if (ScoreboardState.nsSet > 5 and
-              ScoreboardState.teamA.nsScore[ScoreboardState.nsSet-2] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet-2])
-              or (ScoreboardState.nsSet == 5 and
-              ScoreboardState.teamA.nsScore[3] == ScoreboardState.nsTargetScore[3])
-              or (ScoreboardState.nsSet == 3 and
-              ScoreboardState.teamA.nsScore[1] == ScoreboardState.nsTargetScore[1]) then
-              return Color.yellow end
-            return Color.white
-          end
+        x = 268, y = 465, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
+          local i = ScoreboardState.nsSummary.teamA[3]
+          if i == 0 then return Color.alpha
+          elseif ScoreboardState.teamA.nsScore[i] == ScoreboardState.nsTargetScore[i] then return Color.yellow end
+          return Color.white
         end
       },
       {
         id = "scoreA4", text = function()
-          if ScoreboardState.config.ns.maxSets < 3 then return ""
-          elseif ScoreboardState.config.ns.maxSets == 3 then 
-            if ScoreboardState.nsSet < 2 then return "" end
-            return ScoreboardState.teamA.nsScore[2]
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            if ScoreboardState.nsSet < 4 then return "" end
-            if ScoreboardState.nsSet > 5 then return ScoreboardState.teamA.nsScore[ScoreboardState.nsSet-1]
-            else return ScoreboardState.teamA.nsScore[4] end
-          end
+          if ScoreboardState.nsSummary.teamA[4] == 0 then return "" end
+          return ScoreboardState.teamA.nsScore[ScoreboardState.nsSummary.teamA[4]]
         end,
-        x = 382, y = 460, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
-          if ScoreboardState.config.ns.maxSets < 3 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets >= 3 then
-            if (ScoreboardState.nsSet > 5 and
-              ScoreboardState.teamA.nsScore[ScoreboardState.nsSet-1] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet-1])
-              or (ScoreboardState.nsSet == 5 and
-              ScoreboardState.teamA.nsScore[4] == ScoreboardState.nsTargetScore[4])
-              or (ScoreboardState.nsSet == 3 and
-              ScoreboardState.teamA.nsScore[2] == ScoreboardState.nsTargetScore[2]) then
-              return Color.yellow end
-            return Color.white
-          end
+        x = 382, y = 465, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
+          local i = ScoreboardState.nsSummary.teamA[4]
+          if i == 0 then return Color.alpha
+          elseif ScoreboardState.teamA.nsScore[i] == ScoreboardState.nsTargetScore[i] then return Color.yellow end
+          return Color.white
         end
       },
       {
         id = "scoreA5", text = function()
-          if ScoreboardState.config.ns.maxSets < 3 then return ""
-          elseif ScoreboardState.config.ns.maxSets == 3 then
-            if ScoreboardState.nsSet < 3 then return "" end
-            return ScoreboardState.teamA.nsScore[3]
-          elseif ScoreboardState.config.ns.maxSets >= 5 then
-            if ScoreboardState.nsSet < 5 then return "" end
-            if ScoreboardState.nsSet > 5 then return ScoreboardState.teamA.nsScore[ScoreboardState.nsSet]
-            else return ScoreboardState.teamA.nsScore[5] end
-          end
+          if ScoreboardState.nsSummary.teamA[5] == 0 then return "" end
+          return ScoreboardState.teamA.nsScore[ScoreboardState.nsSummary.teamA[5]]
         end,
-        x = 496, y = 460, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
-          if ScoreboardState.config.ns.maxSets < 3 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets >= 3 then
-            if (ScoreboardState.nsSet > 5 and
-              ScoreboardState.teamA.nsScore[ScoreboardState.nsSet] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet])
-              or (ScoreboardState.nsSet == 5 and
-              ScoreboardState.teamA.nsScore[5] == ScoreboardState.nsTargetScore[5])
-              or (ScoreboardState.nsSet == 3 and
-              ScoreboardState.teamA.nsScore[3] == ScoreboardState.nsTargetScore[3]) then
-              return Color.yellow end
-            return Color.white
-          end
+        x = 496, y = 465, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
+          local i = ScoreboardState.nsSummary.teamA[5]
+          if i == 0 then return Color.alpha
+          elseif ScoreboardState.teamA.nsScore[i] == ScoreboardState.nsTargetScore[i] then return Color.yellow end
+          return Color.white
         end
       },
       {
         id = "scoreB1", text = function()
-          if ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet > 5 then
-            return ScoreboardState.teamB.nsScore[ScoreboardState.nsSet-4] end
-          return ScoreboardState.teamB.nsScore[1]
+          if ScoreboardState.nsSummary.teamB[1] == 0 then return "" end
+          return ScoreboardState.teamB.nsScore[ScoreboardState.nsSummary.teamB[1]]
         end,
-        x = 680, y = 460, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
-          if ScoreboardState.config.ns.maxSets < 3 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets >= 3 then
-            if (ScoreboardState.nsSet > 5 and
-              ScoreboardState.teamB.nsScore[ScoreboardState.nsSet-4] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet-4])
-              or (ScoreboardState.nsSet == 1 and
-              ScoreboardState.teamB.nsScore[1] == ScoreboardState.nsTargetScore[1]) then
-              return Color.yellow end
-            return Color.white  
-          end
+        x = 680, y = 465, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
+          local i = ScoreboardState.nsSummary.teamB[1]
+          if i == 0 then return Color.alpha
+          elseif ScoreboardState.teamB.nsScore[i] == ScoreboardState.nsTargetScore[i] then return Color.yellow end
+          return Color.white
         end
       },
       {
         id = "scoreB2", text = function()
-          if ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet > 5 then
-            return ScoreboardState.teamB.nsScore[ScoreboardState.nsSet-3] end
-          if ScoreboardState.nsSet < 2 then return "" end
-          return ScoreboardState.teamB.nsScore[2]
+          if ScoreboardState.nsSummary.teamB[2] == 0 then return "" end
+          return ScoreboardState.teamB.nsScore[ScoreboardState.nsSummary.teamB[2]]
         end,
-        x = 794, y = 460, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
-          if ScoreboardState.config.ns.maxSets < 3 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets >= 3 then
-            if (ScoreboardState.nsSet > 5 and
-              ScoreboardState.teamB.nsScore[ScoreboardState.nsSet-3] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet-3])
-              or (ScoreboardState.nsSet == 2 and
-              ScoreboardState.teamB.nsScore[2] == ScoreboardState.nsTargetScore[2]) then
-              return Color.yellow end
-            return Color.white  
-          end
+        x = 794, y = 465, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
+          local i = ScoreboardState.nsSummary.teamB[2]
+          if i == 0 then return Color.alpha
+          elseif ScoreboardState.teamB.nsScore[i] == ScoreboardState.nsTargetScore[i] then return Color.yellow end
+          return Color.white
         end
       },
       {
         id = "scoreB3", text = function()
-          if ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet > 5 then
-            return ScoreboardState.teamB.nsScore[ScoreboardState.nsSet-2] end
-          if ScoreboardState.nsSet < 3 then return "" end
-          return ScoreboardState.teamB.nsScore[3]
+          if ScoreboardState.nsSummary.teamB[3] == 0 then return "" end
+          return ScoreboardState.teamB.nsScore[ScoreboardState.nsSummary.teamB[3]]
         end,
-        x = 908, y = 460, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
-          if ScoreboardState.config.ns.maxSets < 3 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets >= 3 then
-            if (ScoreboardState.nsSet > 5 and
-              ScoreboardState.teamB.nsScore[ScoreboardState.nsSet-2] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet-2])
-              or (ScoreboardState.nsSet == 3 and
-              ScoreboardState.teamB.nsScore[3] == ScoreboardState.nsTargetScore[3]) then
-              return Color.yellow end
-            return Color.white  
-          end
+        x = 908, y = 465, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
+          local i = ScoreboardState.nsSummary.teamB[3]
+          if i == 0 then return Color.alpha
+          elseif ScoreboardState.teamB.nsScore[i] == ScoreboardState.nsTargetScore[i] then return Color.yellow end
+          return Color.white
         end
       },
       {
         id = "scoreB4", text = function()
-          if ScoreboardState.config.ns.maxSets == 3 then return ""
-          elseif ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet > 5 then
-            return ScoreboardState.teamB.nsScore[ScoreboardState.nsSet-1]
-          elseif ScoreboardState.config.ns.maxSets >= 5 then 
-            if ScoreboardState.nsSet < 4 then return "" end
-            return ScoreboardState.teamB.nsScore[4]
-          end
+          if ScoreboardState.nsSummary.teamB[4] == 0 then return "" end
+          return ScoreboardState.teamB.nsScore[ScoreboardState.nsSummary.teamB[4]]
         end,
-        x = 1022, y = 460, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
-          if ScoreboardState.config.ns.maxSets <= 3 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets > 3 then
-            if (ScoreboardState.nsSet > 5 and
-              ScoreboardState.teamB.nsScore[ScoreboardState.nsSet-1] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet-1])
-              or (ScoreboardState.nsSet == 4 and
-              ScoreboardState.teamB.nsScore[4] == ScoreboardState.nsTargetScore[4]) then
-              return Color.yellow end
-            return Color.white  
-          end
+        x = 1022, y = 465, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
+          local i = ScoreboardState.nsSummary.teamB[4]
+          if i == 0 then return Color.alpha
+          elseif ScoreboardState.teamB.nsScore[i] == ScoreboardState.nsTargetScore[i] then return Color.yellow end
+          return Color.white
         end
       },
       {
         id = "scoreB5", text = function()
-          if ScoreboardState.config.ns.maxSets == 3 then return ""
-          elseif ScoreboardState.config.ns.maxSets >= 5 and ScoreboardState.nsSet > 5 then
-            return ScoreboardState.teamB.nsScore[ScoreboardState.nsSet]
-          elseif ScoreboardState.config.ns.maxSets >= 5 then 
-            if ScoreboardState.nsSet < 5 then return "" end
-            return ScoreboardState.teamB.nsScore[5]
-          end
+          if ScoreboardState.nsSummary.teamB[5] == 0 then return "" end
+          return ScoreboardState.teamB.nsScore[ScoreboardState.nsSummary.teamB[5]]
         end,
-        x = 1136, y = 460, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
-          if ScoreboardState.config.ns.maxSets <= 3 then return Color.alpha
-          elseif ScoreboardState.config.ns.maxSets > 3 then
-            if (ScoreboardState.nsSet > 5 and
-              ScoreboardState.teamB.nsScore[ScoreboardState.nsSet] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet])
-              or (ScoreboardState.nsSet == 5 and
-              ScoreboardState.teamB.nsScore[5] == ScoreboardState.nsTargetScore[5]) then
-              return Color.yellow end
-            return Color.white  
-          end
+        x = 1136, y = 465, width = 104, align = "center", font = Fonts.nsSetScores, color = function()
+          local i = ScoreboardState.nsSummary.teamB[5]
+          if i == 0 then return Color.alpha
+          elseif ScoreboardState.teamB.nsScore[i] == ScoreboardState.nsTargetScore[i] then return Color.yellow end
+          return Color.white
         end
       }
     },
     rectangles = {
-      { id = "matchTitle", x = 40, y = 40, width = 1200, height = 60,
-      color = function() return Color.white end },
+      { id = "labelA1", x = 40, y = 420, width = 104, height = 40, color = function()
+          if ScoreboardState.nsSummary.teamA[1] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamA[1] == ScoreboardState.nsSet then return Color.white end
+          return Color.black
+        end },
+      { id = "labelA2", x = 154, y = 420, width = 104, height = 40, color = function()
+          if ScoreboardState.nsSummary.teamA[2] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamA[2] == ScoreboardState.nsSet then return Color.white end
+          return Color.black
+        end },
+      { id = "labelA3", x = 268, y = 420, width = 104, height = 40, color = function()
+          if ScoreboardState.nsSummary.teamA[3] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamA[3] == ScoreboardState.nsSet then return Color.white end
+          return Color.black
+        end },
+      { id = "labelA4", x = 382, y = 420, width = 104, height = 40, color = function()
+          if ScoreboardState.nsSummary.teamA[4] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamA[4] == ScoreboardState.nsSet then return Color.white end
+          return Color.black
+        end },
+      { id = "labelA5", x = 496, y = 420, width = 104, height = 40, color = function()
+          if ScoreboardState.nsSummary.teamA[5] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamA[5] == ScoreboardState.nsSet then return Color.white end
+          return Color.black
+        end },
+      { id = "labelB1", x = 680, y = 420, width = 104, height = 40, color = function()
+          if ScoreboardState.nsSummary.teamB[1] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamB[1] == ScoreboardState.nsSet then return Color.white end
+          return Color.black
+        end },
+      { id = "labelB2", x = 794, y = 420, width = 104, height = 40, color = function()
+          if ScoreboardState.nsSummary.teamB[2] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamB[2] == ScoreboardState.nsSet then return Color.white end
+          return Color.black
+        end },
+      { id = "labelB3", x = 908, y = 420, width = 104, height = 40, color = function()
+          if ScoreboardState.nsSummary.teamB[3] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamB[3] == ScoreboardState.nsSet then return Color.white end
+          return Color.black
+        end },
+      { id = "labelB4", x = 1022, y = 420, width = 104, height = 40, color = function()
+          if ScoreboardState.nsSummary.teamB[4] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamB[4] == ScoreboardState.nsSet then return Color.white end
+          return Color.black
+        end },
+      { id = "labelB5", x = 1136, y = 420, width = 104, height = 40, color = function()
+          if ScoreboardState.nsSummary.teamB[5] == 0 then return Color.alpha
+          elseif ScoreboardState.nsSummary.teamB[5] == ScoreboardState.nsSet then return Color.white end
+          return Color.black
+        end },
+      { id = "scoreA1", x = 40, y = 460, width = 104, height = 70, color = function()
+          if ScoreboardState.nsSummary.teamA[1] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+      { id = "scoreA2", x = 154, y = 460, width = 104, height = 70, color = function()
+          if ScoreboardState.nsSummary.teamA[2] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+      { id = "scoreA3", x = 268, y = 460, width = 104, height = 70, color = function()
+          if ScoreboardState.nsSummary.teamA[3] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+      { id = "scoreA4", x = 382, y = 460, width = 104, height = 70, color = function()
+          if ScoreboardState.nsSummary.teamA[4] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+      { id = "scoreA5", x = 496, y = 460, width = 104, height = 70, color = function()
+          if ScoreboardState.nsSummary.teamA[5] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+      { id = "scoreB1", x = 680, y = 460, width = 104, height = 70, color = function()
+          if ScoreboardState.nsSummary.teamB[1] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+      { id = "scoreB2", x = 794, y = 460, width = 104, height = 70, color = function()
+          if ScoreboardState.nsSummary.teamB[2] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+      { id = "scoreB3", x = 908, y = 460, width = 104, height = 70, color = function()
+          if ScoreboardState.nsSummary.teamB[3] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+      { id = "scoreB4", x = 1022, y = 460, width = 104, height = 70, color = function()
+          if ScoreboardState.nsSummary.teamB[4] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+      { id = "scoreB5", x = 1136, y = 460, width = 104, height = 70, color = function()
+          if ScoreboardState.nsSummary.teamB[5] == 0 then return Color.alpha end return 0,0,0,0.7 end }
     }
   },
   triangles = {
