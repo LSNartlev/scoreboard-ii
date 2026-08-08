@@ -58,11 +58,13 @@ local ScoreboardState = {
       sportToPlay = "volleyball",
       maxSets = 3,
       maxTimeouts = 2,
+      maxTimeoutsLast = 2,
       targetScore = 25,
       targetScoreLast = 15,
-      goldenPoint = { enabled = false, targetScore = 30, targetScoreLast = 30 },
       advantage = 2,
       advantageLast = 2,
+      goldenPoint = { enabled = false, value = 30 },
+      goldenPointLast = { enabled = false, value = 30 },
       serveTimer = { enabled = true, reset = 8, hornSoundOnZero = false }
     },
     tabs = {

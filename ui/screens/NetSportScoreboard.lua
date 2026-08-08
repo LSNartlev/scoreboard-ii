@@ -13,7 +13,7 @@ local serveTimerRun, serveDT, lastServeDT, teamAColors, teamBColors
 local animatedBg, pointDiff, scoreAnim, isMatchOver
 
 function NetSportScoreboard:load()
-  ScoreboardState.onDisplay = "BasketballScoreboard"
+  ScoreboardState.onDisplay = "NetSportScoreboard"
   ScoreboardState.tooltip = Lang.tooltips.scoreboardFallback
   hornSound = love.audio.newSource("assets/horn.wav", "static")
   hornSound:setLooping(true)
@@ -56,11 +56,21 @@ function NetSportScoreboard:update(dt)
       .. "." .. ScoreboardState.serveTimer.dSec
   end
   
-  if pointDiff < -16 then pointDiff = -16
-  elseif pointDiff > 16 then pointDiff = 16
+  if isMatchOver then
+      if ScoreboardState.teamA.nsScore[ScoreboardState.nsSet] > ScoreboardState.teamB.nsScore[ScoreboardState.nsSet] then
+        pointDiff = 8
+      else
+        pointDiff = -8
+      end
+  else
+    pointDiff = ScoreboardState.teamA.nsScore[ScoreboardState.nsSet] - ScoreboardState.teamB.nsScore[ScoreboardState.nsSet]
+  end
+  
+  if pointDiff < -8 then pointDiff = -8
+  elseif pointDiff > 8 then pointDiff = 8
   end
 
-  animatedBg.finalX.teamA = 40*(16+pointDiff)
+  animatedBg.finalX.teamA = 80*(8+pointDiff)
   animatedBg.finalX.teamB = animatedBg.finalX.teamA
   animatedBg.finalX.teamBWidth = 1280-animatedBg.finalX.teamA
   if animatedBg.movingX.teamA < animatedBg.finalX.teamA then
@@ -121,6 +131,17 @@ function NetSportScoreboard:draw()
     love.graphics.setColor(1,1,1,1)
     love.graphics.draw(v.icon(), v.x, v.y+10, 0, 60/v.icon():getWidth(), 60/v.icon():getHeight())
   end
+  
+  for _, v in ipairs(Designer.setScores.texts) do
+    love.graphics.setFont(v.font)
+    love.graphics.setColor(v.color())
+    love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
+    love.graphics.setColor(1,1,1,1)
+  end
+  
+  if scoreAnim.teamA > 0 or scoreAnim.teamB > 0 or isMatchOver then
+    self:drawScoreAnimation()
+  end
 end
 
 function NetSportScoreboard:mousemoved(x, y, dx, dy, istouch)
@@ -132,11 +153,68 @@ function NetSportScoreboard:mousepressed(x, y, button)
 end
 
 function NetSportScoreboard:keypressed(key, scancode, isrepeat)
+  if key == Controls.ns.scoreTeamA then
+    if love.keyboard.isDown("lshift","rshift") then
+      Actions:score("A", -1)
+    else 
+      Actions:score("A", 1)
+      scoreAnim.teamA = 2
+    end
+  elseif key == Controls.ns.scoreTeamB then
+    if love.keyboard.isDown("lshift","rshift") then
+      Actions:score("B", -1)
+    else 
+      Actions:score("B", 1)
+      scoreAnim.teamB = 2
+    end
+  elseif key == Controls.ns.timeoutTeamA then
+    if love.keyboard.isDown("lshift","rshift") then
+      Actions:timeout("A", 1)
+    else 
+      Actions:timeout("A", -1)
+    end
+  elseif key == Controls.ns.timeoutTeamB then
+    if love.keyboard.isDown("lshift","rshift") then
+      Actions:timeout("B", 1)
+    else 
+      Actions:timeout("B", -1)
+    end
+  elseif key == Controls.ns.serveTeamA then
+    Actions:toggleService("A")
+  elseif key == Controls.ns.serveTeamB then
+    Actions:toggleService("B")
+  end
   
+  if key == Controls.ns.toggleServeTimer then
+    Actions:toggleServeTimer()
+  end
+  
+  if love.keyboard.isDown(Controls.bb.hornSound) then
+    ScoreboardState.isHornSoundPlaying = true
+    hornSound:setVolume(1)
+  end
+  
+  if key == Controls.ns.prevSet and ScoreboardState.nsSet > 1 then
+    ScoreboardState.nsSet = ScoreboardState.nsSet - 1
+  end
+  
+  if key == Controls.ns.nextSet and ScoreboardState.nsSet < ScoreboardState.config.ns.maxSets then
+    ScoreboardState.nsSet = ScoreboardState.nsSet + 1
+  end
+  
+  if key == "escape" then
+    ScoreboardState.onDisplay = "MatchSetup"
+    ScreenManager.changeScreen("MatchSetup")
+  end
+  
+  ScoreboardState.matchStatus = 2
 end
 
 function NetSportScoreboard:keyreleased(key, scancode)
-  
+  if key == Controls.bb.hornSound then
+    ScoreboardState.isHornSoundPlaying = false
+    hornSound:setVolume(0)
+  end
 end
 
 function NetSportScoreboard:countdownServeTimer()
@@ -154,6 +232,44 @@ function NetSportScoreboard:countdownServeTimer()
       ScoreboardState.isHornSoundPlaying = true
       hornSound:setVolume(1)
     end
+  end
+end
+
+function NetSportScoreboard:drawScoreAnimation()
+  if scoreAnim.teamA > 0 then
+    teamAColors:updateBgColors(ScoreboardState.teamA.bgColor1, ScoreboardState.teamA.bgColor2, scoreAnim.teamA)
+    if isMatchOver and ScoreboardState.teamA.nsScore[ScoreboardState.nsSet] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet] then
+      teamAColors:updateBgColors(ScoreboardState.teamA.bgColor1, ScoreboardState.teamA.bgColor2, 1)
+    end
+    love.graphics.draw(teamAColors.mesh, 220, 200, 0, 380, 200)
+    love.graphics.setColor(ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, 
+      ScoreboardState.teamA.fgColor.b, scoreAnim.teamA)
+    if isMatchOver and ScoreboardState.teamA.nsScore[ScoreboardState.nsSet] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet] then
+      love.graphics.setColor(ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, 
+      ScoreboardState.teamA.fgColor.b, 1)
+    end
+    love.graphics.setFont(Fonts.score)
+    love.graphics.printf(ScoreboardState.teamA.nsScore[ScoreboardState.nsSet], 220, 210, 380, "center")
+    love.graphics.setColor(1,1,1,1)
+  end
+  if scoreAnim.teamB > 0 then
+    teamBColors:updateBgColors(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, scoreAnim.teamB)
+    if isMatchOver and ScoreboardState.teamB.nsScore[ScoreboardState.nsSet] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet] then
+      teamBColors:updateBgColors(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, 1)
+    end
+    love.graphics.draw(teamBColors.mesh, 680, 200, 0, 380, 200)
+    love.graphics.setColor(ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, 
+      ScoreboardState.teamB.fgColor.b, scoreAnim.teamB)
+    if isMatchOver and ScoreboardState.teamB.nsScore[ScoreboardState.nsSet] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet] then
+      love.graphics.setColor(ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, 
+      ScoreboardState.teamB.fgColor.b, 1)
+    end
+    love.graphics.setFont(Fonts.score)
+    love.graphics.printf(ScoreboardState.teamB.nsScore[ScoreboardState.nsSet], 680, 210, 380, "center")
+    love.graphics.setColor(1,1,1,1)
+  end
+  if isMatchOver then
+    ScoreboardState.tooltip = Lang.tooltips.matchEnd.basketball
   end
 end
 

@@ -175,6 +175,9 @@ function TeamSetup:mousemoved(x, y, dx, dy, istouch)
   for _, v in ipairs(Designer.mouseBounds) do
     if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
       ScoreboardState.onMouseFocus = v.id
+      if Lang.teamSetup[v.id] then
+        ScoreboardState.tooltip = Lang.teamSetup[v.id]
+      end
       break
     end
   end
@@ -309,53 +312,75 @@ function TeamSetup:performClickAction(elementId)
     if elementId == "hueSlider" or elementId == "satSlider" or elementId == "lightSlider" then
       activeSlider = elementId
       ScoreboardState.onEdit.id = elementId
-    elseif elementId == "bg1Tab" or elementId == "bg1Rect" then
+    end
+    if elementId == "bg1Tab" or elementId == "bg1Rect" then
       ScoreboardState.teamSetup.activeColorTab = "bg1"
-    elseif elementId == "bg2Tab" or elementId == "bg2Rect"  then
+    end
+    if elementId == "bg2Tab" or elementId == "bg2Rect"  then
       ScoreboardState.teamSetup.activeColorTab = "bg2"
-    elseif elementId == "fgTab" or elementId == "fgRect"  then
+    end
+    if elementId == "fgTab" or elementId == "fgRect"  then
       ScoreboardState.teamSetup.activeColorTab = "fg"
-    elseif elementId == "setAsSingleColor" then
+    end
+    if elementId == "setAsSingleColor" then
       if ScoreboardState.teamSetup.activeColorTab == "bg1" then
-        ScoreboardState.teamSetup.bgColor2 = ScoreboardState.teamSetup.bgColor1
-        ScoreboardState.teamSetup.hsl.bg2 = ScoreboardState.teamSetup.hsl.bg1
-      elseif ScoreboardState.teamSetup.activeColorTab == "bg2" then
-        ScoreboardState.teamSetup.bgColor1 = ScoreboardState.teamSetup.bgColor2
-        ScoreboardState.teamSetup.hsl.bg1 = ScoreboardState.teamSetup.hsl.bg2
+        ScoreboardState.teamSetup.bgColor2.r, ScoreboardState.teamSetup.bgColor2.g, ScoreboardState.teamSetup.bgColor2.b
+          = ScoreboardState.teamSetup.bgColor1.r, ScoreboardState.teamSetup.bgColor1.g, ScoreboardState.teamSetup.bgColor1.b
+        ScoreboardState.teamSetup.hsl.bg2[1], ScoreboardState.teamSetup.hsl.bg2[2], ScoreboardState.teamSetup.hsl.bg2[3]
+          = ScoreboardState.teamSetup.hsl.bg1[1], ScoreboardState.teamSetup.hsl.bg1[2], ScoreboardState.teamSetup.hsl.bg1[3]
       end
-    elseif elementId == "teamName" then
+      if ScoreboardState.teamSetup.activeColorTab == "bg2" then
+        ScoreboardState.teamSetup.bgColor1.r, ScoreboardState.teamSetup.bgColor1.g, ScoreboardState.teamSetup.bgColor1.b
+          = ScoreboardState.teamSetup.bgColor2.r, ScoreboardState.teamSetup.bgColor2.g, ScoreboardState.teamSetup.bgColor2.b
+        ScoreboardState.teamSetup.hsl.bg1[1], ScoreboardState.teamSetup.hsl.bg1[2], ScoreboardState.teamSetup.hsl.bg1[3]
+          = ScoreboardState.teamSetup.hsl.bg2[1], ScoreboardState.teamSetup.hsl.bg2[2], ScoreboardState.teamSetup.hsl.bg2[3]
+      end
+    end
+    if elementId == "teamName" then
       ScoreboardState.onEdit.id = elementId
       ScoreboardState.onEdit.value = ScoreboardState.teamSetup.name
       love.keyboard.setTextInput(true)
-    elseif elementId == "toMatchSetup" or elementId == "confirmTeam" then
+    end
+    if elementId == "toMatchSetup" or elementId == "confirmTeam" then
       self:finishEditing()
       if elementId == "confirmTeam" then
         if ScoreboardState.teamSetup.side == "A" then
           self:saveTeam("A")
-        elseif ScoreboardState.teamSetup.side == "B" then
+        end
+        if ScoreboardState.teamSetup.side == "B" then
           self:saveTeam("B")
         end  
       end
       ScreenManager.changeScreen("MatchSetup")
-    elseif elementId == "saveTeam" then
+    end
+    if elementId == "saveTeam" then
       ScoreboardState.onEdit.id = elementId
-    elseif elementId == "listEntry1" then
+    end
+    if elementId == "listEntry1" then
       self:loadTeam(1)
-    elseif elementId == "listEntry2" then
+    end
+    if elementId == "listEntry2" then
       self:loadTeam(2)
-    elseif elementId == "listEntry3" then
+    end
+    if elementId == "listEntry3" then
       self:loadTeam(3)
-    elseif elementId == "listEntry4" then
+    end
+    if elementId == "listEntry4" then
       self:loadTeam(4)
-    elseif elementId == "listEntry5" then
+    end
+    if elementId == "listEntry5" then
       self:loadTeam(5)
-    elseif elementId == "listEntry6" then
+    end
+    if elementId == "listEntry6" then
       self:loadTeam(6)
-    elseif elementId == "listEntry7" then
+    end
+    if elementId == "listEntry7" then
       self:loadTeam(7)
-    elseif elementId == "listEntry8" then
+    end
+    if elementId == "listEntry8" then
       self:loadTeam(8)
-    elseif elementId == "editTeamB" and ScoreboardState.teamSetup.side == "A" then
+    end
+    if elementId == "editTeamB" and ScoreboardState.teamSetup.side == "A" then
       self:finishEditing()
       self:saveTeam("A")
       ScoreboardState.teamSetup.side = "B"
@@ -364,7 +389,8 @@ function TeamSetup:performClickAction(elementId)
       ScoreboardState.teamSetup.bgColor1 = ScoreboardState.teamB.bgColor1
       ScoreboardState.teamSetup.bgColor2 = ScoreboardState.teamB.bgColor2
       ScoreboardState.teamSetup.fgColor = ScoreboardState.teamB.fgColor
-    elseif elementId == "editTeamA" and ScoreboardState.teamSetup.side == "B" then
+    end
+    if elementId == "editTeamA" and ScoreboardState.teamSetup.side == "B" then
       self:finishEditing()
       self:saveTeam("B")
       ScoreboardState.teamSetup.side = "A"
@@ -453,16 +479,24 @@ end
 function TeamSetup:saveTeam(saveTo)
   if type(saveTo) == "string" and saveTo == "A" then
     ScoreboardState.teamA.name = ScoreboardState.teamSetup.name
-    ScoreboardState.teamA.bgColor1 = ScoreboardState.teamSetup.bgColor1
-    ScoreboardState.teamA.bgColor2 = ScoreboardState.teamSetup.bgColor2
-    ScoreboardState.teamA.fgColor = ScoreboardState.teamSetup.fgColor
-    ScoreboardState.teamA.hsl = ScoreboardState.teamSetup.hsl
+    ScoreboardState.teamA.bgColor1.r, ScoreboardState.teamA.bgColor1.g, ScoreboardState.teamA.bgColor1.b
+      = ScoreboardState.teamSetup.bgColor1.r, ScoreboardState.teamSetup.bgColor1.g, ScoreboardState.teamSetup.bgColor1.b
+    ScoreboardState.teamA.bgColor2.r, ScoreboardState.teamA.bgColor2.g, ScoreboardState.teamA.bgColor2.b
+      = ScoreboardState.teamSetup.bgColor2.r, ScoreboardState.teamSetup.bgColor2.g, ScoreboardState.teamSetup.bgColor2.b
+    ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b
+      = ScoreboardState.teamSetup.fgColor.r, ScoreboardState.teamSetup.fgColor.g, ScoreboardState.teamSetup.fgColor.b
+    ScoreboardState.teamA.hsl[1], ScoreboardState.teamA.hsl[2], ScoreboardState.teamA.hsl[3]
+      = ScoreboardState.teamSetup.hsl[1], ScoreboardState.teamSetup.hsl[2], ScoreboardState.teamSetup.hsl[3]
   elseif type(saveTo) == "string" and saveTo == "B" then
     ScoreboardState.teamB.name = ScoreboardState.teamSetup.name
-    ScoreboardState.teamB.bgColor1 = ScoreboardState.teamSetup.bgColor1
-    ScoreboardState.teamB.bgColor2 = ScoreboardState.teamSetup.bgColor2
-    ScoreboardState.teamB.fgColor = ScoreboardState.teamSetup.fgColor
-    ScoreboardState.teamB.hsl = ScoreboardState.teamSetup.hsl
+    ScoreboardState.teamB.bgColor1.r, ScoreboardState.teamB.bgColor1.g, ScoreboardState.teamB.bgColor1.b
+      = ScoreboardState.teamSetup.bgColor1.r, ScoreboardState.teamSetup.bgColor1.g, ScoreboardState.teamSetup.bgColor1.b
+    ScoreboardState.teamB.bgColor2.r, ScoreboardState.teamB.bgColor2.g, ScoreboardState.teamB.bgColor2.b
+      = ScoreboardState.teamSetup.bgColor2.r, ScoreboardState.teamSetup.bgColor2.g, ScoreboardState.teamSetup.bgColor2.b
+    ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b
+      = ScoreboardState.teamSetup.fgColor.r, ScoreboardState.teamSetup.fgColor.g, ScoreboardState.teamSetup.fgColor.b
+    ScoreboardState.teamB.hsl[1], ScoreboardState.teamB.hsl[2], ScoreboardState.teamB.hsl[3]
+      = ScoreboardState.teamSetup.hsl[1], ScoreboardState.teamSetup.hsl[2], ScoreboardState.teamSetup.hsl[3]
   elseif type(saveTo) == "number" then
     TeamsList[saveTo].name = ScoreboardState.teamSetup.name
     TeamsList[saveTo].bg1 = ScoreboardState.teamSetup.hsl.bg1

@@ -8,6 +8,7 @@ local Fonts = require("ui.designs.Fonts")
 local Icons = require("ui.designs.Icons")
 local Lang = require("data.language.en")
 local Controls = require("data.Controls")
+local hsl = require("ext.HSLtoRGB")
 local gradRect = require("ui.designs.GradientMesh")
 local hornSound, periodTimerRun, shotClockRun, periodDT, shotDT, lastPeriodDT, lastShotDT
 local teamAColors, teamBColors
@@ -337,7 +338,6 @@ function BasketballScoreboard:regularKeyAction(key)
   end
   
   if key == "escape" then
-    BasketballScoreboard:attemptExitScreen()
     ScoreboardState.onDisplay = "MatchSetup"
     ScreenManager.changeScreen("MatchSetup")
   end
@@ -443,6 +443,7 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
   local function drawMarkers(team, tf, warning, to, i, x, w)
     local y = 430
     local h = 30
+    local visible = { r = 0, g = 0, b = 0 }
     if tf == ScoreboardState.config.bb.maxTeamFouls then
       love.graphics.setColor(Color.editRed)
     elseif tf >= warning and i >= warning and tf >= i then
@@ -456,10 +457,20 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
     
     y = 490
     if to >= i and team == "A" then
-      love.graphics.setColor(ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b)
+      if ScoreboardState.teamA.hsl.fg[3] < 180 then
+        visible.r, visible.g, visible.b = hsl:toRGB(ScoreboardState.teamA.hsl.fg[1], ScoreboardState.teamA.hsl.fg[2], 180)
+        love.graphics.setColor(visible.r, visible.g, visible.b)
+      else
+        love.graphics.setColor(ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b)
+      end
       love.graphics.polygon("fill", x,y+(h/2), x+10,y, x+w-10,y, x+w,y+(h/2), x+w-10,y+h, x+10,y+h)
     elseif to >= i and team == "B" then
-      love.graphics.setColor(ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b)
+      if ScoreboardState.teamB.hsl.fg[3] < 180 then
+        visible.r, visible.g, visible.b = hsl:toRGB(ScoreboardState.teamB.hsl.fg[1], ScoreboardState.teamB.hsl.fg[2], 180)
+        love.graphics.setColor(visible.r, visible.g, visible.b)
+      else
+        love.graphics.setColor(ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b)
+      end
       love.graphics.polygon("fill", x,y+(h/2), x+10,y, x+w-10,y, x+w,y+(h/2), x+w-10,y+h, x+10,y+h)
     elseif i <= ScoreboardState.config.bb.maxTimeouts then
       love.graphics.setColor(Color.black)
@@ -498,7 +509,7 @@ function BasketballScoreboard:drawScoreAnimation()
   if scoreAnim.teamB > 0 then
     teamBColors:updateBgColors(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, scoreAnim.teamB)
     if isMatchOver and ScoreboardState.teamB.bbScore > ScoreboardState.teamA.bbScore then
-      teamAColors:updateBgColors(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, 1)
+      teamBColors:updateBgColors(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, 1)
     end
     love.graphics.draw(teamBColors.mesh, 680, 200, 0, 450, 200)
     love.graphics.setColor(ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, 
