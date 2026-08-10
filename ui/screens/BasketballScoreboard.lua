@@ -255,6 +255,8 @@ function BasketballScoreboard:performClickAction(elementId, button)
       else
         Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetShort)
       end
+    elseif elementId == "nsTab" then
+      ScreenManager.changeScreen("NetSportScoreboard")
     end
   end
 end
