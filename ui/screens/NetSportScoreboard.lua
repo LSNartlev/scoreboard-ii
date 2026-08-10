@@ -8,6 +8,7 @@ local Fonts = require("ui.designs.Fonts")
 local Icons = require("ui.designs.Icons")
 local Lang = require("data.language.en")
 local Controls = require("data.Controls")
+local sfx = require("ui.functions.SoundEffectActions")
 local gradRect = require("ui.designs.GradientMesh")
 local serveTimerRun, serveDT, lastServeDT, teamAColors, teamBColors
 local animatedBg, pointDiff, scoreAnim, isMatchOver
@@ -206,6 +207,67 @@ function NetSportScoreboard:keypressed(key, scancode, isrepeat)
   
   if key == Controls.ns.nextSet and ScoreboardState.nsSet < ScoreboardState.config.ns.maxSets then
     ScoreboardState.nsSet = ScoreboardState.nsSet + 1
+  end
+  
+  if key == Controls.sounds[1] then
+    if love.keyboard.isDown("lshift","rshift") then
+      sfx:stopSound(1)
+    else sfx:playSound(1)
+    end
+  end
+  if key == Controls.sounds[2] then
+    if love.keyboard.isDown("lshift","rshift") then
+      sfx:stopSound(2)
+    else sfx:playSound(2)
+    end
+  end
+  if key == Controls.sounds[3] then
+    if love.keyboard.isDown("lshift","rshift") then
+      sfx:stopSound(3)
+    else sfx:playSound(3)
+    end
+  end
+  if key == Controls.sounds[4] then
+    if love.keyboard.isDown("lshift","rshift") then
+      sfx:stopSound(4)
+    else sfx:playSound(4)
+    end
+  end
+  if key == Controls.sounds[5] then
+    if love.keyboard.isDown("lshift","rshift") then
+      sfx:stopSound(5)
+    else sfx:playSound(5)
+    end
+  end
+  if key == Controls.sounds[6] then
+    if love.keyboard.isDown("lshift","rshift") then
+      sfx:stopSound(6)
+    else sfx:playSound(6)
+    end
+  end
+  if key == Controls.sounds[7] then
+    if love.keyboard.isDown("lshift","rshift") then
+      sfx:stopSound(7)
+    else sfx:playSound(7)
+    end
+  end
+  if key == Controls.sounds[8] then
+    if love.keyboard.isDown("lshift","rshift") then
+      sfx:stopSound(8)
+    else sfx:playSound(8)
+    end
+  end
+  if key == Controls.sounds[9] then
+    if love.keyboard.isDown("lshift","rshift") then
+      sfx:stopSound(9)
+    else sfx:playSound(9)
+    end
+  end
+  if key == Controls.sounds[10] then
+    if love.keyboard.isDown("lshift","rshift") then
+      sfx:stopSound(10)
+    else sfx:playSound(10)
+    end
   end
   
   if key == "escape" then

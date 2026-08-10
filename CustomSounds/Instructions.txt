@@ -1,0 +1,7 @@
+How to add custom sounds (as of version 2 beta 1):
+Step 1: Put your WAV audio files inside the CustomSounds folder.
+Step 2: Rename your audio files, depending on what key you want to assign that sound.
+  For example: when assigning a file "coinsound.wav" to key 1, rename the file to "1.wav".
+  Note: Custom sound effects are currently fixed to the keys 1, 2, 3, 4, 5, 6, 7, 8, 9, and 0.
+  Assigning them in other key bindings, as well as proper custom sound support is under development.
+Step 3: Open the Scoreboard II app.

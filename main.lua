@@ -4,6 +4,7 @@ local Color = require("ui.designs.Colors")
 local Icons = require("ui.designs.Icons")
 local ScoreboardState = require("data.ScoreboardState")
 local Controls = require("data.Controls")
+local Sounds = require("data.CustomSounds")
 local TeamsList = require("data.TeamsList")
 local json = require("ext.rxi-json.json")
 function love.load()
@@ -19,6 +20,20 @@ function love.load()
     success, message = love.filesystem.write("SavedConfig.json", rawSaveData)
   end
   rawSaveData = love.filesystem.read("SavedConfig.json")
+  -- Load Sounds
+  for _, v in pairs(Sounds) do
+    local path = "CustomSounds/" .. v.filename
+    local file = io.open(path, "rb")
+    if not file then
+      v.soundSource = love.audio.newSource("assets/blank.wav", "static")
+    else
+      local rawData = file:read("*all")
+      file:close()
+      local fileData = love.filesystem.newFileData(rawData, v.filename)
+      v.soundSource = love.audio.newSource(fileData, "static")
+    end
+    v.soundSource:setVolume(v.volume)
+  end
   local configData = json.decode(rawSaveData)
   ScoreboardState.matchTitle = configData.matchSetup.matchTitle
   ScoreboardState.teamA.name = configData.matchSetup.teamA.name

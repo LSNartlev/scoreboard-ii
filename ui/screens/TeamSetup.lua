@@ -485,8 +485,12 @@ function TeamSetup:saveTeam(saveTo)
       = ScoreboardState.teamSetup.bgColor2.r, ScoreboardState.teamSetup.bgColor2.g, ScoreboardState.teamSetup.bgColor2.b
     ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b
       = ScoreboardState.teamSetup.fgColor.r, ScoreboardState.teamSetup.fgColor.g, ScoreboardState.teamSetup.fgColor.b
-    ScoreboardState.teamA.hsl[1], ScoreboardState.teamA.hsl[2], ScoreboardState.teamA.hsl[3]
-      = ScoreboardState.teamSetup.hsl[1], ScoreboardState.teamSetup.hsl[2], ScoreboardState.teamSetup.hsl[3]
+    ScoreboardState.teamA.hsl.bg1[1], ScoreboardState.teamA.hsl.bg1[2], ScoreboardState.teamA.hsl.bg1[3]
+      = ScoreboardState.teamSetup.hsl.bg1[1], ScoreboardState.teamSetup.hsl.bg1[2], ScoreboardState.teamSetup.hsl.bg1[3]
+    ScoreboardState.teamA.hsl.bg2[1], ScoreboardState.teamA.hsl.bg2[2], ScoreboardState.teamA.hsl.bg2[3]
+      = ScoreboardState.teamSetup.hsl.bg2[1], ScoreboardState.teamSetup.hsl.bg2[2], ScoreboardState.teamSetup.hsl.bg2[3]
+    ScoreboardState.teamA.hsl.fg[1], ScoreboardState.teamA.hsl.fg[2], ScoreboardState.teamA.hsl.fg[3]
+      = ScoreboardState.teamSetup.hsl.fg[1], ScoreboardState.teamSetup.hsl.fg[2], ScoreboardState.teamSetup.hsl.fg[3]
   elseif type(saveTo) == "string" and saveTo == "B" then
     ScoreboardState.teamB.name = ScoreboardState.teamSetup.name
     ScoreboardState.teamB.bgColor1.r, ScoreboardState.teamB.bgColor1.g, ScoreboardState.teamB.bgColor1.b
@@ -495,13 +499,20 @@ function TeamSetup:saveTeam(saveTo)
       = ScoreboardState.teamSetup.bgColor2.r, ScoreboardState.teamSetup.bgColor2.g, ScoreboardState.teamSetup.bgColor2.b
     ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b
       = ScoreboardState.teamSetup.fgColor.r, ScoreboardState.teamSetup.fgColor.g, ScoreboardState.teamSetup.fgColor.b
-    ScoreboardState.teamB.hsl[1], ScoreboardState.teamB.hsl[2], ScoreboardState.teamB.hsl[3]
-      = ScoreboardState.teamSetup.hsl[1], ScoreboardState.teamSetup.hsl[2], ScoreboardState.teamSetup.hsl[3]
+    ScoreboardState.teamB.hsl.bg1[1], ScoreboardState.teamB.hsl.bg1[2], ScoreboardState.teamB.hsl.bg1[3]
+      = ScoreboardState.teamSetup.hsl.bg1[1], ScoreboardState.teamSetup.hsl.bg1[2], ScoreboardState.teamSetup.hsl.bg1[3]
+    ScoreboardState.teamB.hsl.bg2[1], ScoreboardState.teamB.hsl.bg2[2], ScoreboardState.teamB.hsl.bg2[3]
+      = ScoreboardState.teamSetup.hsl.bg2[1], ScoreboardState.teamSetup.hsl.bg2[2], ScoreboardState.teamSetup.hsl.bg2[3]
+    ScoreboardState.teamB.hsl.fg[1], ScoreboardState.teamB.hsl.fg[2], ScoreboardState.teamB.hsl.fg[3]
+      = ScoreboardState.teamSetup.hsl.fg[1], ScoreboardState.teamSetup.hsl.fg[2], ScoreboardState.teamSetup.hsl.fg[3]
   elseif type(saveTo) == "number" then
     TeamsList[saveTo].name = ScoreboardState.teamSetup.name
-    TeamsList[saveTo].bg1 = ScoreboardState.teamSetup.hsl.bg1
-    TeamsList[saveTo].bg2 = ScoreboardState.teamSetup.hsl.bg2
-    TeamsList[saveTo].fg = ScoreboardState.teamSetup.hsl.fg
+    TeamsList[saveTo].bg1[1], TeamsList[saveTo].bg1[2], TeamsList[saveTo].bg1[3]
+      = ScoreboardState.teamSetup.hsl.bg1[1], ScoreboardState.teamSetup.hsl.bg1[2], ScoreboardState.teamSetup.hsl.bg1[3]
+    TeamsList[saveTo].bg2[1], TeamsList[saveTo].bg2[2], TeamsList[saveTo].bg2[3]
+      = ScoreboardState.teamSetup.hsl.bg2[1], ScoreboardState.teamSetup.hsl.bg2[2], ScoreboardState.teamSetup.hsl.bg2[3]
+    TeamsList[saveTo].fg[1], TeamsList[saveTo].fg[2], TeamsList[saveTo].fg[3]
+      = ScoreboardState.teamSetup.hsl.fg[1], ScoreboardState.teamSetup.hsl.fg[2], ScoreboardState.teamSetup.hsl.fg[3]
     if love.filesystem.getInfo("SavedTeams.json") ~= nil then
       rawSaveData = json.encode(TeamsList)
       success, message = love.filesystem.write("SavedTeams.json", rawSaveData)
