@@ -255,8 +255,13 @@ function BasketballScoreboard:performClickAction(elementId, button)
       else
         Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetShort)
       end
-    elseif elementId == "nsTab" then
+    elseif elementId == "nsTab" and button == 1  then
       ScreenManager.changeScreen("NetSportScoreboard")
+    elseif elementId == "configTab" and button == 1  then
+      ScreenManager.changeScreen("MatchSetup") -- temporary
+      -- ScreenManager.changeScreen("BasketballControlsConfig") -- actual
+    elseif elementId == "aboutTab" then
+      ScreenManager.changeScreen("AboutScreen")
     end
   end
 end
@@ -340,64 +345,12 @@ function BasketballScoreboard:regularKeyAction(key)
     ScoreboardState.tooltip = Lang.bbScoreboard.timerAdjustment
   end
   
-  if key == Controls.sounds[1] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(1)
-    else sfx:playSound(1)
-    end
-  end
-  if key == Controls.sounds[2] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(2)
-    else sfx:playSound(2)
-    end
-  end
-  if key == Controls.sounds[3] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(3)
-    else sfx:playSound(3)
-    end
-  end
-  if key == Controls.sounds[4] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(4)
-    else sfx:playSound(4)
-    end
-  end
-  if key == Controls.sounds[5] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(5)
-    else sfx:playSound(5)
-    end
-  end
-  if key == Controls.sounds[6] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(6)
-    else sfx:playSound(6)
-    end
-  end
-  if key == Controls.sounds[7] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(7)
-    else sfx:playSound(7)
-    end
-  end
-  if key == Controls.sounds[8] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(8)
-    else sfx:playSound(8)
-    end
-  end
-  if key == Controls.sounds[9] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(9)
-    else sfx:playSound(9)
-    end
-  end
-  if key == Controls.sounds[10] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(10)
-    else sfx:playSound(10)
+  for i=1, 10, 1 do
+    if key == Controls.sounds[i] then
+      if love.keyboard.isDown("lshift","rshift") then
+        sfx:stopSound(i)
+      else sfx:playSound(i)
+      end
     end
   end
   
@@ -507,6 +460,7 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
   local function drawMarkers(team, tf, warning, to, i, x, w)
     local y = 430
     local h = 30
+    local m = 10
     local visible = { r = 0, g = 0, b = 0 }
     if tf == ScoreboardState.config.bb.maxTeamFouls then
       love.graphics.setColor(Color.editRed)
@@ -517,7 +471,7 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
     elseif i <= ScoreboardState.config.bb.maxTeamFouls then
       love.graphics.setColor(Color.black)
     else love.graphics.setColor(0,0,0,0) end
-    love.graphics.polygon("fill", x,y+(h/2), x+10,y, x+w-10,y, x+w,y+(h/2), x+w-10,y+h, x+10,y+h)
+    love.graphics.polygon("fill", x,y+(h/2), x+m,y, x+w-m,y, x+w,y+(h/2), x+w-m,y+h, x+m,y+h)
     
     y = 490
     if to >= i and team == "A" then
@@ -527,7 +481,7 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
       else
         love.graphics.setColor(ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b)
       end
-      love.graphics.polygon("fill", x,y+(h/2), x+10,y, x+w-10,y, x+w,y+(h/2), x+w-10,y+h, x+10,y+h)
+      love.graphics.polygon("fill", x,y+(h/2), x+m,y, x+w-m,y, x+w,y+(h/2), x+w-m,y+h, x+m,y+h)
     elseif to >= i and team == "B" then
       if ScoreboardState.teamB.hsl.fg[3] < 180 then
         visible.r, visible.g, visible.b = hsl:toRGB(ScoreboardState.teamB.hsl.fg[1], ScoreboardState.teamB.hsl.fg[2], 180)
@@ -535,10 +489,10 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
       else
         love.graphics.setColor(ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b)
       end
-      love.graphics.polygon("fill", x,y+(h/2), x+10,y, x+w-10,y, x+w,y+(h/2), x+w-10,y+h, x+10,y+h)
+      love.graphics.polygon("fill", x,y+(h/2), x+m,y, x+w-m,y, x+w,y+(h/2), x+w-m,y+h, x+m,y+h)
     elseif i <= ScoreboardState.config.bb.maxTimeouts then
       love.graphics.setColor(Color.black)
-      love.graphics.polygon("fill", x,y+(h/2), x+10,y, x+w-10,y, x+w,y+(h/2), x+w-10,y+h, x+10,y+h)
+      love.graphics.polygon("fill", x,y+(h/2), x+m,y, x+w-m,y, x+w,y+(h/2), x+w-m,y+h, x+m,y+h)
     end
     love.graphics.setColor(1,1,1,1)
   end

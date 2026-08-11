@@ -5,6 +5,7 @@ local font = {
   -- Uniform font size on Settings screens
   config = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Medium.ttf", 20),
   configTeam = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Bold.ttf", 28),
+  about = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Medium.ttf", 16),
   -- NOTE: Header Text of Settings screens shall also use font.matchInfo
   
   -- Scoreboard font sizes

@@ -111,6 +111,55 @@ function NetSportActions:updateTargetScore(set)
   end
 end
 
+function NetSportActions:updateSetScoresView()
+  if ScoreboardState.config.ns.maxSets == 1 then 
+    ScoreboardState.nsSummary.teamA[1] = 0
+    ScoreboardState.nsSummary.teamA[2] = 0
+    ScoreboardState.nsSummary.teamA[3] = 0
+    ScoreboardState.nsSummary.teamA[4] = 0
+    ScoreboardState.nsSummary.teamA[5] = 0
+    ScoreboardState.nsSummary.teamB[1] = 0
+    ScoreboardState.nsSummary.teamB[2] = 0
+    ScoreboardState.nsSummary.teamB[3] = 0
+    ScoreboardState.nsSummary.teamB[4] = 0
+    ScoreboardState.nsSummary.teamB[5] = 0
+  elseif ScoreboardState.config.ns.maxSets == 3 then
+    ScoreboardState.nsSummary.teamA[1] = 0
+    ScoreboardState.nsSummary.teamA[2] = 0
+    ScoreboardState.nsSummary.teamA[3] = 1
+    ScoreboardState.nsSummary.teamA[4] = 2
+    ScoreboardState.nsSummary.teamA[5] = 3
+    ScoreboardState.nsSummary.teamB[1] = 1
+    ScoreboardState.nsSummary.teamB[2] = 2
+    ScoreboardState.nsSummary.teamB[3] = 3
+    ScoreboardState.nsSummary.teamB[4] = 0
+    ScoreboardState.nsSummary.teamB[5] = 0
+  elseif ScoreboardState.config.ns.maxSets == 5 then 
+    ScoreboardState.nsSummary.teamA[1] = 1
+    ScoreboardState.nsSummary.teamA[2] = 2
+    ScoreboardState.nsSummary.teamA[3] = 3
+    ScoreboardState.nsSummary.teamA[4] = 4
+    ScoreboardState.nsSummary.teamA[5] = 5
+    ScoreboardState.nsSummary.teamB[1] = 1
+    ScoreboardState.nsSummary.teamB[2] = 2
+    ScoreboardState.nsSummary.teamB[3] = 3
+    ScoreboardState.nsSummary.teamB[4] = 4
+    ScoreboardState.nsSummary.teamB[5] = 5
+  elseif ScoreboardState.config.ns.maxSets > 5 and ScoreboardState.nsSet >=5 then 
+    local set = ScoreboardState.nsSet
+    ScoreboardState.nsSummary.teamA[1] = set-4
+    ScoreboardState.nsSummary.teamA[2] = set-3
+    ScoreboardState.nsSummary.teamA[3] = set-2
+    ScoreboardState.nsSummary.teamA[4] = set-1
+    ScoreboardState.nsSummary.teamA[5] = set
+    ScoreboardState.nsSummary.teamB[1] = set-4
+    ScoreboardState.nsSummary.teamB[2] = set-3
+    ScoreboardState.nsSummary.teamB[3] = set-2
+    ScoreboardState.nsSummary.teamB[4] = set-1
+    ScoreboardState.nsSummary.teamB[5] = set
+  end
+end
+
 function NetSportActions:startNewMatch()
   for i=1, 9, 1 do
     ScoreboardState.teamA.nsScore[i] = 0

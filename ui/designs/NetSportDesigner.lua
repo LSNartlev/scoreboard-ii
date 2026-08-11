@@ -42,11 +42,6 @@ local Designer = {
     { id = "set", text = function() return ".: " .. ScoreboardState.nsSet .. " :." end,
       x = 400, y = 615, width = 160, align = "center",
       font = function() return Fonts.nsSetScores end, color = function() return Color.white end },
-    { id = "timeDisplay", text = function()
-        return os.date("%I:%M %p"):gsub("^0", "")
-      end,
-      x = 560, y = 615, width = 320, align = "center",
-      font = function() return Fonts.nsSetScores end, color = function() return Color.black end },
     { id = "teamAServeLabel", text = function() return "Serve Time" end,
       x = 40, y = 555, width = 170, align = "center",
       font = function() return Fonts.configTeam end, color = function()
@@ -373,25 +368,25 @@ local Designer = {
           return Color.black
         end },
       { id = "scoreA1", x = 40, y = 460, width = 104, height = 70, color = function()
-          if ScoreboardState.nsSummary.teamA[1] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+          if ScoreboardState.nsSummary.teamA[1] == 0 then return Color.alpha end return 0,0,0,0.6 end },
       { id = "scoreA2", x = 154, y = 460, width = 104, height = 70, color = function()
-          if ScoreboardState.nsSummary.teamA[2] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+          if ScoreboardState.nsSummary.teamA[2] == 0 then return Color.alpha end return 0,0,0,0.6 end },
       { id = "scoreA3", x = 268, y = 460, width = 104, height = 70, color = function()
-          if ScoreboardState.nsSummary.teamA[3] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+          if ScoreboardState.nsSummary.teamA[3] == 0 then return Color.alpha end return 0,0,0,0.6 end },
       { id = "scoreA4", x = 382, y = 460, width = 104, height = 70, color = function()
-          if ScoreboardState.nsSummary.teamA[4] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+          if ScoreboardState.nsSummary.teamA[4] == 0 then return Color.alpha end return 0,0,0,0.6 end },
       { id = "scoreA5", x = 496, y = 460, width = 104, height = 70, color = function()
-          if ScoreboardState.nsSummary.teamA[5] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+          if ScoreboardState.nsSummary.teamA[5] == 0 then return Color.alpha end return 0,0,0,0.6 end },
       { id = "scoreB1", x = 680, y = 460, width = 104, height = 70, color = function()
-          if ScoreboardState.nsSummary.teamB[1] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+          if ScoreboardState.nsSummary.teamB[1] == 0 then return Color.alpha end return 0,0,0,0.6 end },
       { id = "scoreB2", x = 794, y = 460, width = 104, height = 70, color = function()
-          if ScoreboardState.nsSummary.teamB[2] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+          if ScoreboardState.nsSummary.teamB[2] == 0 then return Color.alpha end return 0,0,0,0.6 end },
       { id = "scoreB3", x = 908, y = 460, width = 104, height = 70, color = function()
-          if ScoreboardState.nsSummary.teamB[3] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+          if ScoreboardState.nsSummary.teamB[3] == 0 then return Color.alpha end return 0,0,0,0.6 end },
       { id = "scoreB4", x = 1022, y = 460, width = 104, height = 70, color = function()
-          if ScoreboardState.nsSummary.teamB[4] == 0 then return Color.alpha end return 0,0,0,0.7 end },
+          if ScoreboardState.nsSummary.teamB[4] == 0 then return Color.alpha end return 0,0,0,0.6 end },
       { id = "scoreB5", x = 1136, y = 460, width = 104, height = 70, color = function()
-          if ScoreboardState.nsSummary.teamB[5] == 0 then return Color.alpha end return 0,0,0,0.7 end }
+          if ScoreboardState.nsSummary.teamB[5] == 0 then return Color.alpha end return 0,0,0,0.6 end }
     }
   },
   triangles = {
@@ -438,9 +433,9 @@ local Designer = {
       color = function() return Color.white end },
     { id = "vsLabel", x = 600, y = 120, width = 80, height = 60,
       color = function() return Color.white end },
-    { id = "teamAScore", x = 220, y = 200, width = 380, height = 200,
+    { id = "teamAScore", x = 140, y = 200, width = 460, height = 200,
       color = function() return Color.black end },
-    { id = "teamBScore", x = 680, y = 200, width = 380, height = 200,
+    { id = "teamBScore", x = 680, y = 200, width = 460, height = 200,
       color = function() return Color.black end },
     { id = "timeoutsLabel", x = 520, y = 550, width = 240, height = 40,
       color = function() return Color.white end },
@@ -486,7 +481,33 @@ local Designer = {
       end }
   },
   mouseBounds = {
-    
+    { id = "matchTitle", x1 = 40, y1 = 40, x2 = 1240, y2 = 100 },
+    { id = "teamAName", x1 = 40, y1 = 120, x2 = 600, y2 = 180 },
+    { id = "teamBName", x1 = 680, y1 = 120, x2 = 1240, y2 = 180 },
+    { id = "teamAScore", x1 = 140, y1 = 200, x2 = 600, y2 = 400 },
+    { id = "teamBScore", x1 = 680, y1 = 200, x2 = 1140, y2 = 400 },
+    { id = "scoreA1", x1 = 40, y1 = 420, x2 = 144, y2 = 530 },
+    { id = "scoreA2", x1 = 154, y1 = 420, x2 = 258, y2 = 530 },
+    { id = "scoreA3", x1 = 268, y1 = 420, x2 = 372, y2 = 530 },
+    { id = "scoreA4", x1 = 382, y1 = 420, x2 = 486, y2 = 530 },
+    { id = "scoreA5", x1 = 496, y1 = 420, x2 = 600, y2 = 530 },
+    { id = "scoreB1", x1 = 680, y1 = 420, x2 = 784, y2 = 530 },
+    { id = "scoreB2", x1 = 794, y1 = 420, x2 = 898, y2 = 530 },
+    { id = "scoreB3", x1 = 908, y1 = 420, x2 = 1012, y2 = 530 },
+    { id = "scoreB4", x1 = 1022, y1 = 420, x2 = 1126, y2 = 530 },
+    { id = "scoreB5", x1 = 1136, y1 = 420, x2 = 1240, y2 = 530 },
+    { id = "teamATimeouts", x1 = 238, y1 = 555, x2 = 508, y2 = 585 },
+    { id = "teamBTimeouts", x1 = 772, y1 = 555, x2 = 1042, y2 = 585 },
+    { id = "teamAService", x1 = 40, y1 = 260, x2 = 120, y2 = 340 },
+    { id = "teamBService", x1 = 1160, y1 = 260, x2 = 1240, y2 = 340 },
+    { id = "teamAServeTimer", x1 = 40, y1 = 550, x2 = 210, y2 = 680 },
+    { id = "teamBServeTimer", x1 = 1070, y1 = 550, x2 = 1240, y2 = 680 },
+    { id = "set", x1 = 400, y1 = 610, x2 = 560, y2 = 680 },
+    { id = "timeDisplay", x1 = 560, y1 = 610, x2 = 880, y2 = 680 },
+    { id = "bbTab", x1 = 1030, y1 = 720, x2 = 1090, y2 = 800 },
+    { id = "nsTab", x1 = 1090, y1 = 720, x2 = 1150, y2 = 800 },
+    { id = "configTab", x1 = 1150, y1 = 720, x2 = 1210, y2 = 800 },
+    { id = "aboutTab", x1 = 1210, y1 = 720, x2 = 1270, y2 = 800 }
   }
 }
 

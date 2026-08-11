@@ -8,7 +8,7 @@ local Color = require("ui.designs.Colors")
 local Lang = require("data.language.en")
 local gradRect = require("ui.designs.GradientMesh")
 local json = require("ext.rxi-json.json")
-local teamAColors, teamBColors, openDialogBoxFor, rawSaveData, saveOK
+local teamAColors, teamBColors, openDialogBoxFor, rawSaveData, saveOK, selectedTab
 
 function MatchSetup:load()
   ScoreboardState.onDisplay = "MatchSetup"
@@ -73,8 +73,7 @@ function MatchSetup:draw()
         else return Color.orange
         end
       end
-      love.graphics.printf(
-      {
+      love.graphics.printf({
         v.color(), v.text(),
         cursorColor(), "_"
       },
@@ -215,8 +214,10 @@ function MatchSetup:performClickAction(elementId)
       ScreenManager.changeScreen("BasketballScoreboard")
     elseif ScoreboardState.matchStatus == 1 then
       openDialogBoxFor = "continueBasketball"
+      selectedTab = "basketball"
     elseif ScoreboardState.matchStatus == 2 then
       openDialogBoxFor = "continueNetSport"
+      selectedTab = "basketball"
     end
   elseif elementId == "changeTeamA" then
     ScoreboardState.teamSetup.side = "A"
@@ -249,22 +250,28 @@ function MatchSetup:performClickAction(elementId)
       ScreenManager.changeScreen("NetSportScoreboard")
     elseif ScoreboardState.matchStatus == 1 then
       openDialogBoxFor = "continueBasketball"
+      selectedTab = "net sport"
     elseif ScoreboardState.matchStatus == 2 then
       openDialogBoxFor = "continueNetSport"
+      selectedTab = "net sport"
     end
   elseif elementId == "continue" or elementId == "startNew" then
     if elementId == "startNew" then
       ScoreboardState.matchStatus = 0
     end
-    if openDialogBoxFor == "continueBasketball" then
+    if (elementId == "continue" and openDialogBoxFor == "continueBasketball")
+      or (elementId == "startNew" and selectedTab == "basketball") then
       ScoreboardState.onDisplay = "BasketballScoreboard"
       ScreenManager.changeScreen("BasketballScoreboard")
-    else
+    elseif (elementId == "continue" and openDialogBoxFor == "continueNetSport")
+      or (elementId == "startNew" and selectedTab == "net sport") then
       ScoreboardState.onDisplay = "NetSportScoreboard"
       ScreenManager.changeScreen("NetSportScoreboard")
     end
   elseif elementId == "exitDialog" then
     openDialogBoxFor = ""
+  elseif elementId == "aboutTab" then
+      ScreenManager.changeScreen("AboutScreen")
   end
 end
 

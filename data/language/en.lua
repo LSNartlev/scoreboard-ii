@@ -63,6 +63,32 @@ local languagePack = {
     configTab = "Click to change the basketball scoreboard controls.",
     aboutTab = "Click to learn more about Scoreboard II."
   },
+  nsScoreboard = {
+    matchTitle = "The title of this " .. ScoreboardState.config.ns.sportToPlay .. " event.\nTo edit this title or change other info, click here or press [ESC].",
+    teamAName = "The name of the team on the left side of the court.\nTo edit the team name or change its colors, click here or press [ESC].",
+    teamBName = "The name of the team on the right side of the court.\nTo edit the team name or change its colors, click here or press [ESC].",
+    teamAScore = "Score of " .. ScoreboardState.teamA.name .. " for this set/game.\nTo add 1 point, press [" .. string.upper(Controls.ns.scoreTeamA) 
+    .. "].\nTo decrease 1 point, press [Shift]+["  .. string.upper(Controls.ns.scoreTeamA) .. "].",
+    teamBScore = "Score of " .. ScoreboardState.teamB.name .. " for this set/game.\nTo add 1 point, press [" .. string.upper(Controls.ns.scoreTeamB)
+    .. "].\nTo decrease 1 point, press [Shift]+["  .. string.upper(Controls.ns.scoreTeamB) .. "].",
+    teamATimeouts = "Remaining timeouts of " .. ScoreboardState.teamA.name .. " for this set/game.\nTo use 1 timeout, press ["
+    .. string.upper(Controls.ns.timeoutTeamA) .. "].\nTo add 1 timeout, press [Shift]+["  .. string.upper(Controls.ns.timeoutTeamA) .. "].",
+    teamBTimeouts = "Remaining timeouts of " .. ScoreboardState.teamB.name .. " for this set/game.\nTo use 1 timeout, press ["
+    .. string.upper(Controls.ns.timeoutTeamB) .. "].\nTo add 1 timeout, press [Shift]+["  .. string.upper(Controls.ns.timeoutTeamB) .. "].",
+    set = "The current set/game for this match. The first team to reach " ..  ScoreboardState.nsTargetScore[ScoreboardState.nsSet]
+    .. " points wins this set/game, and the first team to win " .. math.ceil(ScoreboardState.config.ns.maxSets/2)
+    .. " sets/games wins the match.\nTo manually adjust the current set/game, press ["
+    .. string.upper(Controls.ns.prevSet) .. "] or [" .. string.upper(Controls.ns.nextSet)
+    .. "].\nTo sound the horn buzzer, press and hold [" .. string.upper(Controls.ns.hornSound) .. "]. To make both teams switch sides, press ["
+    .. string.upper(Controls.ns.changeCourt) .. "].",
+    timeDisplay = "A digital clock that shows the time.",
+    serveTimer = "The time given to the player for this team to serve.\n Press [" .. string.upper(Controls.ns.toggleServeTimer) 
+    .. "] to start the timer, then press it again once the service is successful.",
+    bbTab = "Click to switch into a scoreboard for basketball.",
+    nsTab = "You are now using a " .. ScoreboardState.config.ns.sportToPlay .. " scoreboard.",
+    configTab = "Click to change the net sport scoreboard controls.",
+    aboutTab = "Click to learn more about Scoreboard II."
+  },
   matchSetup = {
     matchTitle = "The name of the match or tournament. Click to edit.",
     teamAName = "The name of the team on the left side of the court. Click to edit.",
@@ -126,6 +152,17 @@ local languagePack = {
       teamsList = "Click to organize the teams that the scoreboard operator facilitates.",
       soundsList = "[Not yet available] Click to organize the additional sound effects the scoreboard operator can play during matches."
     }
+  },
+  about = {
+    tooltip = "ABOUT SCOREBOARD II\nClick any of the icons on the bottom right to exit this screen.",
+    main = "Scoreboard II\nversion 2.0 beta 1\nmade with LÖVE\nCopyright ©2026 Earl Charles Beltran (LSNartlev)\nSource code licensed under the MIT License.",
+    free = "This software is free of charge--if you paid for it, you got scammed.",
+    thirdParty = "Third-party assets and libraries are included under their respective licenses:",
+    jsonlua = "json.lua\nCopyright ©2019 rxi\nLicense: MIT License",
+    oxanium = "Oxanium\nCopyright ©2019 The Oxanium Project Authors (https://github.com/sevmeyer/oxanium)\nLicense: SIL Open Font License, Version 1.1"
+    .. "\nhttps://openfontlicense.org/",
+    openmoji = "All emojis designed by OpenMoji (https://openmoji.org) – the open-source emoji and icon project."
+    .. "\nLicense: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)\nhttps://creativecommons.org/licenses/by-sa/4.0/"
   }
 }
 

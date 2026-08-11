@@ -10,7 +10,7 @@ local Lang = require("data.language.en")
 local Controls = require("data.Controls")
 local sfx = require("ui.functions.SoundEffectActions")
 local gradRect = require("ui.designs.GradientMesh")
-local serveTimerRun, serveDT, lastServeDT, teamAColors, teamBColors
+local hornSound, serveTimerRun, serveDT, lastServeDT, teamAColors, teamBColors
 local animatedBg, pointDiff, scoreAnim, isMatchOver
 
 function NetSportScoreboard:load()
@@ -30,6 +30,7 @@ function NetSportScoreboard:load()
   }
   pointDiff = 0
   scoreAnim = { teamA = 0, teamB = 0 }
+  Actions:updateSetScoresView()
   if ScoreboardState.matchStatus == 0 then
     Actions:startNewMatch()
   end
@@ -132,6 +133,19 @@ function NetSportScoreboard:draw()
     love.graphics.setColor(1,1,1,1)
   end
   
+  -- Time Display
+  love.graphics.setFont(Fonts.nsSetScores)
+  local colonColor
+  if math.floor(tonumber(os.date("%S"))) % 2 == 0 then colonColor = Color.black
+  else colonColor = Color.alpha end
+  love.graphics.printf({
+      Color.black, tonumber(os.date("%I")),
+      colonColor, ":",
+      Color.black, os.date("%M %p")
+    },
+    560, 615, 320, "center"
+  )
+  
   for _, v in ipairs(Designer.setScores.texts) do
     love.graphics.setFont(v.font)
     love.graphics.setColor(v.color())
@@ -152,11 +166,28 @@ function NetSportScoreboard:draw()
 end
 
 function NetSportScoreboard:mousemoved(x, y, dx, dy, istouch)
-  
+  ScoreboardState.tooltip = Lang.tooltips.scoreboardFallback
+  for _,v in ipairs(Designer.mouseBounds) do
+    if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
+      ScoreboardState.onMouseFocus = v.id
+      if Lang.nsScoreboard[ScoreboardState.onMouseFocus] then
+        ScoreboardState.tooltip = Lang.nsScoreboard[ScoreboardState.onMouseFocus]
+      end
+      if (v.id == "teamAServeTimer" and ScoreboardState.teamA.nsService)
+        or (v.id == "teamBServeTimer" and ScoreboardState.teamB.nsService) then
+        ScoreboardState.tooltip = Lang.nsScoreboard.serveTimer
+      end
+    end
+  end
 end
 
 function NetSportScoreboard:mousepressed(x, y, button)
-  
+  for _, v in ipairs(Designer.mouseBounds) do
+    if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
+      self:performClickAction(v.id, button)
+      break
+    end
+  end
 end
 
 function NetSportScoreboard:keypressed(key, scancode, isrepeat)
@@ -193,7 +224,9 @@ function NetSportScoreboard:keypressed(key, scancode, isrepeat)
   end
   
   if key == Controls.ns.toggleServeTimer then
-    Actions:toggleServeTimer()
+    if ScoreboardState.teamA.nsService or ScoreboardState.teamB.nsService then
+      Actions:toggleServeTimer()
+    end
   end
   
   if love.keyboard.isDown(Controls.bb.hornSound) then
@@ -203,70 +236,20 @@ function NetSportScoreboard:keypressed(key, scancode, isrepeat)
   
   if key == Controls.ns.prevSet and ScoreboardState.nsSet > 1 then
     ScoreboardState.nsSet = ScoreboardState.nsSet - 1
+    Actions:updateSetScoresView()
   end
   
   if key == Controls.ns.nextSet and ScoreboardState.nsSet < ScoreboardState.config.ns.maxSets then
     ScoreboardState.nsSet = ScoreboardState.nsSet + 1
+    Actions:updateSetScoresView()
   end
   
-  if key == Controls.sounds[1] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(1)
-    else sfx:playSound(1)
-    end
-  end
-  if key == Controls.sounds[2] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(2)
-    else sfx:playSound(2)
-    end
-  end
-  if key == Controls.sounds[3] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(3)
-    else sfx:playSound(3)
-    end
-  end
-  if key == Controls.sounds[4] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(4)
-    else sfx:playSound(4)
-    end
-  end
-  if key == Controls.sounds[5] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(5)
-    else sfx:playSound(5)
-    end
-  end
-  if key == Controls.sounds[6] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(6)
-    else sfx:playSound(6)
-    end
-  end
-  if key == Controls.sounds[7] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(7)
-    else sfx:playSound(7)
-    end
-  end
-  if key == Controls.sounds[8] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(8)
-    else sfx:playSound(8)
-    end
-  end
-  if key == Controls.sounds[9] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(9)
-    else sfx:playSound(9)
-    end
-  end
-  if key == Controls.sounds[10] then
-    if love.keyboard.isDown("lshift","rshift") then
-      sfx:stopSound(10)
-    else sfx:playSound(10)
+  for i=1, 10, 1 do
+    if key == Controls.sounds[i] then
+      if love.keyboard.isDown("lshift","rshift") then
+        sfx:stopSound(i)
+      else sfx:playSound(i)
+      end
     end
   end
   
@@ -285,6 +268,45 @@ function NetSportScoreboard:keyreleased(key, scancode)
   end
 end
 
+function NetSportScoreboard:performClickAction(elementId, button)
+  if elementId == "matchTitle" or elementId == "teamAName" or elementId == "teamBName" then
+      ScreenManager.changeScreen("MatchSetup")
+  elseif elementId == "teamAScore" then
+    if button == 1 then
+      Actions:score("A", 1)
+      scoreAnim.teamA = 2
+    elseif button == 2 then
+      Actions:score("A", -1)
+    end
+  elseif elementId == "teamBScore" then
+    if button == 1 then
+      Actions:score("B", 1)
+      scoreAnim.teamB = 2
+    elseif button == 2 then
+      Actions:score("B", -1)
+    end
+  elseif elementId == "teamATimeouts" then
+    if button == 1 then Actions:timeout("A", -1) elseif button == 2 then Actions:timeout("A", 1) end
+  elseif elementId == "teamBTimeouts" then
+    if button == 1 then Actions:timeout("B", -1) elseif button == 2 then Actions:timeout("B", 1) end
+  elseif elementId == "teamAService" and button == 1 then
+    Actions:toggleService("A")
+  elseif elementId == "teamBService" and button == 1 then
+    Actions:toggleService("B")
+  elseif (elementId == "teamAServeTimer" or elementId == "teamBServeTimer") and button == 1 then
+    Actions:toggleServeTimer()
+  elseif elementId == "set" and button == 1 then
+    self.changeCourt()
+  elseif elementId == "bbTab" and button == 1  then
+    ScreenManager.changeScreen("BasketballScoreboard")
+  elseif elementId == "configTab" and button == 1  then
+    ScreenManager.changeScreen("MatchSetup") -- temporary
+    -- ScreenManager.changeScreen("NetSportControlsConfig") -- actual    
+  elseif elementId == "aboutTab" then
+      ScreenManager.changeScreen("AboutScreen")
+  end
+end
+
 function NetSportScoreboard:countdownServeTimer()
   if ScoreboardState.serveTimerState == 2 then
     if ScoreboardState.serveTimer.dSec > 0 then
@@ -297,8 +319,10 @@ function NetSportScoreboard:countdownServeTimer()
     if ScoreboardState.serveTimer.dSec == 0
       and ScoreboardState.serveTimer.sec == 0 then
       ScoreboardState.serveTimerState = 1
-      ScoreboardState.isHornSoundPlaying = true
-      hornSound:setVolume(1)
+      if ScoreboardState.config.ns.serveTimer.hornSoundOnZero == true then
+        ScoreboardState.isHornSoundPlaying = true
+        hornSound:setVolume(1)
+      end
     end
   end
 end
@@ -306,13 +330,13 @@ end
 function NetSportScoreboard:drawScoreAnimation()
   if scoreAnim.teamA > 0 then
     teamAColors:updateBgColors(ScoreboardState.teamA.bgColor1, ScoreboardState.teamA.bgColor2, scoreAnim.teamA)
-    if isMatchOver and ScoreboardState.teamA.nsScore[ScoreboardState.nsSet] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet] then
+    if isMatchOver and ScoreboardState.teamA.nsScore[ScoreboardState.nsSet] >= ScoreboardState.nsTargetScore[ScoreboardState.nsSet] then
       teamAColors:updateBgColors(ScoreboardState.teamA.bgColor1, ScoreboardState.teamA.bgColor2, 1)
     end
     love.graphics.draw(teamAColors.mesh, 220, 200, 0, 380, 200)
     love.graphics.setColor(ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, 
       ScoreboardState.teamA.fgColor.b, scoreAnim.teamA)
-    if isMatchOver and ScoreboardState.teamA.nsScore[ScoreboardState.nsSet] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet] then
+    if isMatchOver and ScoreboardState.teamA.nsScore[ScoreboardState.nsSet] >= ScoreboardState.nsTargetScore[ScoreboardState.nsSet] then
       love.graphics.setColor(ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, 
       ScoreboardState.teamA.fgColor.b, 1)
     end
@@ -322,13 +346,13 @@ function NetSportScoreboard:drawScoreAnimation()
   end
   if scoreAnim.teamB > 0 then
     teamBColors:updateBgColors(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, scoreAnim.teamB)
-    if isMatchOver and ScoreboardState.teamB.nsScore[ScoreboardState.nsSet] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet] then
+    if isMatchOver and ScoreboardState.teamB.nsScore[ScoreboardState.nsSet] >= ScoreboardState.nsTargetScore[ScoreboardState.nsSet] then
       teamBColors:updateBgColors(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, 1)
     end
     love.graphics.draw(teamBColors.mesh, 680, 200, 0, 380, 200)
     love.graphics.setColor(ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, 
       ScoreboardState.teamB.fgColor.b, scoreAnim.teamB)
-    if isMatchOver and ScoreboardState.teamB.nsScore[ScoreboardState.nsSet] == ScoreboardState.nsTargetScore[ScoreboardState.nsSet] then
+    if isMatchOver and ScoreboardState.teamB.nsScore[ScoreboardState.nsSet] >= ScoreboardState.nsTargetScore[ScoreboardState.nsSet] then
       love.graphics.setColor(ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, 
       ScoreboardState.teamB.fgColor.b, 1)
     end
@@ -339,6 +363,11 @@ function NetSportScoreboard:drawScoreAnimation()
   if isMatchOver then
     ScoreboardState.tooltip = Lang.tooltips.matchEnd.basketball
   end
+end
+
+function NetSportScoreboard:changeCourt()
+  ScoreboardState.teamA, ScoreboardState.teamB = ScoreboardState.teamB, ScoreboardState.teamA
+  teamAColors.mesh, teamBColors.mesh = teamBColors.mesh, teamAColors.mesh
 end
 
 function NetSportScoreboard:attemptExitScreen()
