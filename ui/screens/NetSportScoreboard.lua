@@ -366,7 +366,7 @@ function NetSportScoreboard:drawSetWinAndTimeoutMarkers()
   local function drawTimeouts(team, to, i, x, maxSlots)
     y = 555
     h = 30
-    local m = 5
+    local m = 10
     if to >= i and team == "A" then
       if ScoreboardState.teamA.hsl.fg[3] < 180 then
         timeoutModColor.r, timeoutModColor.g, timeoutModColor.b = hsl:toRGB(ScoreboardState.teamA.hsl.fg[1], ScoreboardState.teamA.hsl.fg[2], 180)
