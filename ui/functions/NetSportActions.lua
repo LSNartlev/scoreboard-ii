@@ -219,7 +219,7 @@ function NetSportActions:startNewMatch()
   else
     ScoreboardState.serveTimerState = 0
   end
-  ScoreboardState.timeStart = nil
+  ScoreboardState.timeDisplay.start = nil
 end
 
 return NetSportActions
