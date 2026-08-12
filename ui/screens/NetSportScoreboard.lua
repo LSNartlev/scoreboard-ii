@@ -23,8 +23,8 @@ function NetSportScoreboard:load()
   hornSound:play()
   lastServeDT = 0
   serveTimerRun = 0
-  teamAColors = gradRect.new(ScoreboardState.teamA.bgColor1, ScoreboardState.teamA.bgColor2, 0.7)
-  teamBColors = gradRect.new(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, 0.7)
+  teamAColors = gradRect.new(ScoreboardState.teamA.bgColor1, ScoreboardState.teamA.bgColor2, 0.6)
+  teamBColors = gradRect.new(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, 0.6)
   setWinColor = gradRect.new({r=1, g=0.75, b=0}, {r=1, g=1, b=0}, 1)
   animatedBg = {
     movingX = { teamA = 0, teamB = 1280, teamBWidth = 0 },
