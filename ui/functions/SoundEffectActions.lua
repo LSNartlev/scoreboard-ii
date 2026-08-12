@@ -27,4 +27,17 @@ function SoundEffectActions:stopSound(soundNum)
   if soundNum == 10 then Sounds.sfx10.soundSource:stop() end
 end
 
+function SoundEffectActions:stopAllSounds()
+  Sounds.sfx1.soundSource:stop()
+  Sounds.sfx2.soundSource:stop()
+  Sounds.sfx3.soundSource:stop()
+  Sounds.sfx4.soundSource:stop()
+  Sounds.sfx5.soundSource:stop()
+  Sounds.sfx6.soundSource:stop()
+  Sounds.sfx7.soundSource:stop()
+  Sounds.sfx8.soundSource:stop()
+  Sounds.sfx9.soundSource:stop()
+  Sounds.sfx10.soundSource:stop()
+end
+
 return SoundEffectActions

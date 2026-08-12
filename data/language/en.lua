@@ -81,7 +81,8 @@ local languagePack = {
     .. string.upper(Controls.ns.prevSet) .. "] or [" .. string.upper(Controls.ns.nextSet)
     .. "].\nTo sound the horn buzzer, press and hold [" .. string.upper(Controls.ns.hornSound) .. "]. To make both teams switch sides, press ["
     .. string.upper(Controls.ns.changeCourt) .. "].",
-    timeDisplay = "A digital clock that shows the time.",
+    scoreSummary = "",
+    timeDisplay = "Click to toggle the display between the time now and the match duration.",
     serveTimer = "The time given to the player for this team to serve.\n Press [" .. string.upper(Controls.ns.toggleServeTimer) 
     .. "] to start the timer, then press it again once the service is successful.",
     bbTab = "Click to switch into a scoreboard for basketball.",

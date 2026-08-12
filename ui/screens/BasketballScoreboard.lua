@@ -453,7 +453,7 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
   local toB = ScoreboardState.teamB.bbTimeouts
   local x
   local slotWidth
-  if maxSlots > 5 then slotWidth = 340-(5*(maxSlots-1))/maxSlots
+  if maxSlots > 5 then slotWidth = (340-(5*(maxSlots-1)))/maxSlots
   else slotWidth = 64 end
   local warning = math.ceil(maxSlots*0.7)
   
@@ -461,7 +461,7 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
     local y = 430
     local h = 30
     local m = 10
-    local visible = { r = 0, g = 0, b = 0 }
+    local timeoutModColor = { r = 0, g = 0, b = 0 }
     if tf == ScoreboardState.config.bb.maxTeamFouls then
       love.graphics.setColor(Color.editRed)
     elseif tf >= warning and i >= warning and tf >= i then
@@ -476,16 +476,16 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
     y = 490
     if to >= i and team == "A" then
       if ScoreboardState.teamA.hsl.fg[3] < 180 then
-        visible.r, visible.g, visible.b = hsl:toRGB(ScoreboardState.teamA.hsl.fg[1], ScoreboardState.teamA.hsl.fg[2], 180)
-        love.graphics.setColor(visible.r, visible.g, visible.b)
+        timeoutModColor.r, timeoutModColor.g, timeoutModColor.b = hsl:toRGB(ScoreboardState.teamA.hsl.fg[1], ScoreboardState.teamA.hsl.fg[2], 180)
+        love.graphics.setColor(timeoutModColor.r, timeoutModColor.g, timeoutModColor.b)
       else
         love.graphics.setColor(ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b)
       end
       love.graphics.polygon("fill", x,y+(h/2), x+m,y, x+w-m,y, x+w,y+(h/2), x+w-m,y+h, x+m,y+h)
     elseif to >= i and team == "B" then
       if ScoreboardState.teamB.hsl.fg[3] < 180 then
-        visible.r, visible.g, visible.b = hsl:toRGB(ScoreboardState.teamB.hsl.fg[1], ScoreboardState.teamB.hsl.fg[2], 180)
-        love.graphics.setColor(visible.r, visible.g, visible.b)
+        timeoutModColor.r, timeoutModColor.g, timeoutModColor.b = hsl:toRGB(ScoreboardState.teamB.hsl.fg[1], ScoreboardState.teamB.hsl.fg[2], 180)
+        love.graphics.setColor(timeoutModColor.r, timeoutModColor.g, timeoutModColor.b)
       else
         love.graphics.setColor(ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b)
       end
@@ -498,10 +498,8 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
   end
   
   for i=1, maxSlots, 1 do
-    --Team A
     x = 490-(slotWidth*i)-(5*(i-1))
     drawMarkers("A", tfA, warning, toA, i, x, slotWidth)
-    
     x = 790+(slotWidth*(i-1))+(5*(i-1))
     drawMarkers("B", tfB, warning, toB, i, x, slotWidth)
   end
@@ -608,6 +606,7 @@ function BasketballScoreboard:attemptExitScreen()
   ScoreboardState.onEdit.id = ""
   ScoreboardState.onEdit.value = ""
   hornSound:stop()
+  sfx:stopAllSounds()
 end
 
 return BasketballScoreboard

@@ -15,6 +15,7 @@ local ScoreboardState = {
   isShotClockRunning = false,
   isTimerAdjustmentEnabled = false,
   nsSet = 1,
+  timeDisplay = { start = nil, mode = "time", displayText = "" },
   serveTimer = { sec = 8, dSec = 0, displayText = "" },
   serveTimerState = 1, -- cycle between {0, 1, 2}: 0 = hidden & stopped, 1 = visible & stopped, 2 = visible & running
   nsTargetScore = { 25, 25, 15, 999, 999, 999, 999, 999, 999 },
@@ -103,7 +104,7 @@ local ScoreboardState = {
     bbBallPoss = false,
     nsScore = { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     nsSetWins = 0,
-    nsTimeouts = 0,
+    nsTimeouts = { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     nsService = false
   },
   teamB = {
@@ -122,7 +123,7 @@ local ScoreboardState = {
     bbBallPoss = false,
     nsScore = { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     nsSetWins = 0,
-    nsTimeouts = 0,
+    nsTimeouts = { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     nsService = false
   }
 }

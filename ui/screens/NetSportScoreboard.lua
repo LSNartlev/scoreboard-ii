@@ -9,8 +9,9 @@ local Icons = require("ui.designs.Icons")
 local Lang = require("data.language.en")
 local Controls = require("data.Controls")
 local sfx = require("ui.functions.SoundEffectActions")
+local hsl = require("ext.HSLtoRGB")
 local gradRect = require("ui.designs.GradientMesh")
-local hornSound, serveTimerRun, serveDT, lastServeDT, teamAColors, teamBColors
+local hornSound, serveTimerRun, serveDT, lastServeDT, teamAColors, teamBColors, setWinColor
 local animatedBg, pointDiff, scoreAnim, isMatchOver
 
 function NetSportScoreboard:load()
@@ -24,6 +25,7 @@ function NetSportScoreboard:load()
   serveTimerRun = 0
   teamAColors = gradRect.new(ScoreboardState.teamA.bgColor1, ScoreboardState.teamA.bgColor2, 0.7)
   teamBColors = gradRect.new(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, 0.7)
+  setWinColor = gradRect.new({r=1, g=0.75, b=0}, {r=1, g=1, b=0}, 1)
   animatedBg = {
     movingX = { teamA = 0, teamB = 1280, teamBWidth = 0 },
     finalX = { teamA = 640, teamB = 640, teamBWidth = 640 }
@@ -41,6 +43,7 @@ function NetSportScoreboard:load()
 end
 
 function NetSportScoreboard:update(dt)
+  ScoreboardState.timeDisplay.displayText = Actions:getMatchDuration(love.timer.getTime())
   if ScoreboardState.serveTimerState == 0 then
     serveTimerRun = love.timer.getTime()*100
   else
@@ -122,6 +125,8 @@ function NetSportScoreboard:draw()
     love.graphics.setColor(1,1,1,1)
   end
   
+  self.drawSetWinAndTimeoutMarkers()
+  
   for _, v in ipairs(Designer.texts) do
     love.graphics.setFont(v.font())
     love.graphics.setColor(v.color())
@@ -135,16 +140,22 @@ function NetSportScoreboard:draw()
   
   -- Time Display
   love.graphics.setFont(Fonts.nsSetScores)
-  local colonColor
-  if math.floor(tonumber(os.date("%S"))) % 2 == 0 then colonColor = Color.black
-  else colonColor = Color.alpha end
-  love.graphics.printf({
-      Color.black, tonumber(os.date("%I")),
-      colonColor, ":",
-      Color.black, os.date("%M %p")
-    },
-    560, 615, 320, "center"
-  )
+  if ScoreboardState.timeDisplay.mode == "time" then
+    local colonColor
+    if math.floor(tonumber(os.date("%S"))) % 2 == 0 then colonColor = Color.black
+    else colonColor = Color.alpha end
+    love.graphics.printf({
+        Color.black, tonumber(os.date("%I")),
+        colonColor, ":",
+        Color.black, os.date("%M %p")
+      },
+      560, 615, 320, "center"
+    )
+  else
+    love.graphics.setColor(Color.black)
+    love.graphics.printf(ScoreboardState.timeDisplay.displayText, 560, 615, 320, "center")
+    love.graphics.setColor(1,1,1,1)
+  end
   
   for _, v in ipairs(Designer.setScores.texts) do
     love.graphics.setFont(v.font)
@@ -258,6 +269,9 @@ function NetSportScoreboard:keypressed(key, scancode, isrepeat)
     ScreenManager.changeScreen("MatchSetup")
   end
   
+  if ScoreboardState.timeDisplay.start == nil then
+    ScoreboardState.timeDisplay.start = love.timer.getTime()
+  end
   ScoreboardState.matchStatus = 2
 end
 
@@ -295,6 +309,10 @@ function NetSportScoreboard:performClickAction(elementId, button)
     Actions:toggleService("B")
   elseif (elementId == "teamAServeTimer" or elementId == "teamBServeTimer") and button == 1 then
     Actions:toggleServeTimer()
+  elseif elementId == "timeDisplay" then
+    if ScoreboardState.timeDisplay.mode == "time" then
+      ScoreboardState.timeDisplay.mode = "duration"
+    else ScoreboardState.timeDisplay.mode = "time" end
   elseif elementId == "set" and button == 1 then
     self.changeCourt()
   elseif elementId == "bbTab" and button == 1  then
@@ -324,6 +342,79 @@ function NetSportScoreboard:countdownServeTimer()
         hornSound:setVolume(1)
       end
     end
+  end
+end
+
+function NetSportScoreboard:drawSetWinAndTimeoutMarkers()
+  local maxSlots
+  local swA = ScoreboardState.teamA.nsSetWins
+  local swB = ScoreboardState.teamB.nsSetWins
+  local toA = ScoreboardState.teamA.nsTimeouts[ScoreboardState.nsSet]
+  local toB = ScoreboardState.teamB.nsTimeouts[ScoreboardState.nsSet]
+  local timeoutModColor = { r = 0, g = 0, b = 0 }
+  local x, y, w, h
+  local function drawSetWins(team, sw, i, x, y, h, maxSlots)
+    if team == "A" then x = 140 else x = 1080 end
+    if sw >= i and i <= maxSlots then 
+      love.graphics.draw(setWinColor.mesh, x, y, 0, 60, h)
+    else
+      love.graphics.setColor(Color.black)
+      love.graphics.rectangle("fill", x, y, 60, h)
+    end
+    love.graphics.setColor(1,1,1,1)
+  end
+  local function drawTimeouts(team, to, i, x, maxSlots)
+    y = 555
+    h = 30
+    local m = 5
+    if to >= i and team == "A" then
+      if ScoreboardState.teamA.hsl.fg[3] < 180 then
+        timeoutModColor.r, timeoutModColor.g, timeoutModColor.b = hsl:toRGB(ScoreboardState.teamA.hsl.fg[1], ScoreboardState.teamA.hsl.fg[2], 180)
+        love.graphics.setColor(timeoutModColor.r, timeoutModColor.g, timeoutModColor.b)
+      else
+        love.graphics.setColor(ScoreboardState.teamA.fgColor.r, ScoreboardState.teamA.fgColor.g, ScoreboardState.teamA.fgColor.b)
+      end
+      love.graphics.polygon("fill", x,y+(h/2), x+m,y, x+w-m,y, x+w,y+(h/2), x+w-m,y+h, x+m,y+h)
+    elseif to >= i and team == "B" then
+      if ScoreboardState.teamB.hsl.fg[3] < 180 then
+        timeoutModColor.r, timeoutModColor.g, timeoutModColor.b = hsl:toRGB(ScoreboardState.teamB.hsl.fg[1], ScoreboardState.teamB.hsl.fg[2], 180)
+        love.graphics.setColor(timeoutModColor.r, timeoutModColor.g, timeoutModColor.b)
+      else
+        love.graphics.setColor(ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b)
+      end
+      love.graphics.polygon("fill", x,y+(h/2), x+m,y, x+w-m,y, x+w,y+(h/2), x+w-m,y+h, x+m,y+h)
+    elseif i <= maxSlots then
+      love.graphics.setColor(Color.black)
+      love.graphics.polygon("fill", x,y+(h/2), x+m,y, x+w-m,y, x+w,y+(h/2), x+w-m,y+h, x+m,y+h)
+    end
+    love.graphics.setColor(1,1,1,1)
+  end
+  
+  maxSlots = math.ceil(ScoreboardState.config.ns.maxSets/2)
+  local gap
+  if maxSlots > 3 then
+    h = math.floor(((200-(10*(maxSlots-1)))/maxSlots))
+    gap = 10
+  else
+    h = 50
+    gap = 15
+  end
+  local hMax = (h*maxSlots)+(gap*(maxSlots-1))
+  local offset = 200+((200-hMax)/2)
+  for i = 1, maxSlots, 1 do
+    y = offset+((h+gap)*(i-1))
+    drawSetWins("A", swA, i, x, y, h, maxSlots)
+    drawSetWins("B", swB, i, x, y, h, maxSlots)
+  end
+  
+  maxSlots = math.max(ScoreboardState.config.ns.maxTimeouts, ScoreboardState.config.ns.maxTimeoutsLast)
+  if maxSlots > 4 then w = (270-(5*(maxSlots-1)))/maxSlots
+  else w = 60 end
+  for i = 1, maxSlots, 1 do
+    x = 508-(w*i)-(5*(i-1))
+    drawTimeouts("A", toA, i, x, w)
+    x = 772+(w*(i-1))+(5*(i-1))
+    drawTimeouts("B", toB, i, x, w, maxSlots)
   end
 end
 
@@ -371,7 +462,13 @@ function NetSportScoreboard:changeCourt()
 end
 
 function NetSportScoreboard:attemptExitScreen()
-  
+  ScoreboardState.serveTimerState = 0
+  ScoreboardState.isHornSoundPlaying = false
+  ScoreboardState.onMouseFocus = ""
+  ScoreboardState.onEdit.id = ""
+  ScoreboardState.onEdit.value = ""
+  hornSound:stop()
+  sfx:stopAllSounds()
 end
 
 return NetSportScoreboard

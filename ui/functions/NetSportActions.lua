@@ -28,18 +28,19 @@ function NetSportActions:score(team, points)
     end
   end
   self:updateTargetScore(ScoreboardState.nsSet)
+  self:updateSetWins()
 end
 
 function NetSportActions:timeout(team, points)
   if team == "A" then
-    if ScoreboardState.teamA.nsTimeouts + points >= 0
-      and ScoreboardState.teamA.nsTimeouts + points <= ScoreboardState.config.ns.maxTimeouts then
-      ScoreboardState.teamA.nsTimeouts = ScoreboardState.teamA.nsTimeouts + points
+    if ScoreboardState.teamA.nsTimeouts[ScoreboardState.nsSet] + points >= 0
+      and ScoreboardState.teamA.nsTimeouts[ScoreboardState.nsSet] + points <= ScoreboardState.config.ns.maxTimeouts then
+      ScoreboardState.teamA.nsTimeouts[ScoreboardState.nsSet] = ScoreboardState.teamA.nsTimeouts[ScoreboardState.nsSet] + points
     end
   elseif team == "B" then
-    if ScoreboardState.teamB.nsTimeouts + points >= 0
-      and ScoreboardState.teamB.nsTimeouts + points <= ScoreboardState.config.ns.maxTimeouts then
-      ScoreboardState.teamB.nsTimeouts = ScoreboardState.teamB.nsTimeouts + points
+    if ScoreboardState.teamB.nsTimeouts[ScoreboardState.nsSet] + points >= 0
+      and ScoreboardState.teamB.nsTimeouts[ScoreboardState.nsSet] + points <= ScoreboardState.config.ns.maxTimeouts then
+      ScoreboardState.teamB.nsTimeouts[ScoreboardState.nsSet] = ScoreboardState.teamB.nsTimeouts[ScoreboardState.nsSet] + points
     end
   end
 end
@@ -111,6 +112,18 @@ function NetSportActions:updateTargetScore(set)
   end
 end
 
+function NetSportActions:updateSetWins()
+  local aWins, bWins = 0, 0
+  for i = 1, ScoreboardState.config.ns.maxSets, 1 do
+    if ScoreboardState.teamA.nsScore[i] >= ScoreboardState.nsTargetScore[i] then
+      aWins = aWins + 1 end
+    if ScoreboardState.teamB.nsScore[i] >= ScoreboardState.nsTargetScore[i] then
+      bWins = bWins + 1 end
+  end
+  ScoreboardState.teamA.nsSetWins = aWins
+  ScoreboardState.teamB.nsSetWins = bWins
+end
+
 function NetSportActions:updateSetScoresView()
   if ScoreboardState.config.ns.maxSets == 1 then 
     ScoreboardState.nsSummary.teamA[1] = 0
@@ -134,17 +147,6 @@ function NetSportActions:updateSetScoresView()
     ScoreboardState.nsSummary.teamB[3] = 3
     ScoreboardState.nsSummary.teamB[4] = 0
     ScoreboardState.nsSummary.teamB[5] = 0
-  elseif ScoreboardState.config.ns.maxSets == 5 then 
-    ScoreboardState.nsSummary.teamA[1] = 1
-    ScoreboardState.nsSummary.teamA[2] = 2
-    ScoreboardState.nsSummary.teamA[3] = 3
-    ScoreboardState.nsSummary.teamA[4] = 4
-    ScoreboardState.nsSummary.teamA[5] = 5
-    ScoreboardState.nsSummary.teamB[1] = 1
-    ScoreboardState.nsSummary.teamB[2] = 2
-    ScoreboardState.nsSummary.teamB[3] = 3
-    ScoreboardState.nsSummary.teamB[4] = 4
-    ScoreboardState.nsSummary.teamB[5] = 5
   elseif ScoreboardState.config.ns.maxSets > 5 and ScoreboardState.nsSet >=5 then 
     local set = ScoreboardState.nsSet
     ScoreboardState.nsSummary.teamA[1] = set-4
@@ -157,7 +159,34 @@ function NetSportActions:updateSetScoresView()
     ScoreboardState.nsSummary.teamB[3] = set-2
     ScoreboardState.nsSummary.teamB[4] = set-1
     ScoreboardState.nsSummary.teamB[5] = set
+  elseif ScoreboardState.config.ns.maxSets >= 5 then 
+    ScoreboardState.nsSummary.teamA[1] = 1
+    ScoreboardState.nsSummary.teamA[2] = 2
+    ScoreboardState.nsSummary.teamA[3] = 3
+    ScoreboardState.nsSummary.teamA[4] = 4
+    ScoreboardState.nsSummary.teamA[5] = 5
+    ScoreboardState.nsSummary.teamB[1] = 1
+    ScoreboardState.nsSummary.teamB[2] = 2
+    ScoreboardState.nsSummary.teamB[3] = 3
+    ScoreboardState.nsSummary.teamB[4] = 4
+    ScoreboardState.nsSummary.teamB[5] = 5
   end
+end
+
+function NetSportActions:getMatchDuration(currentTime)
+  local rawSeconds = 0
+  if ScoreboardState.timeDisplay.start then 
+    rawSeconds = math.floor(currentTime - ScoreboardState.timeDisplay.start)
+  end
+  local toDisplay = ""
+  if math.floor(rawSeconds / (60*60)) > 0 then
+    toDisplay = toDisplay .. math.floor(rawSeconds / (60*60)) .. ":" 
+    .. string.format("%02d", math.floor(rawSeconds/60) % 60) .. ":"
+  else
+    toDisplay = toDisplay .. math.floor(rawSeconds/60) % 60 .. ":"
+  end
+  toDisplay = toDisplay .. string.format("%02d", rawSeconds % 60)
+  return toDisplay
 end
 
 function NetSportActions:startNewMatch()
@@ -166,17 +195,21 @@ function NetSportActions:startNewMatch()
     ScoreboardState.teamB.nsScore[i] = 0
     if i < ScoreboardState.config.ns.maxSets then
       ScoreboardState.nsTargetScore[i] = ScoreboardState.config.ns.targetScore
+      ScoreboardState.teamA.nsTimeouts[i] = ScoreboardState.config.ns.maxTimeouts
+      ScoreboardState.teamB.nsTimeouts[i] = ScoreboardState.config.ns.maxTimeouts
     elseif i == ScoreboardState.config.ns.maxSets then
       ScoreboardState.nsTargetScore[i] = ScoreboardState.config.ns.targetScoreLast
+      ScoreboardState.teamA.nsTimeouts[i] = ScoreboardState.config.ns.maxTimeoutsLast
+      ScoreboardState.teamB.nsTimeouts[i] = ScoreboardState.config.ns.maxTimeoutsLast
     else
       ScoreboardState.nsTargetScore[i] = 999
+      ScoreboardState.teamA.nsTimeouts[i] = 0
+      ScoreboardState.teamB.nsTimeouts[i] = 0
     end
   end
   ScoreboardState.nsSet = 1
   ScoreboardState.teamA.nsSetWins = 0
   ScoreboardState.teamB.nsSetWins = 0
-  ScoreboardState.teamA.nsTimeouts = ScoreboardState.config.ns.maxTimeouts
-  ScoreboardState.teamB.nsTimeouts = ScoreboardState.config.ns.maxTimeouts
   ScoreboardState.teamA.nsService = false
   ScoreboardState.teamB.nsService = false
   ScoreboardState.serveTimer.sec = ScoreboardState.config.ns.serveTimer.reset
@@ -186,6 +219,7 @@ function NetSportActions:startNewMatch()
   else
     ScoreboardState.serveTimerState = 0
   end
+  ScoreboardState.timeStart = nil
 end
 
 return NetSportActions
