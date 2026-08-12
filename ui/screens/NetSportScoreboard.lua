@@ -196,9 +196,14 @@ function NetSportScoreboard:mousepressed(x, y, button)
   for _, v in ipairs(Designer.mouseBounds) do
     if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
       self:performClickAction(v.id, button)
+      if ScoreboardState.timeDisplay.start == nil then
+        ScoreboardState.timeDisplay.start = love.timer.getTime()
+      end
+      ScoreboardState.matchStatus = 2
       break
     end
   end
+  
 end
 
 function NetSportScoreboard:keypressed(key, scancode, isrepeat)

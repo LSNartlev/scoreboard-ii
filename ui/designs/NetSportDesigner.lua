@@ -478,7 +478,9 @@ local Designer = {
           return Color.red
         end
         return Color.alpha
-      end }
+      end },
+    { id = "footer", x = 0, y = 720, width = 1280, height = 80,
+      color = function() return Color.footerBG end }
   },
   mouseBounds = {
     { id = "matchTitle", x1 = 40, y1 = 40, x2 = 1240, y2 = 100 },

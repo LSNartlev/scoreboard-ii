@@ -190,6 +190,7 @@ function BasketballScoreboard:mousepressed(x, y, button)
   for _, v in ipairs(Designer.mouseBounds) do
     if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
       self:performClickAction(v.id, button)
+      ScoreboardState.matchStatus = 1
       break
     end
   end
