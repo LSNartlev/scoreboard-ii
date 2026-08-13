@@ -175,7 +175,11 @@ function TeamSetup:mousemoved(x, y, dx, dy, istouch)
   for _, v in ipairs(Designer.mouseBounds) do
     if x >= v.x1 and x <= v.x2 and y >= v.y1 and y <= v.y2 then
       ScoreboardState.onMouseFocus = v.id
-      if Lang.teamSetup[v.id] then
+      if (ScoreboardState.onMouseFocus == "toMatchSetup" or ScoreboardState.onMouseFocus == "confirmTeam"
+        or ScoreboardState.onMouseFocus == "editTeamA" or ScoreboardState.onMouseFocus == "editTeamB")
+        and ScoreboardState.teamSetup.side == "" then
+        ScoreboardState.tooltip = Lang.tooltips.teamSetup
+      elseif Lang.teamSetup[v.id] then
         ScoreboardState.tooltip = Lang.teamSetup[v.id]
       end
       break
@@ -341,7 +345,7 @@ function TeamSetup:performClickAction(elementId)
       ScoreboardState.onEdit.value = ScoreboardState.teamSetup.name
       love.keyboard.setTextInput(true)
     end
-    if elementId == "toMatchSetup" or elementId == "confirmTeam" then
+    if (elementId == "toMatchSetup" or elementId == "confirmTeam") and ScoreboardState.teamSetup.side ~= "" then
       self:finishEditing()
       if elementId == "confirmTeam" then
         if ScoreboardState.teamSetup.side == "A" then
@@ -431,6 +435,9 @@ function TeamSetup:performClickAction(elementId)
   elseif elementId == "page8" then
     ScoreboardState.teamSetup.listPage = 8
     self:loadTeamList()
+  elseif elementId == "matchSetup" then
+    ScoreboardState.config.tabs.activeTab = "matchSetup"
+    ScreenManager.changeScreen("MatchSetup")
   end
 end
 

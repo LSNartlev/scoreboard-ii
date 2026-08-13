@@ -71,7 +71,7 @@ local ScoreboardState = {
     },
     tabs = {
       activeTab = "matchSetup",
-      isSelectable = false
+      isSelectable = true
     }
   },
   teamSetup = {

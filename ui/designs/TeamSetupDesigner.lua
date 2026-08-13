@@ -173,13 +173,17 @@ local Designer = {
         return Color.button.bg.enabled
       end },
     { id = "toMatchSetup", x = 950, y = 670, width = 150, height = 30, color = function()
-        if ScoreboardState.onMouseFocus == "toMatchSetup" then
+        if ScoreboardState.teamSetup.side == "" then
+          return Color.alpha
+        elseif ScoreboardState.onMouseFocus == "toMatchSetup" then
           return Color.button.bg.focus
         end
         return Color.button.bg.enabled
       end },
     { id = "confirmTeam", x = 1110, y = 670, width = 150, height = 30, color = function()
-        if ScoreboardState.onMouseFocus == "confirmTeam" then
+        if ScoreboardState.teamSetup.side == "" then
+          return Color.alpha
+        elseif ScoreboardState.onMouseFocus == "confirmTeam" then
           return Color.button.bg.focus
         end
         return Color.button.bg.enabled

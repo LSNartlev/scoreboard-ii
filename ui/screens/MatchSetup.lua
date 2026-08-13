@@ -268,10 +268,14 @@ function MatchSetup:performClickAction(elementId)
       ScoreboardState.onDisplay = "NetSportScoreboard"
       ScreenManager.changeScreen("NetSportScoreboard")
     end
+  elseif elementId == "teamsList" then
+    ScoreboardState.teamSetup.side = ""
+    ScoreboardState.config.tabs.activeTab = "teamsList"
+    ScreenManager.changeScreen("TeamSetup")
   elseif elementId == "exitDialog" then
     openDialogBoxFor = ""
   elseif elementId == "aboutTab" then
-      ScreenManager.changeScreen("AboutScreen")
+    ScreenManager.changeScreen("AboutScreen")
   end
 end
 
