@@ -522,6 +522,7 @@ function TeamSetup:saveTeam(saveTo)
       = ScoreboardState.teamSetup.hsl.fg[1], ScoreboardState.teamSetup.hsl.fg[2], ScoreboardState.teamSetup.hsl.fg[3]
     if love.filesystem.getInfo("SavedTeams.json") ~= nil then
       rawSaveData = json.encode(TeamsList)
+      local success, message
       success, message = love.filesystem.write("SavedTeams.json", rawSaveData)
     end
     self:loadTeamList()
