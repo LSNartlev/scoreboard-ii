@@ -404,7 +404,7 @@ function BasketballScoreboard:timerAdjustmentAction(key)
     end
   end
   
-  if key == Controls.bb.toggleTimerAdjust or key == "escape" then
+  if key == Controls.bb.toggleTimerAdjust or key == "escape" or key == "return" then
     ScoreboardState.isTimerAdjustmentEnabled = false
     if (ScoreboardState.periodTimer.min*60 + ScoreboardState.periodTimer.sec + 
       ScoreboardState.periodTimer.dSec/10) > 0 then
