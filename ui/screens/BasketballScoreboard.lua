@@ -228,14 +228,14 @@ function BasketballScoreboard:performClickAction(elementId, button)
     elseif elementId == "teamAScore" then
       if button == 1 then
         Actions:score("A", 1)
-        scoreAnim.teamA = 1.25
+        scoreAnim.teamA = 2
       elseif button == 2 then
         Actions:score("A", -1)
       end
     elseif elementId == "teamBScore" then
       if button == 1 then
         Actions:score("B", 1)
-        scoreAnim.teamB = 1.25
+        scoreAnim.teamB = 2
       elseif button == 2 then
         Actions:score("B", -1)
       end
