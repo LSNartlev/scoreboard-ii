@@ -131,7 +131,7 @@ function NetSportScoreboard:draw()
     love.graphics.setFont(v.font())
     love.graphics.setColor(v.color())
     if v.id == "teamAName" or v.id == "teamBName" then
-      love.graphics.setScissor(v.x, v.y, v.width, 40)
+      love.graphics.setScissor(v.x, v.y-10, v.width, 50)
     end
     love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
     love.graphics.setScissor()
@@ -258,6 +258,10 @@ function NetSportScoreboard:keypressed(key, scancode, isrepeat)
   if key == Controls.ns.nextSet and ScoreboardState.nsSet < ScoreboardState.config.ns.maxSets then
     ScoreboardState.nsSet = ScoreboardState.nsSet + 1
     Actions:updateSetScoresView()
+  end
+  
+  if key == Controls.ns.changeCourt then
+    self.changeCourt()
   end
   
   for i=1, 10, 1 do

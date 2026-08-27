@@ -9,7 +9,7 @@ local TeamsList = require("data.TeamsList")
 local json = require("ext.rxi-json.json")
 function love.load()
   -- Load TeamsList.lua, SavedTeams.json
-  local rawSaveData, success, message
+  local path, rawSaveData, success, message
   if love.filesystem.getInfo("SavedTeams.json") == nil then
     rawSaveData = json.encode(TeamsList)
     success, message = love.filesystem.write("SavedTeams.json", rawSaveData)
@@ -22,7 +22,7 @@ function love.load()
   rawSaveData = love.filesystem.read("SavedConfig.json")
   -- Load Sounds
   for _, v in pairs(Sounds) do
-    local path = "CustomSounds/" .. v.filename
+    path = "CustomSounds/" .. v.filename
     local file = io.open(path, "rb")
     if not file then
       v.soundSource = love.audio.newSource("assets/blank.wav", "static")

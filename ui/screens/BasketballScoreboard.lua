@@ -12,7 +12,7 @@ local sfx = require("ui.functions.SoundEffectActions")
 local hsl = require("ext.HSLtoRGB")
 local gradRect = require("ui.designs.GradientMesh")
 local hornSound, periodTimerRun, shotClockRun, periodDT, shotDT, lastPeriodDT, lastShotDT
-local teamAColors, teamBColors
+local teamAColors, teamBColors, penaltyFlash
 local animatedBg, pointDiff, scoreAnim, isMatchOver
 
 function BasketballScoreboard:load()
@@ -39,9 +39,11 @@ function BasketballScoreboard:load()
   for _, v in ipairs(Icons) do
     v:setFilter("linear", "linear")
   end
+  penaltyFlash = 0
 end
 
 function BasketballScoreboard:update(dt)
+  penaltyFlash = math.floor(love.timer.getTime()*10)
   if ScoreboardState.isPeriodTimerRunning == false then
     periodTimerRun = love.timer.getTime()*100
   else
@@ -81,6 +83,12 @@ function BasketballScoreboard:update(dt)
   else
     ScoreboardState.shotClock.displayText = ScoreboardState.shotClock.sec
       .. "." .. ScoreboardState.shotClock.dSec
+  end
+  
+  if ScoreboardState.isHornSoundPlaying then
+    hornSound:setVolume(1)
+  else
+    hornSound:setVolume(0)
   end
   
   if isMatchOver then
@@ -146,7 +154,7 @@ function BasketballScoreboard:draw()
     love.graphics.setFont(v.font())
     love.graphics.setColor(v.color())
     if v.id == "teamAName" or v.id == "teamBName" then
-      love.graphics.setScissor(v.x, v.y, v.width, 40)
+      love.graphics.setScissor(v.x, v.y-10, v.width, 50)
     end
     love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
     love.graphics.setScissor()
@@ -207,7 +215,6 @@ end
 function BasketballScoreboard:keyreleased(key, scancode)
   if key == Controls.bb.hornSound then
     ScoreboardState.isHornSoundPlaying = false
-    hornSound:setVolume(0)
     if ScoreboardState.periodTimer.displayText == "0.0" then
       self:prepareNextPeriod()
     end
@@ -272,9 +279,9 @@ function BasketballScoreboard:regularKeyAction(key)
     Actions:togglePeriodTimer()
   elseif key == Controls.bb.toggleShotClock then
     Actions:toggleShotClock()
-  elseif key == Controls.bb.resetShotClockShort then
+  elseif love.keyboard.isDown(Controls.bb.resetShotClockShort) then
     Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetShort)
-  elseif key == Controls.bb.resetShotClockFull then
+  elseif love.keyboard.isDown(Controls.bb.resetShotClockFull) then
     Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetFull)
   end
   
@@ -324,7 +331,6 @@ function BasketballScoreboard:regularKeyAction(key)
   
   if love.keyboard.isDown(Controls.bb.hornSound) then
     ScoreboardState.isHornSoundPlaying = true
-    hornSound:setVolume(1)
   end
   
   if key == Controls.bb.prevPeriod and ScoreboardState.bbPeriod > 1 then
@@ -464,7 +470,11 @@ function BasketballScoreboard:drawTeamFoulAndTimeoutMarkers()
     local m = 10
     local timeoutModColor = { r = 0, g = 0, b = 0 }
     if tf == ScoreboardState.config.bb.maxTeamFouls then
-      love.graphics.setColor(Color.editRed)
+      if penaltyFlash % 10 < 5 then 
+        love.graphics.setColor(Color.editRed)
+      else
+        love.graphics.setColor(Color.yellow)
+      end
     elseif tf >= warning and i >= warning and tf >= i then
       love.graphics.setColor(Color.orange)
     elseif tf >= i then
@@ -568,13 +578,12 @@ function BasketballScoreboard:countdownPeriodTimer()
       ScoreboardState.shotClock.sec = 0
       ScoreboardState.isShotClockRunning = false
       ScoreboardState.isHornSoundPlaying = true
-      hornSound:setVolume(1)
     end
   end
 end
 
 function BasketballScoreboard:countdownShotClock()
-  if ScoreboardState.isShotClockRunning then
+  if ScoreboardState.isShotClockRunning and not love.keyboard.isDown(Controls.bb.resetShotClockShort, Controls.bb.resetShotClockFull) then
     if ScoreboardState.shotClock.dSec > 0 then
         ScoreboardState.shotClock.dSec = ScoreboardState.shotClock.dSec - 1
     elseif ScoreboardState.shotClock.sec > 0 then
@@ -586,7 +595,6 @@ function BasketballScoreboard:countdownShotClock()
       and ScoreboardState.shotClock.sec == 0 then
       ScoreboardState.isShotClockRunning = false
       ScoreboardState.isHornSoundPlaying = true
-      hornSound:setVolume(1)
       if ScoreboardState.isPeriodTimerRunning then
         ScoreboardState.isPeriodTimerRunning = false
       end
@@ -603,10 +611,10 @@ function BasketballScoreboard:attemptExitScreen()
   ScoreboardState.isPeriodTimerRunning = false
   ScoreboardState.isShotClockRunning = false
   ScoreboardState.isHornSoundPlaying = false
+  hornSound:stop()
   ScoreboardState.onMouseFocus = ""
   ScoreboardState.onEdit.id = ""
   ScoreboardState.onEdit.value = ""
-  hornSound:stop()
   sfx:stopAllSounds()
 end
 

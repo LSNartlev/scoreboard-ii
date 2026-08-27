@@ -17,6 +17,7 @@ function BasketballActions:togglePeriodTimer()
     end
   elseif ScoreboardState.isPeriodTimerEnabled then
     ScoreboardState.isPeriodTimerRunning = true
+    ScoreboardState.isHornSoundPlaying = false
     if ScoreboardState.isShotClockEnabled then
       ScoreboardState.isShotClockRunning = true
     end
@@ -28,6 +29,7 @@ function BasketballActions:toggleShotClockEnabled()
     ScoreboardState.isShotClockEnabled = false
   else
     ScoreboardState.isShotClockEnabled = true
+    ScoreboardState.isHornSoundPlaying = false
   end
 end
 
@@ -48,7 +50,7 @@ function BasketballActions:resetShotClock(shotSec)
   else
     ScoreboardState.isShotClockEnabled = false
   end
-  ScoreboardState.isShotClockRunning = false
+  -- ScoreboardState.isShotClockRunning = false
 end
 
 function BasketballActions:score(team, points)
