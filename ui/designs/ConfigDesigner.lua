@@ -112,9 +112,9 @@ local Designer = {
     },
     {
       id = "nsTab", x = 1090, y = 720, width = 60, height = 80, icon = function() 
-        if ScoreboardState.config.ns.sportToPlay == "volleyball" then return Icons.volleyball
-        elseif ScoreboardState.config.ns.sportToPlay == "badminton" then return Icons.badminton
-        elseif ScoreboardState.config.ns.sportToPlay == "table tennis" then return Icons.tabletennis
+        if ScoreboardState.config.ns.sportToPlay == "Volleyball" then return Icons.volleyball
+        elseif ScoreboardState.config.ns.sportToPlay == "Badminton" then return Icons.badminton
+        elseif ScoreboardState.config.ns.sportToPlay == "Table Tennis" then return Icons.tabletennis
         else return Icons.pickleball end
       end,
       color = function() return Color.textField.bg.enabled end

@@ -9,7 +9,42 @@ local TeamsList = require("data.TeamsList")
 local json = require("ext.rxi-json.json")
 function love.load()
   -- Load TeamsList.lua, SavedTeams.json
-  local path, rawSaveData, success, message
+  local file, path, rawSaveData, success, message
+  path = "SaveData/TeamsList.json"
+  file = io.open(path, "r")
+  if not file then
+    file = io.open(path, "w")
+    if file then
+      file:write(json.encode(TeamsList))
+      file:close()
+      file = io.open(path, "r")
+    else
+      error("Failed to load TeamsList...")
+    end
+  end
+  if file then
+    rawSaveData = file:read("*a")
+    file:close()
+    TeamsList = json.decode(rawSaveData)
+  end
+  path = "SaveData/Config.json"
+  file = io.open(path, "r")
+  if not file then
+    file = io.open(path, "w")
+    if file then
+      file:write(json.encode(ScoreboardState.config))
+      file:close()
+      file = io.open(path, "r")
+    else
+      error("Failed to load Scoreboard configurations...")
+    end
+  end
+  if file then
+    rawSaveData = file:read("*a")
+    file:close()
+    ScoreboardState.config = json.decode(rawSaveData)
+  end
+  --[[
   if love.filesystem.getInfo("SavedTeams.json") == nil then
     rawSaveData = json.encode(TeamsList)
     success, message = love.filesystem.write("SavedTeams.json", rawSaveData)
@@ -20,6 +55,7 @@ function love.load()
     success, message = love.filesystem.write("SavedConfig.json", rawSaveData)
   end
   rawSaveData = love.filesystem.read("SavedConfig.json")
+  ]]
   -- Load Sounds
   for _, v in pairs(Sounds) do
     path = "CustomSounds/" .. v.filename

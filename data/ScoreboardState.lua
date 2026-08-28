@@ -57,7 +57,7 @@ local ScoreboardState = {
       isTimeoutCarryover = { true, false, true, false, false }
     },
     ns = {
-      sportToPlay = "volleyball",
+      sportToPlay = "Volleyball",
       maxSets = 3,
       maxTimeouts = 2,
       maxTimeoutsLast = 2,

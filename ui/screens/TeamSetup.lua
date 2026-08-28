@@ -18,8 +18,17 @@ local gradToDraw, teamList, rawSaveData
 function TeamSetup:load()
   ScoreboardState.tooltip = Lang.tooltips.teamSetup
   hueSlider = love.graphics.newImage("assets/hueSlider.png", { mipmaps = true })
-  rawSaveData = love.filesystem.read("SavedTeams.json")
-  TeamsList = json.decode(rawSaveData)
+  local path = "SaveData/TeamsList.json"
+  local file = io.open(path, "r")
+  if file then
+    rawSaveData = file:read("*a")
+    file:close()
+    TeamsList = json.decode(rawSaveData)
+  else
+    error("Failed to load Teams List...")
+  end
+  --rawSaveData = love.filesystem.read("SavedTeams.json")
+  --TeamsList = json.decode(rawSaveData)
   ScoreboardState.teamSetup.listPage = 1
   self:loadTeamList()
   if ScoreboardState.teamSetup.side == "" then
@@ -520,11 +529,21 @@ function TeamSetup:saveTeam(saveTo)
       = ScoreboardState.teamSetup.hsl.bg2[1], ScoreboardState.teamSetup.hsl.bg2[2], ScoreboardState.teamSetup.hsl.bg2[3]
     TeamsList[saveTo].fg[1], TeamsList[saveTo].fg[2], TeamsList[saveTo].fg[3]
       = ScoreboardState.teamSetup.hsl.fg[1], ScoreboardState.teamSetup.hsl.fg[2], ScoreboardState.teamSetup.hsl.fg[3]
+    local path = "SaveData/TeamsList.json"
+    local file = io.open(path, "w")
+    if file then
+      file:write(json.encode(TeamsList))
+      file:close()
+    else
+      error("Unable to save Teams List...")
+    end
+    --[[
     if love.filesystem.getInfo("SavedTeams.json") ~= nil then
       rawSaveData = json.encode(TeamsList)
       local success, message
       success, message = love.filesystem.write("SavedTeams.json", rawSaveData)
     end
+    ]]
     self:loadTeamList()
   end
   ScoreboardState.onEdit.id = ""

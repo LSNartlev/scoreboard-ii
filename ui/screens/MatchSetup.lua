@@ -8,19 +8,21 @@ local Color = require("ui.designs.Colors")
 local Lang = require("data.language.en")
 local gradRect = require("ui.designs.GradientMesh")
 local json = require("ext.rxi-json.json")
-local teamAColors, teamBColors, openDialogBoxFor, rawSaveData, saveOK, selectedTab
+local teamAColors, teamBColors, openDialogBoxFor, rawSaveData, saveOKtime, selectedTab, nsMaxSets
 
 function MatchSetup:load()
   ScoreboardState.onDisplay = "MatchSetup"
+  ScoreboardState.config.tabs.isSelectable = true
   ScoreboardState.tooltip = Lang.tooltips.matchSetup
   teamAColors = gradRect.new(ScoreboardState.teamA.bgColor1, ScoreboardState.teamA.bgColor2, 1)
   teamBColors = gradRect.new(ScoreboardState.teamB.bgColor1, ScoreboardState.teamB.bgColor2, 1)
   openDialogBoxFor = ""
-  saveOK = 0
+  saveOKtime = 0
+  nsMaxSets = ScoreboardState.config.ns.maxSets
 end
 
 function MatchSetup:update(dt)
-  saveOK = saveOK - 0.1
+  saveOKtime = saveOKtime - 0.1
 end
 
 function MatchSetup:draw()
@@ -85,7 +87,7 @@ function MatchSetup:draw()
     love.graphics.setColor(1,1,1,1)
   end
   
-  if saveOK > 0 then
+  if saveOKtime > 0 then
     love.graphics.setColor(Color.button.bg.active)
     love.graphics.rectangle("fill", 260, 670, 290, 30)
     love.graphics.setColor(Color.black)
@@ -239,20 +241,47 @@ function MatchSetup:performClickAction(elementId)
     ScoreboardState.config.matchSetup.teamB.bgColor2 = ScoreboardState.teamB.bgColor2
     ScoreboardState.config.matchSetup.teamB.fgColor = ScoreboardState.teamB.fgColor
     ScoreboardState.config.matchSetup.teamB.hsl = ScoreboardState.teamB.hsl
+    local path = "SaveData/Config.json"
+    local file = io.open(path, "w")
+    if file then
+      file:write(json.encode(ScoreboardState.config))
+      file:close()
+    else
+      error("Unable to save Scoreboard configurations...")
+    end
+    --[[
     if love.filesystem.getInfo("SavedTeams.json") ~= nil then
       rawSaveData = json.encode(ScoreboardState.config)
       success, message = love.filesystem.write("SavedConfig.json", rawSaveData)
     end
-    saveOK = 5
-  elseif elementId == "nsTab" or elementId == "toNetSport" then
+    ]]
+    saveOKtime = 5
+  elseif elementId == "toNetSportBo3" then
     if ScoreboardState.matchStatus == 0 then
+      ScoreboardState.config.ns.maxSets = 3
       ScoreboardState.onDisplay = "NetSportScoreboard"
       ScreenManager.changeScreen("NetSportScoreboard")
     elseif ScoreboardState.matchStatus == 1 then
       openDialogBoxFor = "continueBasketball"
+      nsMaxSets = 3
       selectedTab = "net sport"
     elseif ScoreboardState.matchStatus == 2 then
       openDialogBoxFor = "continueNetSport"
+      nsMaxSets = 3
+      selectedTab = "net sport"
+    end
+  elseif elementId == "nsTab" or elementId == "toNetSportBo5" then
+    if ScoreboardState.matchStatus == 0 then
+      ScoreboardState.config.ns.maxSets = 5
+      ScoreboardState.onDisplay = "NetSportScoreboard"
+      ScreenManager.changeScreen("NetSportScoreboard")
+    elseif ScoreboardState.matchStatus == 1 then
+      openDialogBoxFor = "continueBasketball"
+      nsMaxSets = 5
+      selectedTab = "net sport"
+    elseif ScoreboardState.matchStatus == 2 then
+      openDialogBoxFor = "continueNetSport"
+      nsMaxSets = 5
       selectedTab = "net sport"
     end
   elseif elementId == "continue" or elementId == "startNew" then
@@ -261,6 +290,7 @@ function MatchSetup:performClickAction(elementId)
     end
     if (elementId == "continue" and openDialogBoxFor == "continueBasketball")
       or (elementId == "startNew" and selectedTab == "basketball") then
+      ScoreboardState.config.ns.maxSets = nsMaxSets
       ScoreboardState.onDisplay = "BasketballScoreboard"
       ScreenManager.changeScreen("BasketballScoreboard")
     elseif (elementId == "continue" and openDialogBoxFor == "continueNetSport")

@@ -41,15 +41,17 @@ local Designer = {
         local r, g, b = ScoreboardState.teamB.fgColor.r, ScoreboardState.teamB.fgColor.g, ScoreboardState.teamB.fgColor.b
         return { r, g, b }
       end },
-    { id = "changeTeamA", text = function() return "Change Team / Colors" end,
+    { id = "changeTeamA", text = function() return "Setup Left Side Team" end,
       x = 400, y = 480, width = 260, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
-    { id = "changeTeamB", text = function() return "Change Team / Colors" end,
+    { id = "changeTeamB", text = function() return "Setup Right Side Team" end,
       x = 860, y = 480, width = 260, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
     { id = "saveAsDefault", text = function() return "Save As Default Match Setup" end,
       x = 260, y = 675, width = 290, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
     { id = "toBasketball", text = function() return "Play Basketball" end,
       x = 850, y = 675, width = 200, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
-    { id = "toNetSport", text = function() return "Play Net Sport" end,
+    { id = "toNetSportBo3", text = function() return "Play " .. ScoreboardState.config.ns.sportToPlay .. " Bo3" end,
+      x = 1060, y = 635, width = 200, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
+    { id = "toNetSportBo5", text = function() return "Play " .. ScoreboardState.config.ns.sportToPlay .. " Bo5" end,
       x = 1060, y = 675, width = 200, align = "center", font = Fonts.config, color = function() return Color.button.fg end }
   },
   rectangles = {
@@ -104,8 +106,13 @@ local Designer = {
             return Color.button.bg.focus end
           return Color.button.bg.enabled
         end },
-    { id = "toNetSport", x = 1060, y = 670, width = 200, height = 30, color = function()
-          if ScoreboardState.onMouseFocus == "toNetSport" then
+    { id = "toNetSportBo3", x = 1060, y = 630, width = 200, height = 30, color = function()
+          if ScoreboardState.onMouseFocus == "toNetSportBo3" then
+            return Color.button.bg.focus end
+          return Color.button.bg.enabled
+        end },
+    { id = "toNetSportBo5", x = 1060, y = 670, width = 200, height = 30, color = function()
+          if ScoreboardState.onMouseFocus == "toNetSportBo5" then
             return Color.button.bg.focus end
           return Color.button.bg.enabled
         end },
@@ -188,7 +195,8 @@ local Designer = {
       { id = "changeTeamB", x1 = 860, y1 = 165, x2 = 1120, y2 = 505 },
       { id = "saveAsDefault", x1 = 260, y1 = 670, x2 = 550, y2 = 700 },
       { id = "toBasketball", x1 = 850, y1 = 670, x2 = 1050, y2 = 700 },
-      { id = "toNetSport", x1 = 1060, y1 = 670, x2 = 1260, y2 = 700 },
+      { id = "toNetSportBo3", x1 = 1060, y1 = 630, x2 = 1260, y2 = 660 },
+      { id = "toNetSportBo5", x1 = 1060, y1 = 670, x2 = 1260, y2 = 700 },
       -- footer tabs
       { id = "bbTab", x1 = 1030, y1 = 720, x2 = 1090, y2 = 800 },
       { id = "nsTab", x1 = 1090, y1 = 720, x2 = 1150, y2 = 800 },
