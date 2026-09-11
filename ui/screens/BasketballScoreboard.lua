@@ -221,6 +221,83 @@ function BasketballScoreboard:keyreleased(key, scancode)
   end
 end
 
+function BasketballScoreboard:gamepadpressed(joystick, button)
+  if ScoreboardState.isTimerAdjustmentEnabled == false then
+    if button == "a" then
+      Actions:togglePeriodTimer()
+    elseif button == "b" then
+      Actions:toggleShotClock()
+    elseif love.joystick.isDown("x") then
+      Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetShort)
+    elseif love.joystick.isDown("y") then
+      Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetFull)
+    end
+    
+    if button == "dpleft" then
+      if ScoreboardState.teamA.bbBallPoss == false and ScoreboardState.teamB.bbBallPoss == false then
+        ScoreboardState.teamA.bbBallPoss = true
+        ScoreboardState.teamB.bbBallPoss = false
+      elseif ScoreboardState.teamA.bbBallPoss == true then
+        ScoreboardState.teamA.bbBallPoss = false
+        ScoreboardState.teamB.bbBallPoss = true
+      elseif ScoreboardState.teamB.bbBallPoss == true then
+        ScoreboardState.teamA.bbBallPoss = true
+        ScoreboardState.teamB.bbBallPoss = false
+      end
+    end
+    
+    if button == "leftshoulder" then
+      if love.joystick.isDown("dpdown") then
+        Actions:foul("A", 1)
+      elseif love.joystick.isDown("dpright") then
+        Actions:timeout("A", 1)
+      else
+        Actions:score("A", 1)
+      end
+    elseif button == "triggerleft" then
+      if love.joystick.isDown("dpdown") then
+        Actions:foul("A", -1)
+      elseif love.joystick.isDown("dpright") then
+        Actions:timeout("A", -1)
+      else
+        Actions:score("A", -1)
+      end
+    elseif button == "rightshoulder" then
+      if love.joystick.isDown("dpdown") then
+        Actions:foul("B", 1)
+      elseif love.joystick.isDown("dpright") then
+        Actions:timeout("B", 1)
+      else
+        Actions:score("B", 1)
+      end
+    elseif button == "triggerright" then
+      if love.joystick.isDown("dpdown") then
+        Actions:foul("B", -1)
+      elseif love.joystick.isDown("dpright") then
+        Actions:timeout("B", -1)
+      else
+        Actions:score("B", -1)
+      end
+    end
+    
+    if button == "start" then
+      self.changeCourt()
+    end
+    if love.joystick.isDown("dpup") then
+      ScoreboardState.isHornSoundPlaying = true
+    end
+  end
+end
+
+function BasketballScoreboard:gamepadreleased(joystick, button)
+  if button == "dpup" then
+    ScoreboardState.isHornSoundPlaying = false
+    if ScoreboardState.periodTimer.displayText == "0.0" then
+      self:prepareNextPeriod()
+    end
+  end
+end
+
 function BasketballScoreboard:performClickAction(elementId, button)
   if ScoreboardState.isTimerAdjustmentEnabled == false then
     if elementId == "matchTitle" or elementId == "teamAName" or elementId == "teamBName" then

@@ -291,6 +291,12 @@ function NetSportScoreboard:keyreleased(key, scancode)
   end
 end
 
+function NetSportScoreboard:gamepadpressed(joystick, button)
+end
+
+function NetSportScoreboard:gamepadreleased(joystick, button)
+end
+
 function NetSportScoreboard:performClickAction(elementId, button)
   if elementId == "matchTitle" or elementId == "teamAName" or elementId == "teamBName" then
       ScreenManager.changeScreen("MatchSetup")

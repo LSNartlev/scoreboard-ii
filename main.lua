@@ -130,3 +130,15 @@ function love.keyreleased(key, scancode)
     ScreenManager.onDisplay:keyreleased(key, scancode)
   end
 end
+
+function love.gamepadpressed(joystick, button)
+  if ScreenManager.onDisplay.gamepadpressed then
+    ScreenManager.onDisplay:gamepadpressed(joystick, button)
+  end 
+end
+
+function love.gamepadreleased(joystick, button)
+  if ScreenManager.onDisplay.gamepadreleased then
+    ScreenManager.onDisplay:gamepadreleased(joystick, button)
+  end 
+end

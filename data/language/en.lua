@@ -157,7 +157,7 @@ local languagePack = {
   },
   about = {
     tooltip = "ABOUT SCOREBOARD II\nClick any of the icons on the bottom right to exit this screen.",
-    main = "Scoreboard II\nversion 2.0 beta 1\nmade with LÖVE\nCopyright ©2026 Earl Charles Beltran (LSNartlev)\nSource code licensed under the MIT License.",
+    main = "Scoreboard II\nversion 2.0 beta 2\nmade with LÖVE\nCopyright ©2026 Earl Charles Beltran (LSNartlev)\nSource code licensed under the MIT License.",
     free = "This software is free of charge--if you paid for it, you got scammed.",
     thirdParty = "Third-party assets and libraries are included under their respective licenses:",
     jsonlua = "json.lua\nCopyright ©2019 rxi\nLicense: MIT License",
