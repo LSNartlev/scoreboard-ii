@@ -292,9 +292,20 @@ function NetSportScoreboard:keyreleased(key, scancode)
 end
 
 function NetSportScoreboard:gamepadpressed(joystick, button)
+  if button == "start" then
+      self.changeCourt()
+    end
+  if love.joystick.isDown("dpup") then
+    ScoreboardState.isHornSoundPlaying = true
+    hornSound:setVolume(1)
+  end
 end
 
 function NetSportScoreboard:gamepadreleased(joystick, button)
+  if button == "dpup" then
+    ScoreboardState.isHornSoundPlaying = false
+    hornSound:setVolume(0)
+  end
 end
 
 function NetSportScoreboard:performClickAction(elementId, button)
