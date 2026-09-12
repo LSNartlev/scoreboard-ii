@@ -262,12 +262,12 @@ function MatchSetup:performClickAction(elementId)
       ScoreboardState.onDisplay = "NetSportScoreboard"
       ScreenManager.changeScreen("NetSportScoreboard")
     elseif ScoreboardState.matchStatus == 1 then
-      openDialogBoxFor = "continueBasketball"
       nsMaxSets = 3
+      openDialogBoxFor = "continueBasketball"
       selectedTab = "net sport"
     elseif ScoreboardState.matchStatus == 2 then
-      openDialogBoxFor = "continueNetSport"
       nsMaxSets = 3
+      openDialogBoxFor = "continueNetSport"
       selectedTab = "net sport"
     end
   elseif elementId == "nsTab" or elementId == "toNetSportBo5" then
@@ -276,12 +276,12 @@ function MatchSetup:performClickAction(elementId)
       ScoreboardState.onDisplay = "NetSportScoreboard"
       ScreenManager.changeScreen("NetSportScoreboard")
     elseif ScoreboardState.matchStatus == 1 then
-      openDialogBoxFor = "continueBasketball"
       nsMaxSets = 5
+      openDialogBoxFor = "continueBasketball"
       selectedTab = "net sport"
     elseif ScoreboardState.matchStatus == 2 then
-      openDialogBoxFor = "continueNetSport"
       nsMaxSets = 5
+      openDialogBoxFor = "continueNetSport"
       selectedTab = "net sport"
     end
   elseif elementId == "continue" or elementId == "startNew" then
@@ -290,11 +290,13 @@ function MatchSetup:performClickAction(elementId)
     end
     if (elementId == "continue" and openDialogBoxFor == "continueBasketball")
       or (elementId == "startNew" and selectedTab == "basketball") then
-      ScoreboardState.config.ns.maxSets = nsMaxSets
       ScoreboardState.onDisplay = "BasketballScoreboard"
       ScreenManager.changeScreen("BasketballScoreboard")
     elseif (elementId == "continue" and openDialogBoxFor == "continueNetSport")
       or (elementId == "startNew" and selectedTab == "net sport") then
+      if elementId == "startNew" then
+        ScoreboardState.config.ns.maxSets = nsMaxSets
+      end
       ScoreboardState.onDisplay = "NetSportScoreboard"
       ScreenManager.changeScreen("NetSportScoreboard")
     end
