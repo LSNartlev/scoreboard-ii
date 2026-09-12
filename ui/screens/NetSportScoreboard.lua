@@ -61,6 +61,12 @@ function NetSportScoreboard:update(dt)
       .. "." .. ScoreboardState.serveTimer.dSec
   end
   
+  if ScoreboardState.isHornSoundPlaying then
+    hornSound:setVolume(1)
+  else
+    hornSound:setVolume(0)
+  end
+  
   if isMatchOver then
       if ScoreboardState.teamA.nsScore[ScoreboardState.nsSet] > ScoreboardState.teamB.nsScore[ScoreboardState.nsSet] then
         pointDiff = 8
@@ -92,9 +98,9 @@ function NetSportScoreboard:update(dt)
     animatedBg.movingX.teamBWidth = animatedBg.movingX.teamBWidth - 5 end
     
   if scoreAnim.teamA > 0 then
-    scoreAnim.teamA = scoreAnim.teamA - 0.025 end
+    scoreAnim.teamA = scoreAnim.teamA - 0.01 end
   if scoreAnim.teamB > 0 then
-    scoreAnim.teamB = scoreAnim.teamB - 0.025 end
+    scoreAnim.teamB = scoreAnim.teamB - 0.01 end
 end
 
 function NetSportScoreboard:draw()
@@ -212,14 +218,14 @@ function NetSportScoreboard:keypressed(key, scancode, isrepeat)
       Actions:score("A", -1)
     else 
       Actions:score("A", 1)
-      scoreAnim.teamA = 2
+      scoreAnim.teamA = 1.5
     end
   elseif key == Controls.ns.scoreTeamB then
     if love.keyboard.isDown("lshift","rshift") then
       Actions:score("B", -1)
     else 
       Actions:score("B", 1)
-      scoreAnim.teamB = 2
+      scoreAnim.teamB = 1.5
     end
   elseif key == Controls.ns.timeoutTeamA then
     if love.keyboard.isDown("lshift","rshift") then
@@ -287,24 +293,6 @@ end
 function NetSportScoreboard:keyreleased(key, scancode)
   if key == Controls.bb.hornSound then
     ScoreboardState.isHornSoundPlaying = false
-    hornSound:setVolume(0)
-  end
-end
-
-function NetSportScoreboard:gamepadpressed(joystick, button)
-  if button == "start" then
-      self.changeCourt()
-    end
-  if love.joystick.isDown("dpup") then
-    ScoreboardState.isHornSoundPlaying = true
-    hornSound:setVolume(1)
-  end
-end
-
-function NetSportScoreboard:gamepadreleased(joystick, button)
-  if button == "dpup" then
-    ScoreboardState.isHornSoundPlaying = false
-    hornSound:setVolume(0)
   end
 end
 
@@ -314,14 +302,14 @@ function NetSportScoreboard:performClickAction(elementId, button)
   elseif elementId == "teamAScore" then
     if button == 1 then
       Actions:score("A", 1)
-      scoreAnim.teamA = 2
+      scoreAnim.teamA = 1.5
     elseif button == 2 then
       Actions:score("A", -1)
     end
   elseif elementId == "teamBScore" then
     if button == 1 then
       Actions:score("B", 1)
-      scoreAnim.teamB = 2
+      scoreAnim.teamB = 1.5
     elseif button == 2 then
       Actions:score("B", -1)
     end
@@ -365,7 +353,6 @@ function NetSportScoreboard:countdownServeTimer()
       ScoreboardState.serveTimerState = 1
       if ScoreboardState.config.ns.serveTimer.hornSoundOnZero == true then
         ScoreboardState.isHornSoundPlaying = true
-        hornSound:setVolume(1)
       end
     end
   end
