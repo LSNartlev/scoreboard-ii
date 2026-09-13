@@ -426,7 +426,9 @@ function BasketballScoreboard:prepareNextPeriod()
     ScoreboardState.isShotClockEnabled = false
   else
     local prevPeriod = ScoreboardState.bbPeriod
-    ScoreboardState.bbPeriod = ScoreboardState.bbPeriod + 1
+    if prevPeriod < 5 then
+      ScoreboardState.bbPeriod = ScoreboardState.bbPeriod + 1
+    end
     ScoreboardState.isPeriodTimerEnabled = true
     ScoreboardState.periodTimer.sec = 0
     ScoreboardState.periodTimer.dSec = 0
