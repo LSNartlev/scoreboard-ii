@@ -48,9 +48,25 @@ local Designer = {
     { id = "teamBScore", text = function() return ScoreboardState.teamB.bbScore end,
       x = 680, y = 210, width = 450, align = "center",
       font = function() return Fonts.score end, color = function() return Color.white end },
-    { id = "period", text = function() return TextStrings.bbPeriod[ScoreboardState.bbPeriod] end,
+    {
+      id = "period", text = function()
+        if ScoreboardState.bbPeriod == 0 then
+          return "WARMUP\nTIME"
+        end
+        return TextStrings.bbPeriod[ScoreboardState.bbPeriod]
+      end,
       x = 150, y = 555, width = 280, align = "center",
-      font = function() return Fonts.bbTimer end, color = function() return Color.white end } ,
+      font = function() 
+        if ScoreboardState.bbPeriod == 0 then
+          return Fonts.bbWarmup
+        end
+        return Fonts.bbTimer
+      end,
+      color = function()
+        if ScoreboardState.periodTimer.displayText == "0.0" then return Color.black end
+        return Color.white 
+      end
+    },
     {
       id = "periodTimer", text = function() return ScoreboardState.periodTimer.displayText end,
       x = 440, y = 555, width = 400, align = "center",
@@ -167,13 +183,16 @@ local Designer = {
     { id = "timeoutsLabel", x = 500, y = 480, width = 280, height = 50,
       color = function() return Color.white end },
     { id = "period", x = 150, y = 550, width = 280, height = 130,
-      color = function() return Color.black end },
+      color = function() 
+        if ScoreboardState.periodTimer.displayText == "0.0" then return Color.red end
+        return Color.black 
+      end },
     { id = "periodTimer", x = 440, y = 550, width = 400, height = 130,
       color = function()
         if ScoreboardState.isTimerAdjustmentEnabled then return Color.blue
         elseif ScoreboardState.periodTimer.displayText == "0.0" then return Color.red
         elseif (ScoreboardState.periodTimer.min*60 + ScoreboardState.periodTimer.sec +
-          ScoreboardState.periodTimer.dSec/10) <= 120.9 and ScoreboardState.bbPeriod >= 4 then
+          ScoreboardState.periodTimer.dSec/10) <= 120.9 and ScoreboardState.bbPeriod >= ScoreboardState.config.bb.maxPeriods then
           return Color.yellow
         end
         return Color.white

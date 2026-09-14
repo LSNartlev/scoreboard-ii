@@ -1,6 +1,7 @@
 local MatchSetup = {}
 local utf8 = require("utf8") -- see MatchSetup:keypressed()
 local ScreenManager = require("ui.ScreenManager")
+local Rulesets = require("data.Rulesets")
 local ScoreboardState = require("data.ScoreboardState")
 local Designer = require("ui.designs.MatchSetupDesigner")
 local ConfigDesigner = require("ui.designs.ConfigDesigner")
@@ -212,6 +213,7 @@ function MatchSetup:performClickAction(elementId)
     love.keyboard.setTextInput(true)
   elseif elementId == "bbTab" or elementId == "toBasketball" then
     if ScoreboardState.matchStatus == 0 then
+      self:updateRuleset("bb", "fiba")
       ScoreboardState.onDisplay = "BasketballScoreboard"
       ScreenManager.changeScreen("BasketballScoreboard")
     elseif ScoreboardState.matchStatus == 1 then
@@ -220,6 +222,18 @@ function MatchSetup:performClickAction(elementId)
     elseif ScoreboardState.matchStatus == 2 then
       openDialogBoxFor = "continueNetSport"
       selectedTab = "basketball"
+    end
+  elseif elementId == "toBasketball3x3" then
+    if ScoreboardState.matchStatus == 0 then
+      self:updateRuleset("bb", "fiba3x3")
+      ScoreboardState.onDisplay = "BasketballScoreboard"
+      ScreenManager.changeScreen("BasketballScoreboard")
+    elseif ScoreboardState.matchStatus == 1 then
+      openDialogBoxFor = "continueBasketball"
+      selectedTab = "basketball3x3"
+    elseif ScoreboardState.matchStatus == 2 then
+      openDialogBoxFor = "continueNetSport"
+      selectedTab = "basketball3x3"
     end
   elseif elementId == "changeTeamA" then
     ScoreboardState.teamSetup.side = "A"
@@ -289,7 +303,12 @@ function MatchSetup:performClickAction(elementId)
       ScoreboardState.matchStatus = 0
     end
     if (elementId == "continue" and openDialogBoxFor == "continueBasketball")
-      or (elementId == "startNew" and selectedTab == "basketball") then
+      or (elementId == "startNew" and (selectedTab == "basketball" or selectedTab == "basketball3x3")) then
+      if elementId == "startNew" and selectedTab == "basketball3x3" then
+        self:updateRuleset("bb", "fiba3x3")
+      elseif elementId == "startNew" and selectedTab == "basketball" then
+        self:updateRuleset("bb", "fiba")
+      end
       ScoreboardState.onDisplay = "BasketballScoreboard"
       ScreenManager.changeScreen("BasketballScoreboard")
     elseif (elementId == "continue" and openDialogBoxFor == "continueNetSport")
@@ -308,6 +327,52 @@ function MatchSetup:performClickAction(elementId)
     openDialogBoxFor = ""
   elseif elementId == "aboutTab" then
     ScreenManager.changeScreen("AboutScreen")
+  end
+end
+
+function MatchSetup:updateRuleset(mode, ruleset)
+  if mode == "bb" then
+    local rules
+    if ruleset == "fiba3x3" then
+      rules = Rulesets.bb.fiba3x3
+    elseif ruleset == "nba" then
+      rules = Rulesets.bb.nba
+    else
+      rules = Rulesets.bb.fiba
+    end
+    --[[
+    config.bb
+      maxPeriods = 4,
+      periodTimer = { enabled = true, reset = 10 },
+      overtime = { reset = 5 },
+      shotClock = { enabled = true, resetFull = 24, resetShort = 14 },
+      maxTeamFouls = 5,
+      maxTimeouts = 3,
+      givenTimeouts = { 1, 1, 1, 2, 1 },
+      isTimeoutCarryover = { true, false, true, false, false }
+    ]]
+    ScoreboardState.config.bb.maxPeriods = rules.maxPeriods
+    ScoreboardState.config.bb.periodTimer = rules.periodTimer
+    ScoreboardState.config.bb.overtime = rules.overtime
+    ScoreboardState.config.bb.shotClock = rules.shotClock
+    ScoreboardState.config.bb.maxTeamFouls = rules.maxTeamFouls
+    ScoreboardState.config.bb.maxTimeouts = rules.maxTimeouts
+    ScoreboardState.config.bb.givenTimeouts = rules.givenTimeouts
+    ScoreboardState.config.bb.isTimeoutCarryover = rules.isTimeoutCarryover
+  else
+    local rules
+    if ruleset == "beach" then
+      rules = Rulesets.ns.beach
+    elseif ruleset == "badminton" then
+      rules = Rulesets.ns.badminton
+    elseif ruleset == "tabletennis" then
+      rules = Rulesets.ns.tabletennis
+    elseif ruleset == "pickleball" then
+      rules = Rulesets.ns.pickleball
+    else
+      rules = Rulesets.ns.volleyball
+    end
+    
   end
 end
 

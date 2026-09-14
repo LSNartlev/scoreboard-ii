@@ -12,6 +12,7 @@ local font = {
   matchInfo = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Bold.ttf", 42),
   score = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Bold.ttf", 200),
   bbTimer = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Bold.ttf", 135),
+  bbWarmup = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Bold.ttf", 55),
   bbTimerEdit = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Bold.ttf", 108),
   counterLabel = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Bold.ttf", 32),
   serveTimer = love.graphics.newFont("ext/fonts/Oxanium/static/Oxanium-Bold.ttf", 90),

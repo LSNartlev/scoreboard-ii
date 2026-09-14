@@ -98,6 +98,7 @@ local languagePack = {
     changeTeamA = "The uniform colors of " .. ScoreboardState.teamA.name .. ". Click to edit these colors and more.",
     changeTeamB = "The uniform colors of " .. ScoreboardState.teamB.name .. ". Click to edit these colors and more.",
     saveAsDefault = "Save this match setup for the scoreboard to use everytime Scoreboard II launches.",
+    toBasketball3x3 = "Save this match setup and proceed to the basketball 3x3 match.\nChoose whether to resume the current match with this setup or start a new match.",
     toBasketball = "Save this match setup and proceed to the basketball match.\nChoose whether to resume the current match with this setup or start a new match.",
     toNetSportBo3 = "Save this match setup and proceed to the ".. ScoreboardState.config.ns.sportToPlay .." match (Best of 3 games).\nChoose whether to resume the current match with this setup or start a new match.",
     toNetSportBo5 = "Save this match setup and proceed to the ".. ScoreboardState.config.ns.sportToPlay .." match (Best of 5 games).\nChoose whether to resume the current match with this setup or start a new match.",
@@ -157,7 +158,7 @@ local languagePack = {
   },
   about = {
     tooltip = "ABOUT SCOREBOARD II\nClick any of the icons on the bottom right to exit this screen.",
-    main = "Scoreboard II\nversion 2.0 beta 2\nmade with LÖVE\nCopyright ©2026 Earl Charles Beltran (LSNartlev)\nSource code licensed under the MIT License.",
+    main = "Scoreboard II\nversion 2.0 beta 3\nmade with LÖVE\nCopyright ©2026 Earl Charles Beltran (LSNartlev)\nSource code licensed under the MIT License.",
     free = "This software is free of charge--if you paid for it, you got scammed.",
     thirdParty = "Third-party assets and libraries are included under their respective licenses:",
     jsonlua = "json.lua\nCopyright ©2019 rxi\nLicense: MIT License",

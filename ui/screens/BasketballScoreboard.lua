@@ -56,16 +56,23 @@ function BasketballScoreboard:update(dt)
   
   if ScoreboardState.isTimerAdjustmentEnabled then
     ScoreboardState.periodTimer.displayText = ScoreboardState.periodTimer.min
-      .. ":" .. string.format("%02d", ScoreboardState.periodTimer.sec)
-      .. "." .. ScoreboardState.periodTimer.dSec
+    .. ":" .. string.format("%02d", ScoreboardState.periodTimer.sec)
+    .. "." .. ScoreboardState.periodTimer.dSec
   else
-    if ScoreboardState.periodTimer.min >= 1 then
+    if (ScoreboardState.periodTimer.min*60)+ScoreboardState.periodTimer.sec+(ScoreboardState.periodTimer.dSec/10) >= 6000 then
+      ScoreboardState.periodTimer.displayText = ".: ∞ :."
+    elseif ScoreboardState.periodTimer.min >= 1 then
       ScoreboardState.periodTimer.displayText = ScoreboardState.periodTimer.min
         .. ":" .. string.format("%02d", ScoreboardState.periodTimer.sec)
     else
       ScoreboardState.periodTimer.displayText = ScoreboardState.periodTimer.sec
         .. "." .. ScoreboardState.periodTimer.dSec
     end
+  end
+  
+  if ScoreboardState.bbPeriod == 0 then
+    ScoreboardState.isShotClockRunning = false
+    ScoreboardState.isShotClockEnabled = false
   end
   
   if ScoreboardState.isShotClockRunning == false then
@@ -156,7 +163,16 @@ function BasketballScoreboard:draw()
     if v.id == "teamAName" or v.id == "teamBName" then
       love.graphics.setScissor(v.x, v.y-10, v.width, 50)
     end
-    love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
+    if v.id == "period" and ScoreboardState.bbPeriod == 1 and ScoreboardState.config.bb.maxPeriods == 1 then
+      love.graphics.printf("3x3", v.x, v.y, v.width, v.align)
+    else
+      if v.id == "period" and v.text() == "OT" then
+        love.graphics.setColor(Color.yellow)
+      elseif v.id == "period" and v.text() == "WARMUP\nTIME" then
+        love.graphics.setColor(Color.editGreen)
+      end
+      love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
+    end
     love.graphics.setScissor()
     love.graphics.setColor(1,1,1,1)
   end
@@ -333,12 +349,27 @@ function BasketballScoreboard:regularKeyAction(key)
     ScoreboardState.isHornSoundPlaying = true
   end
   
-  if key == Controls.bb.prevPeriod and ScoreboardState.bbPeriod > 1 then
-    ScoreboardState.bbPeriod = ScoreboardState.bbPeriod - 1
+  if key == Controls.bb.prevPeriod and ScoreboardState.bbPeriod > 0 then
+    if ScoreboardState.bbPeriod == 5 then
+      ScoreboardState.bbPeriod = ScoreboardState.config.bb.maxPeriods
+    else
+      ScoreboardState.bbPeriod = ScoreboardState.bbPeriod - 1
+    end
   end
   
-  if key == Controls.bb.nextPeriod and ScoreboardState.bbPeriod <= ScoreboardState.config.bb.maxPeriods then
+  if key == Controls.bb.nextPeriod and ScoreboardState.bbPeriod == 0 then
+    ScoreboardState.isPeriodTimerRunning = false
+    ScoreboardState.periodTimer.min = ScoreboardState.config.bb.periodTimer.reset
+    ScoreboardState.periodTimer.sec = 0
+    ScoreboardState.periodTimer.dSec = 0
     ScoreboardState.bbPeriod = ScoreboardState.bbPeriod + 1
+    ScoreboardState.isShotClockEnabled = true
+  elseif key == Controls.bb.nextPeriod and ScoreboardState.bbPeriod <= ScoreboardState.config.bb.maxPeriods then
+    if ScoreboardState.bbPeriod + 1 == ScoreboardState.config.bb.maxPeriods + 1 then
+      ScoreboardState.bbPeriod = 5
+    else
+      ScoreboardState.bbPeriod = ScoreboardState.bbPeriod + 1
+    end
   end
   
   if key == Controls.bb.changeCourt then
@@ -421,12 +452,29 @@ function BasketballScoreboard:timerAdjustmentAction(key)
 end
 
 function BasketballScoreboard:prepareNextPeriod()
-  if ScoreboardState.bbPeriod >= 4 and ScoreboardState.teamA.bbScore ~= ScoreboardState.teamB.bbScore then
+  if ScoreboardState.bbPeriod == 0 then
+    ScoreboardState.isPeriodTimerEnabled = true
+    ScoreboardState.isPeriodTimerRunning = false
+    ScoreboardState.periodTimer.min = ScoreboardState.config.bb.periodTimer.reset
+    ScoreboardState.periodTimer.sec = 0
+    ScoreboardState.periodTimer.dSec = 0
+    ScoreboardState.bbPeriod = 1
+    ScoreboardState.isShotClockEnabled = true
+    ScoreboardState.isShotClockRunning = false
+    ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetFull
+    ScoreboardState.shotClock.dSec = 0
+    ScoreboardState.teamA.bbTeamFouls = 0
+    ScoreboardState.teamB.bbTeamFouls = 0
+    ScoreboardState.teamA.bbTimeouts = ScoreboardState.config.bb.givenTimeouts[ScoreboardState.bbPeriod]
+    ScoreboardState.teamB.bbTimeouts = ScoreboardState.config.bb.givenTimeouts[ScoreboardState.bbPeriod]
+  elseif ScoreboardState.bbPeriod >= ScoreboardState.config.bb.maxPeriods and ScoreboardState.teamA.bbScore ~= ScoreboardState.teamB.bbScore then
     isMatchOver = true
     ScoreboardState.isShotClockEnabled = false
   else
     local prevPeriod = ScoreboardState.bbPeriod
-    if prevPeriod < 5 then
+    if prevPeriod <= ScoreboardState.config.bb.maxPeriods then
+      ScoreboardState.bbPeriod = 5
+    else
       ScoreboardState.bbPeriod = ScoreboardState.bbPeriod + 1
     end
     ScoreboardState.isPeriodTimerEnabled = true

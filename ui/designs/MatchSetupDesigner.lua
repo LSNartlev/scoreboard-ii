@@ -47,6 +47,8 @@ local Designer = {
       x = 860, y = 480, width = 260, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
     { id = "saveAsDefault", text = function() return "Save As Default Match Setup" end,
       x = 260, y = 675, width = 290, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
+    { id = "toBasketball3x3", text = function() return "Play Basketball 3x3" end,
+      x = 850, y = 635, width = 200, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
     { id = "toBasketball", text = function() return "Play Basketball" end,
       x = 850, y = 675, width = 200, align = "center", font = Fonts.config, color = function() return Color.button.fg end },
     { id = "toNetSportBo3", text = function() return "Play " .. ScoreboardState.config.ns.sportToPlay .. " Bo3" end,
@@ -101,6 +103,11 @@ local Designer = {
             return Color.button.bg.focus end
           return Color.button.bg.enabled
         end },
+    { id = "toBasketball3x3", x = 850, y = 630, width = 200, height = 30, color = function()
+        if ScoreboardState.onMouseFocus == "toBasketball3x3" then
+          return Color.button.bg.focus end
+        return Color.button.bg.enabled
+      end },
     { id = "toBasketball", x = 850, y = 670, width = 200, height = 30, color = function()
           if ScoreboardState.onMouseFocus == "toBasketball" then
             return Color.button.bg.focus end
@@ -194,6 +201,7 @@ local Designer = {
       { id = "changeTeamA", x1 = 400, y1 = 165, x2 = 660, y2 = 505 },
       { id = "changeTeamB", x1 = 860, y1 = 165, x2 = 1120, y2 = 505 },
       { id = "saveAsDefault", x1 = 260, y1 = 670, x2 = 550, y2 = 700 },
+      { id = "toBasketball3x3", x1 = 850, y1 = 630, x2 = 1050, y2 = 660 },
       { id = "toBasketball", x1 = 850, y1 = 670, x2 = 1050, y2 = 700 },
       { id = "toNetSportBo3", x1 = 1060, y1 = 630, x2 = 1260, y2 = 660 },
       { id = "toNetSportBo5", x1 = 1060, y1 = 670, x2 = 1260, y2 = 700 },
