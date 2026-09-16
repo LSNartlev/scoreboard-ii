@@ -49,7 +49,7 @@ local languagePack = {
     .. " shall have the next ball possession on the next jump ball.\nTo show or hide the arrow pointing here, press [" .. string.upper(Controls.bb.ballPossTeamB) .. "].",
     period = "The current period for this match. Automatically proceeds to the next period when the period timer runs out.\nTo manually adjust the current period, press ["
     .. string.upper(Controls.bb.prevPeriod) .. "] or [" .. string.upper(Controls.bb.nextPeriod)
-    .. "].\nTo sound the horn buzzer, press and hold [" .. string.upper(Controls.bb.hornSound) .. "]. To make both teams switch sides, press ["
+    .. "]. You may also set the period into WARM-UP TIME before the 1st period.\nTo sound the horn buzzer, press and hold [" .. string.upper(Controls.bb.hornSound) .. "]. To make both teams switch sides, press ["
     .. string.upper(Controls.bb.changeCourt) .. "].",
     periodTimer = "The remaining time for this period.\nTo run or stop the timer, press [" .. string.upper(Controls.bb.togglePeriodTimer)
     .. "]. If the shot clock is enabled, the shot clock will run and/or stop with the timer.\nTo manually adjust this timer or the shot clock, press ["

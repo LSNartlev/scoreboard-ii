@@ -51,7 +51,7 @@ local Designer = {
     {
       id = "period", text = function()
         if ScoreboardState.bbPeriod == 0 then
-          return "WARMUP\nTIME"
+          return "WARM UP\nTIME"
         end
         return TextStrings.bbPeriod[ScoreboardState.bbPeriod]
       end,

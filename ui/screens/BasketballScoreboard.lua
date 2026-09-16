@@ -168,7 +168,7 @@ function BasketballScoreboard:draw()
     else
       if v.id == "period" and v.text() == "OT" then
         love.graphics.setColor(Color.yellow)
-      elseif v.id == "period" and v.text() == "WARMUP\nTIME" then
+      elseif v.id == "period" and v.text() == "WARM UP\nTIME" then
         love.graphics.setColor(Color.editGreen)
       end
       love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
