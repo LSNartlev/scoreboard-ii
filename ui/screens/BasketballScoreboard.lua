@@ -161,7 +161,7 @@ function BasketballScoreboard:draw()
     love.graphics.setFont(v.font())
     love.graphics.setColor(v.color())
     if v.id == "teamAName" or v.id == "teamBName" then
-      love.graphics.setScissor(v.x, v.y-10, v.width, 50)
+      love.graphics.setScissor(v.x, v.y-13, v.width, 60)
     end
     if v.id == "period" and ScoreboardState.bbPeriod == 1 and ScoreboardState.config.bb.maxPeriods == 1 then
       love.graphics.printf("3x3", v.x, v.y, v.width, v.align)
@@ -472,7 +472,7 @@ function BasketballScoreboard:prepareNextPeriod()
     ScoreboardState.isShotClockEnabled = false
   else
     local prevPeriod = ScoreboardState.bbPeriod
-    if prevPeriod <= ScoreboardState.config.bb.maxPeriods then
+    if prevPeriod >= ScoreboardState.config.bb.maxPeriods then
       ScoreboardState.bbPeriod = 5
     else
       ScoreboardState.bbPeriod = ScoreboardState.bbPeriod + 1
@@ -483,7 +483,7 @@ function BasketballScoreboard:prepareNextPeriod()
     ScoreboardState.isShotClockEnabled = true
     ScoreboardState.shotClock.sec = ScoreboardState.config.bb.shotClock.resetFull
     ScoreboardState.shotClock.dSec = 0
-    if ScoreboardState.bbPeriod <= 4 then
+    if ScoreboardState.bbPeriod <= ScoreboardState.config.bb.maxPeriods then
       ScoreboardState.periodTimer.min = ScoreboardState.config.bb.periodTimer.reset
       ScoreboardState.teamA.bbTeamFouls = 0
       ScoreboardState.teamB.bbTeamFouls = 0

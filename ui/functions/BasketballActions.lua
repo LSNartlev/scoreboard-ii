@@ -50,6 +50,9 @@ function BasketballActions:resetShotClock(shotSec)
   else
     ScoreboardState.isShotClockRunning = false
     ScoreboardState.isShotClockEnabled = false
+    if ScoreboardState.shotClock.displayText == "0.0" then
+      ScoreboardState.shotClock.displayText = ""
+    end
   end
   -- ScoreboardState.isShotClockRunning = false
 end

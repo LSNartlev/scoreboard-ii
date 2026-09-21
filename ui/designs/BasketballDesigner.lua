@@ -201,7 +201,8 @@ local Designer = {
     {
       id = "shotClock", x = 850, y = 550, width = 280, height = 130,
       color = function()
-        if ScoreboardState.shotClock.displayText == "0.0" then return Color.red end
+        if (ScoreboardState.shotClock.displayText == "0.0" and ScoreboardState.isShotClockEnabled) 
+          or ScoreboardState.periodTimer.displayText == "0.0" then return Color.red end
         return Color.black
       end
     },
