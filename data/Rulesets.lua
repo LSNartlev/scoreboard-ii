@@ -12,7 +12,7 @@ local Rulesets = {
     },
     fiba3x3 = {
       maxPeriods = 1,
-      periodTimer = { enabled = true, reset = 10 },
+      periodTimer = { enabled = true, reset = 15 },
       overtime = { reset = 999999999 }, -- no time limit on overtime
       shotClock = { enabled = true, resetFull = 12, resetShort = 12 },
       maxTeamFouls = 7,
