@@ -13,7 +13,7 @@ local Rulesets = {
     fiba3x3 = {
       maxPeriods = 1,
       periodTimer = { enabled = true, reset = 15 },
-      overtime = { reset = 999999999 }, -- no time limit on overtime
+      overtime = { reset = 999999999 }, -- no time limit on overtime, unless that 3x3 match is expected to take 1,900+ years to finish lmao
       shotClock = { enabled = true, resetFull = 12, resetShort = 12 },
       maxTeamFouls = 7,
       maxTimeouts = 1,
