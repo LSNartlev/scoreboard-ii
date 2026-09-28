@@ -95,7 +95,7 @@ function TeamSetup:update(dt)
   end
 end
 
-function TeamSetup:draw()
+function TeamSetup:draw()  
   for _, v in ipairs(ConfigDesigner.bg) do
     love.graphics.setColor(v.color())
     love.graphics.rectangle("fill", v.x, v.y, v.width, v.height)
@@ -145,7 +145,7 @@ function TeamSetup:draw()
     love.graphics.setFont(v.font)
     love.graphics.setColor(v.color())
     if v.id == "teamName" then
-      love.graphics.setScissor(v.x, v.y, v.width, 30)
+      --love.graphics.setScissor(v.x, v.y, v.width, 30)
     end
     if ScoreboardState.onEdit.id == v.id then
       local sec = math.floor((love.timer.getTime()*10)%8)
@@ -163,7 +163,7 @@ function TeamSetup:draw()
     else
       love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
     end
-    love.graphics.setScissor()
+    --love.graphics.setScissor()
     love.graphics.setColor(1,1,1,1)
   end
   
@@ -287,13 +287,13 @@ function TeamSetup:drawElementsWithGradientColors()
   for i = 1, 8, 1 do
     gradToDraw:updateBgColors(teamList[i].bgColor1, teamList[i].bgColor2, 1)
     love.graphics.draw(gradToDraw.mesh, 800, entryY, 0, 460, 40)
-    love.graphics.setScissor(800, entryY, 460, 40)
+    --love.graphics.setScissor(800, entryY, 460, 40)
     entryY = entryY + 5
     love.graphics.setFont(Fonts.configTeam)
     love.graphics.setColor(teamList[i].fgColor.r, teamList[i].fgColor.g, teamList[i].fgColor.b)
     love.graphics.printf(teamList[i].name, 800, entryY, 460, "center")
     entryY = entryY + 45
-    love.graphics.setScissor()
+    --love.graphics.setScissor()
     love.graphics.setColor(1,1,1,1)
   end
 end

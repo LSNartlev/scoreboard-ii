@@ -161,7 +161,7 @@ function BasketballScoreboard:draw()
     love.graphics.setFont(v.font())
     love.graphics.setColor(v.color())
     if v.id == "teamAName" or v.id == "teamBName" then
-      love.graphics.setScissor(v.x, v.y-13, v.width, 60)
+      --love.graphics.setScissor(v.x, v.y-13, v.width, 60)
     end
     if v.id == "period" and ScoreboardState.bbPeriod == 1 and ScoreboardState.config.bb.maxPeriods == 1 then
       love.graphics.printf("3x3", v.x, v.y, v.width, v.align)
@@ -173,7 +173,7 @@ function BasketballScoreboard:draw()
       end
       love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
     end
-    love.graphics.setScissor()
+    --love.graphics.setScissor()
     love.graphics.setColor(1,1,1,1)
   end
   

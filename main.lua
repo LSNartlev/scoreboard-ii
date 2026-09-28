@@ -7,6 +7,12 @@ local Controls = require("data.Controls")
 local Sounds = require("data.CustomSounds")
 local TeamsList = require("data.TeamsList")
 local json = require("ext.rxi-json.json")
+local SCREEN_WIDTH = 1280
+local SCREEN_HEIGHT = 800
+local graphicScale = 1
+local offsetX = 0
+local offsetY = 0
+
 function love.load()
   -- Load TeamsList.lua, SavedTeams.json
   local file, path, rawSaveData, success, message
@@ -84,6 +90,11 @@ function love.load()
   ScoreboardState.teamB.hsl = configData.matchSetup.teamB.hsl
   
   love.keyboard.setKeyRepeat(true)
+  local displayWidth, displayHeight = love.window.getDesktopDimensions()
+  if displayWidth < SCREEN_WIDTH or displayHeight < SCREEN_HEIGHT then
+    love.window.maximize()
+  end
+  
   ScreenManager.changeScreen("MatchSetup")
 end
 
@@ -92,7 +103,19 @@ function love.update(dt)
 end
 
 function love.draw()
+  love.graphics.push()
+  love.graphics.translate(offsetX, offsetY)
+  love.graphics.scale(graphicScale, graphicScale)
+  
   ScreenManager.onDisplay:draw()
+  
+  love.graphics.pop()
+end
+
+function love.resize(w, h)
+  graphicScale = math.min(w/SCREEN_WIDTH, h/SCREEN_HEIGHT)
+  offsetX = (w - SCREEN_WIDTH*graphicScale)/2
+  offsetY = (h - SCREEN_HEIGHT*graphicScale)/2
 end
 
 function love.textinput(text)
@@ -102,18 +125,27 @@ function love.textinput(text)
 end
 
 function love.mousemoved(x, y, dx, dy, istouch)
+  x = (x - offsetX)/graphicScale
+  y = (y - offsetY)/graphicScale
+  dx = dx/graphicScale
+  dy = dy/graphicScale
+  
   if ScreenManager.onDisplay.mousemoved then
     ScreenManager.onDisplay:mousemoved(x, y, dx, dy, istouch)
   end
 end
 
 function love.mousepressed(x, y, button)
+  x = (x - offsetX)/graphicScale
+  y = (y - offsetY)/graphicScale
   if ScreenManager.onDisplay.mousepressed then
     ScreenManager.onDisplay:mousepressed(x, y, button)
   end
 end
 
 function love.mousereleased(x, y, button, istouch, presses)
+  x = (x - offsetX)/graphicScale
+  y = (y - offsetY)/graphicScale
   if ScreenManager.onDisplay.mousereleased then
     ScreenManager.onDisplay:mousereleased(x, y, button, istouch, presses)
   end

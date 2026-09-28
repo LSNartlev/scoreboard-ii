@@ -137,10 +137,10 @@ function NetSportScoreboard:draw()
     love.graphics.setFont(v.font())
     love.graphics.setColor(v.color())
     if v.id == "teamAName" or v.id == "teamBName" then
-      love.graphics.setScissor(v.x, v.y-10, v.width, 50)
+      --love.graphics.setScissor(v.x, v.y-13, v.width, 60)
     end
     love.graphics.printf(v.text(), v.x, v.y, v.width, v.align)
-    love.graphics.setScissor()
+    --love.graphics.setScissor()
     love.graphics.setColor(1,1,1,1)
   end
   
