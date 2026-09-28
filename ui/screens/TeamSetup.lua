@@ -12,7 +12,7 @@ local Fonts = require("ui.designs.Fonts")
 local gradRect = require("ui.designs.GradientMesh")
 local team = require("data.TeamDetails")
 local hsl = require("ext.HSLtoRGB")
-local hueSlider, activeSlider
+local hueSlider, activeSlider, graphicScale
 local gradToDraw, teamList, rawSaveData
 
 function TeamSetup:load()
@@ -53,11 +53,12 @@ function TeamSetup:load()
     ScoreboardState.teamSetup.bgColor2 = ScoreboardState.teamB.bgColor2
     ScoreboardState.teamSetup.fgColor = ScoreboardState.teamB.fgColor
   end
+  graphicScale = math.min(love.graphics.getWidth()/1280, love.graphics.getHeight()/800)
   activeSlider = ""
 end
 
 function TeamSetup:update(dt)
-  local mouseY = love.mouse.getY()
+  local mouseY = love.mouse.getY()/graphicScale
   local minThumbY, maxThumbY = 245, 605
   if activeSlider == "hueSlider" then
     if mouseY <= minThumbY then
