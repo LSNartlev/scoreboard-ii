@@ -60,7 +60,9 @@ function BasketballScoreboard:update(dt)
     lastPeriodDT = periodDT
   end
   
-  self.checkJoystickAction()
+  if joystick then
+    self.checkJoystickAction()
+  end
   
   if ScoreboardState.isTimerAdjustmentEnabled then
     ScoreboardState.periodTimer.displayText = ScoreboardState.periodTimer.min
@@ -525,21 +527,18 @@ end
 
 function BasketballScoreboard:checkJoystickAction()
   if ScoreboardState.isTimerAdjustmentEnabled == false then
-    if joystick then
-      if joystick:isGamepadDown("dpleft") then
+    if joystick:isGamepadDown("dpleft") then
         toControl = "foul"
-      elseif joystick:isGamepadDown("dpright") then
-        toControl = "timeout"
-      elseif joystick:isGamepadDown("dpup") then
-        ScoreboardState.isHornSoundPlaying = true
-      end
-      if joystick:isGamepadDown("x") then
-        Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetFull)
-      elseif joystick:isGamepadDown("y") then
-        Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetShort)
-      end
+    elseif joystick:isGamepadDown("dpright") then
+      toControl = "timeout"
+    elseif joystick:isGamepadDown("dpup") then
+      ScoreboardState.isHornSoundPlaying = true
     end
-    
+    if joystick:isGamepadDown("x") then
+      Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetFull)
+    elseif joystick:isGamepadDown("y") then
+      Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetShort)
+    end
     -- Treating L2 and R2 analog triggers as digital buttons
     local isL2Pressed = joystick:getGamepadAxis("triggerleft") >= 0.5
     local isR2Pressed = joystick:getGamepadAxis("triggerright") >= 0.5

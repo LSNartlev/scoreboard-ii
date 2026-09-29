@@ -50,7 +50,10 @@ end
 
 function NetSportScoreboard:update(dt)
   ScoreboardState.timeDisplay.displayText = Actions:getMatchDuration(love.timer.getTime())
-  self.checkJoystickAction()
+  
+  if joystick then
+    self.checkJoystickAction()
+  end
   
   if ScoreboardState.serveTimerState == 0 then
     serveTimerRun = love.timer.getTime()*100
@@ -408,40 +411,35 @@ function NetSportScoreboard:performClickAction(elementId, button)
     ScreenManager.changeScreen("MatchSetup") -- temporary
     -- ScreenManager.changeScreen("NetSportControlsConfig") -- actual    
   elseif elementId == "aboutTab" then
-      ScreenManager.changeScreen("AboutScreen")
+    ScreenManager.changeScreen("AboutScreen")
   end
 end
 
 function NetSportScoreboard:checkJoystickAction()
-  if ScoreboardState.isTimerAdjustmentEnabled == false then
-    if joystick then
-      if joystick:isGamepadDown("b") then
-        toControl = "timeout"
-      elseif joystick:isGamepadDown("dpup") then
-        ScoreboardState.isHornSoundPlaying = true
-      end
-    end
-    
-    -- Treating L2 and R2 analog triggers as digital buttons
-    local isL2Pressed = joystick:getGamepadAxis("triggerleft") >= 0.5
-    local isR2Pressed = joystick:getGamepadAxis("triggerright") >= 0.5
-    if isL2Pressed and not triggerState.l2 then
-      if toControl == "timeout" then
-        Actions:timeout("A", 1)
-      else
-        Actions:score("A", -1)
-      end
-    end
-    if isR2Pressed and not triggerState.r2 then
-      if toControl == "timeout" then
-        Actions:timeout("B", 1)
-      else
-        Actions:score("B", -1)
-      end
-    end
-    triggerState.l2 = isL2Pressed
-    triggerState.r2 = isR2Pressed
+  if joystick:isGamepadDown("b") then
+    toControl = "timeout"
+  elseif joystick:isGamepadDown("dpup") then
+    ScoreboardState.isHornSoundPlaying = true
   end
+  -- Treating L2 and R2 analog triggers as digital buttons
+  local isL2Pressed = joystick:getGamepadAxis("triggerleft") >= 0.5
+  local isR2Pressed = joystick:getGamepadAxis("triggerright") >= 0.5
+  if isL2Pressed and not triggerState.l2 then
+    if toControl == "timeout" then
+      Actions:timeout("A", 1)
+    else
+      Actions:score("A", -1)
+    end
+  end
+  if isR2Pressed and not triggerState.r2 then
+    if toControl == "timeout" then
+      Actions:timeout("B", 1)
+    else
+      Actions:score("B", -1)
+    end
+  end
+  triggerState.l2 = isL2Pressed
+  triggerState.r2 = isR2Pressed
 end
 
 function NetSportScoreboard:countdownServeTimer()
