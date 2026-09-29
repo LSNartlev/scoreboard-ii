@@ -3,6 +3,9 @@ Lua/LÖVE-based Scoreboard for Basketball, Volleyball, and other net sports
 
 created by LSNartlev
 
+## Download Link
+Get v2.0 beta 4 here: https://github.com/LSNartlev/scoreboard-ii/releases/download/v2.0_beta4/Scoreboard-II_v2_0_beta4-windows.zip
+
 ## Features
 - Operate the Scoreboard using:
   - Keyboard
