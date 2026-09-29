@@ -11,13 +11,19 @@ local Controls = require("data.Controls")
 local sfx = require("ui.functions.SoundEffectActions")
 local hsl = require("ext.HSLtoRGB")
 local gradRect = require("ui.designs.GradientMesh")
+local joystick = nil
 local hornSound, periodTimerRun, shotClockRun, periodDT, shotDT, lastPeriodDT, lastShotDT
 local teamAColors, teamBColors, penaltyFlash
 local animatedBg, pointDiff, scoreAnim, isMatchOver
+local toControl, triggerState
 
 function BasketballScoreboard:load()
   ScoreboardState.onDisplay = "BasketballScoreboard"
   ScoreboardState.tooltip = Lang.tooltips.scoreboardFallback
+  local joysticks = love.joystick.getJoysticks()
+  joystick = joysticks[1]
+  toControl = "score" -- "score" by default, can be "foul" or "timeout" on certain conditions
+  triggerState = { l2 = false, r2 = false }
   hornSound = love.audio.newSource("assets/horn.wav", "static")
   hornSound:setLooping(true)
   hornSound:setVolume(0)
@@ -53,6 +59,8 @@ function BasketballScoreboard:update(dt)
     end
     lastPeriodDT = periodDT
   end
+  
+  self.checkJoystickAction()
   
   if ScoreboardState.isTimerAdjustmentEnabled then
     ScoreboardState.periodTimer.displayText = ScoreboardState.periodTimer.min
@@ -234,6 +242,70 @@ function BasketballScoreboard:keyreleased(key, scancode)
     if ScoreboardState.periodTimer.displayText == "0.0" then
       self:prepareNextPeriod()
     end
+  end
+end
+
+function BasketballScoreboard:joystickadded(addedJoystick)
+  if not joystick then
+    joystick = addedJoystick
+  end
+end
+
+function BasketballScoreboard:joystickremoved(removedJoystick)
+  if joystick == removedJoystick then
+    joystick = nil
+    toControl = "score"
+  end
+end
+
+function BasketballScoreboard:gamepadpressed(usedJoystick, button)
+  if ScoreboardState.isTimerAdjustmentEnabled == false then
+    if button == "a" then
+      Actions:togglePeriodTimer()
+    elseif button == "b" then
+      Actions:toggleShotClock()
+    end
+    if button == "dpdown" then
+      if ScoreboardState.teamA.bbBallPoss == false then
+        Actions:toggleBallPossession("A")
+      else
+        Actions:toggleBallPossession("B")
+      end
+    end
+    if button == "start" then
+      self.changeCourt()
+    end
+    if button == "leftshoulder" then
+      if toControl == "foul" then
+        Actions:foul("A", 1)
+      elseif toControl == "timeout" then
+        Actions:timeout("A", -1)
+      else 
+        Actions:score("A", 1)
+        scoreAnim.teamA = 1.2
+      end
+    elseif button == "rightshoulder" then
+      if toControl == "foul" then
+        Actions:foul("B", 1)
+      elseif toControl == "timeout" then
+        Actions:timeout("B", -1)
+      else 
+        Actions:score("B", 1)
+        scoreAnim.teamB = 1.2
+      end
+    end
+  end
+end
+
+function BasketballScoreboard:gamepadreleased(usedJoystick, button)
+  if button == "dpup" then
+    ScoreboardState.isHornSoundPlaying = false
+    if ScoreboardState.periodTimer.displayText == "0.0" then
+      self:prepareNextPeriod()
+    end
+  end
+  if button == "dpleft" or button == "dpright" then
+    toControl = "score"
   end
 end
 
@@ -451,6 +523,49 @@ function BasketballScoreboard:timerAdjustmentAction(key)
   end
 end
 
+function BasketballScoreboard:checkJoystickAction()
+  if ScoreboardState.isTimerAdjustmentEnabled == false then
+    if joystick then
+      if joystick:isGamepadDown("dpleft") then
+        toControl = "foul"
+      elseif joystick:isGamepadDown("dpright") then
+        toControl = "timeout"
+      elseif joystick:isGamepadDown("dpup") then
+        ScoreboardState.isHornSoundPlaying = true
+      end
+      if joystick:isGamepadDown("x") then
+        Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetFull)
+      elseif joystick:isGamepadDown("y") then
+        Actions:resetShotClock(ScoreboardState.config.bb.shotClock.resetShort)
+      end
+    end
+    
+    -- Treating L2 and R2 analog triggers as digital buttons
+    local isL2Pressed = joystick:getGamepadAxis("triggerleft") >= 0.5
+    local isR2Pressed = joystick:getGamepadAxis("triggerright") >= 0.5
+    if isL2Pressed and not triggerState.l2 then
+      if toControl == "foul" then
+        Actions:foul("A", -1)
+      elseif toControl == "timeout" then
+        Actions:timeout("A", 1)
+      else
+        Actions:score("A", -1)
+      end
+    end
+    if isR2Pressed and not triggerState.r2 then
+      if toControl == "foul" then
+        Actions:foul("B", -1)
+      elseif toControl == "timeout" then
+        Actions:timeout("B", 1)
+      else
+        Actions:score("B", -1)
+      end
+    end
+    triggerState.l2 = isL2Pressed
+    triggerState.r2 = isR2Pressed
+  end
+end
+
 function BasketballScoreboard:prepareNextPeriod()
   if ScoreboardState.bbPeriod == 0 then
     ScoreboardState.isPeriodTimerEnabled = true
@@ -633,7 +748,8 @@ function BasketballScoreboard:countdownPeriodTimer()
 end
 
 function BasketballScoreboard:countdownShotClock()
-  if ScoreboardState.isShotClockRunning and not love.keyboard.isDown(Controls.bb.resetShotClockShort, Controls.bb.resetShotClockFull) then
+  if ScoreboardState.isShotClockRunning and not (love.keyboard.isDown(Controls.bb.resetShotClockShort, Controls.bb.resetShotClockFull)
+    or joystick:isGamepadDown("x") or joystick:isGamepadDown("y")) then
     if ScoreboardState.shotClock.dSec > 0 then
         ScoreboardState.shotClock.dSec = ScoreboardState.shotClock.dSec - 1
     elseif ScoreboardState.shotClock.sec > 0 then
