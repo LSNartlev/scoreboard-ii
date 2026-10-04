@@ -748,7 +748,7 @@ end
 
 function BasketballScoreboard:countdownShotClock()
   if ScoreboardState.isShotClockRunning and not (love.keyboard.isDown(Controls.bb.resetShotClockShort, Controls.bb.resetShotClockFull)
-    or joystick:isGamepadDown("x") or joystick:isGamepadDown("y")) then
+    or (joystick and (joystick:isGamepadDown("x") or joystick:isGamepadDown("y")))) then
     if ScoreboardState.shotClock.dSec > 0 then
         ScoreboardState.shotClock.dSec = ScoreboardState.shotClock.dSec - 1
     elseif ScoreboardState.shotClock.sec > 0 then
